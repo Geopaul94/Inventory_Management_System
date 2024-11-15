@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "593512082924",
+    "project_id": "inventory-f570e",
+    "storage_bucket": "inventory-f570e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593512082924:android:427200f1806acd0afba4c9",
+        "android_client_info": {
+          "package_name": "com.example.inventory_management_system"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5nELDKARR9zeh3pKiSGF4PQdRT51EIjY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

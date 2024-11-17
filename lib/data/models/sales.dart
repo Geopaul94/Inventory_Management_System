@@ -1,61 +1,48 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:inventory_management_system/data/models/customer_details_model.dart';
-class Sales {
-  final String cash;
-  final String date;
-  final String product;
-  final String quantity;
-  final String address;
-  final CustomerDetailsModel? customerDetails; // Optional customer details
 
-  // Constructor
-  Sales({
-    required this.cash,
+class SalesDetailsModel {
+  final String saleId;
+  final String customerName;
+  final String date;
+  final String paymentMethod;
+  final String product;
+  final int quantity;
+  final String cash;
+
+  SalesDetailsModel({
+    required this.saleId,
+    required this.customerName,
     required this.date,
+    required this.paymentMethod,
     required this.product,
     required this.quantity,
-    required this.address,
-    this.customerDetails, // Optional parameter
+    required this.cash,
   });
 
-  // Convert a Sales object into a Map (for sending to Firebase)
+  // Convert SalesDetailsModel to a Map to pass data to Firestore
   Map<String, dynamic> toMap() {
     return {
-      'cash': cash,
+      'saleId': saleId,
+      'customername': customerName,
       'date': date,
+      'paymentmethod': paymentMethod,
       'product': product,
       'quantity': quantity,
-      'address': address,
-      'customerDetails': customerDetails?.toMap(), // Convert customer details to Map if present
+      'cash': cash,
     };
   }
 
-  // Create a Sales object from a Map (for receiving from Firebase)
-  factory Sales.fromMap(Map<String, dynamic> map) {
-    return Sales(
-      cash: map['cash'] ?? '',
-      date: map['date'] ?? '',
-      product: map['product'] ?? '',
-      quantity: map['quantity'] ?? '',
-      address: map['address'] ?? '',
-      customerDetails: map['customerDetails'] != null
-          ? CustomerDetailsModel.fromMap(map['customerDetails']) // Handle customer details if present
-          : null,
-    );
-  }
-
-  // Create a Sales object from a Firestore document snapshot
-  factory Sales.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  // Create SalesDetailsModel from a Firestore document snapshot
+  factory SalesDetailsModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data();
-    return Sales(
-      cash: data?['cash'] ?? '',
+    return SalesDetailsModel(
+      saleId: snapshot.id,
+      customerName: data?['customername'] ?? '',
       date: data?['date'] ?? '',
+      paymentMethod: data?['paymentmethod'] ?? '',
       product: data?['product'] ?? '',
-      quantity: data?['quantity'] ?? '',
-      address: data?['address'] ?? '',
-      customerDetails: data?['customerDetails'] != null
-          ? CustomerDetailsModel.fromMap(data!['customerDetails'])
-          : null,
+      quantity: data?['quantity'] ?? 1,
+      cash: data?['cash'] ?? '',
     );
   }
 }

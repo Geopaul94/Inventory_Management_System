@@ -1,11 +1,15 @@
 
 
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:inventory_management_system/presentation/screeens/customers_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_management_system/presentation/bloc/fetchproductlist/fetchproductlist_bloc.dart';
+import 'package:inventory_management_system/presentation/screeens/addcustomer/customers_page.dart';
 import 'package:inventory_management_system/presentation/screeens/homepage.dart';
 import 'package:inventory_management_system/presentation/screeens/profile_page.dart';
-import 'package:inventory_management_system/presentation/screeens/sales_page.dart';
+import 'package:inventory_management_system/presentation/screeens/sales_screen/sales_page.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 class MainScreens extends StatefulWidget {
@@ -24,8 +28,16 @@ class _MainScreensState extends State<MainScreens> {
   @override
   void initState() {
     super.initState();
-    // Initialize _selectedIndex with the passed initialIndex
+  
     _selectedIndex = ValueNotifier<int>(widget.initialIndex);
+
+    print("==============================${_selectedIndex} ");
+
+    if (_selectedIndex.value ==0) {
+
+      context.read<FetchProductListBloc>().add(FetchProductListInitialEvent()); 
+      
+    }
   }
 
   // Define the pages for the navigation bar

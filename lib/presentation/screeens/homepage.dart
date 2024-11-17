@@ -1,17 +1,46 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:inventory_management_system/data/models/customer_details_model.dart';
+import 'package:inventory_management_system/data/models/product_model.dart';
+import 'package:inventory_management_system/data/repository/customer_details/cusomer_data.dart';
+import 'package:inventory_management_system/presentation/bloc/fetchproductlist/fetchproductlist_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/add_products/addpost_page/add_products.dart';
+import 'package:inventory_management_system/presentation/screeens/add_products/product_details_screen.dart';
+import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
+import 'package:inventory_management_system/utilities/constants/constants.dart';
 
-class HomePage extends StatelessWidget {
-  // Sample list of products (you can replace this with your actual data)
-  final List<Product> products = [
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
-  Product(name: 'Product 1', price: 1900, quantity: 20),
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<FetchProductListBloc>().add(FetchProductListInitialEvent());
 
-  Product(name: 'Product 2', price: 1500, quantity: 10),
 
-  // Add more products as needed
 
-];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,33 +48,65 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Home'),
       ),
-      body: products.isEmpty
-          ? const Center(
-              child: Text(
-                'Add Products',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-            )
-          : GridView.builder(
+      body: BlocBuilder<FetchProductListBloc, FetchProductListState>(
+        builder: (context, state) {
+          if (state is FetchProductListLoadingState) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is FetchProductListSuccessState) {
+            // Show the list of products using GridView.builder
+            return GridView.builder(
               padding: const EdgeInsets.all(10),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, 
-                childAspectRatio: 0.75, 
-                crossAxisSpacing: 10, 
-                mainAxisSpacing: 10, 
+                crossAxisCount: 2,
+                 childAspectRatio: 0.64,
+                 crossAxisSpacing: 5,
+                 mainAxisSpacing: 10,
               ),
-              itemCount: products.length,
+              itemCount: state.products.length,
               itemBuilder: (context, index) {
-                return ProductCard(product: products[index]);
+                final Products product =
+                    state.products[index]; 
+                return GestureDetector( onTap: () {
+                  
+       Navigator.push(
+
+              context,
+
+              MaterialPageRoute(
+
+                builder: (context) => ProductDetailsScreen(product: product),
+
+              ),
+
+            );
+                },
+                  child: ProductCard(
+                      product: product),
+                ); // Fix: Pass product directly
               },
-            ),
+            );
+          } else if (state is FetchProductListErrorState) {
+            return Center(child: Text('Error: ${state.errorMessage}'));
+          }
+          return const Center(child: Text('No data available'));
+        },
+      ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: const Color(0xff03dac6),
         foregroundColor: Colors.black,
-        onPressed: () {
-          Navigator.of(context).push(
+        onPressed: () async {
+          // Navigate to AddProducts and await the result
+          final productAdded = await Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => AddProducts()),
           );
+    
+          // Check if a product was added (use true or a specific signal)
+          if (productAdded == true) {
+            // Trigger the event to fetch the updated product list
+            context
+                .read<FetchProductListBloc>()
+                .add(FetchProductListInitialEvent());
+          }
         },
         icon: const Icon(Icons.add),
         label: const Text('Add Product'),
@@ -54,52 +115,81 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class Product {
-  final String name;
-  final double price;
-  final int quantity;
-
-  Product({required this.name, required this.price, required this.quantity});
-}
-
 class ProductCard extends StatelessWidget {
-  final Product product;
+  final Products product;
 
   const ProductCard({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(),
-        borderRadius: BorderRadius.circular(10),
+    return Card(
+      elevation: 4, // Adjust the elevation for shadow effect
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10), // Rounded corners
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            product.name,
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
           // Placeholder for product image
           Container(
-            height: 100,
-            width: 100,
+            height: 200,
+            width: 200,
             color: Colors.grey[300], // Placeholder color
-            child: const Center(child: Text('Image')),
+            child: Image.network(
+              product.imageUrl, // Ensure this is a valid URL
+              fit: BoxFit.fill, // Adjust the image to fit within the container
+              errorBuilder: (context, error, stackTrace) {
+                // Handle the error case, e.g., by showing a placeholder image
+                return Center(child: Text('Image failed to load'));
+              },
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return child; // If the image has loaded, show it
+                }
+                // Show a loading spinner while the image is loading
+                return Center(child: CircularProgressIndicator());
+              },
+            ),
           ),
-          const SizedBox(height: 10),
+        //  SizedBox(height: 10), // Adjusted spacing
           Padding(
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+            padding: const EdgeInsets.fromLTRB(5,3, 0, 0),
+            child: CustomText(
+              text: product.productName,
+              fontSize: 24, // Adjust font size as needed
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.bold,
+              color: Colors.black, // Use Colors.black instead of black
+            ),
+          ),
+          SizedBox(height: 5), // Adjusted spacing
+          Padding(
+            padding: const EdgeInsets.fromLTRB(4, 2, 0, 0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              
               children: [
-                Text("₹ ${product.price.toStringAsFixed(2)}"),
-                Text("Quantity: ${product.quantity}"),
+                CustomText(
+                  text: "Qty ${product.quantity.toInt().toString()}", // Assuming quantity is a property
+                  fontSize: 20, // Adjust font size as needed
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey, // Use Colors.grey instead of grey
+                ),
+             Spacer(
+              
+             ),
+                CustomText(
+                  text: "₹ ${product.price.toInt().toString()}",
+                  fontSize: 20, // Adjust font size as needed
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green, // Use Colors.green instead of green
+                ),
+                SizedBox(width: .02.sw,)
               ],
             ),
           ),
+    
         ],
       ),
     );

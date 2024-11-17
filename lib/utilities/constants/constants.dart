@@ -22,6 +22,7 @@ const darkgreymain = Color.fromARGB(255, 21, 21, 22);
 
 const Color black =Colors.black;
 
+const Color floatingActionButtoncolor=const Color(0xff03dac6);
 
 
 const kPrimaryColor = Color(0xFF00D1FF);
@@ -94,39 +95,40 @@ const profilestyle2 = TextStyle(fontWeight: FontWeight.w500, fontSize: 15);
 
 
 
-const h5 = SizedBox(
-  height: 5,
-);
-const h10 = SizedBox(
-  height: 10,
-);
-const h20 = SizedBox(
-  height: 20,
-);
+const h5 = SizedBox(height: 5);
 
-const h30 = SizedBox(
-  height: 30,
-);
+const h10 = SizedBox(height: 10);
 
-//widths
-const w40 = SizedBox(
-  width: 40,
-);
+const h20 = SizedBox(height: 20);
 
-const w10 = SizedBox(
-  width: 10,
-);
-const w20 = SizedBox(
-  width: 20,
-);
+const h30 = SizedBox(height: 30);
 
-const w30 = SizedBox(
-  width: 30,
-);
+const h40 = SizedBox(height: 40);
 
-const h40 = SizedBox(
-  height: 40,
-);
+const h16 = SizedBox(height: 16.0);
+
+
+
+const h15 = SizedBox(height: 15);
+
+const h50 = SizedBox(height: 50);
+
+const h80 = SizedBox(height: 80);
+
+const h100 = SizedBox(height: 100);
+
+
+// SizedBox for widths
+
+const w10 = SizedBox(width: 10);
+
+const w20 = SizedBox(width: 20);
+
+const w30 = SizedBox(width: 30);
+
+const w40 = SizedBox(width: 40);
+
+const kwidth = SizedBox(width: 10);
 
 const appBarTitleStyle = TextStyle(
   fontSize: 22,
@@ -164,29 +166,6 @@ const showDialogueButtonStyle2 = TextStyle(
 );
 
 
-const kheight16 = SizedBox(height: 16.0);
-const kwidth = SizedBox(
-  width: 10,
-);
-const kheight = SizedBox(
-  height: 10,
-);
-const kheight20 = SizedBox(
-  height: 20,
-);
-const kheight15 = SizedBox(
-  height: 15,
-);
-
-const kheight50 = SizedBox(
-  height: 50,
-);
-const kheight80 = SizedBox(
-  height: 80,
-);
-const kheight100 = SizedBox(
-  height: 100,
-);
 // border radiusfinal
 BorderRadius kradius10 = BorderRadius.circular(10);
 BorderRadius kradius30 = BorderRadius.circular(30);

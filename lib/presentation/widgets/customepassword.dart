@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class CustomPasswordField extends StatefulWidget {
+class CustomPasswordTextformField extends StatefulWidget {
   final TextEditingController controller;
   final String labelText;
 
-  const CustomPasswordField({super.key, required this.controller, required this.labelText});
+  const CustomPasswordTextformField({super.key, required this.controller, required this.labelText});
 
   @override
-  _CustomPasswordFieldState createState() => _CustomPasswordFieldState();
+  _CustomPasswordTextformFieldState createState() => _CustomPasswordTextformFieldState();
 }
 
-class _CustomPasswordFieldState extends State<CustomPasswordField> {
+class _CustomPasswordTextformFieldState extends State<CustomPasswordTextformField> {
   bool _obscureText = true;
 
   void _togglePasswordVisibility() {

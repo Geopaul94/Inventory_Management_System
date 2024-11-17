@@ -1,42 +1,51 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CustomerDetailsModel {
-  final String customerName; // Use camelCase for Dart conventions
+  final String customerId;
+  final String customerName;
   final String phoneNumber;
   final String address;
+  final Timestamp createdAt;
 
-  // Constructor
   CustomerDetailsModel({
+    required this.customerId,
     required this.customerName,
     required this.phoneNumber,
     required this.address,
+    required this.createdAt,
   });
 
-  // Convert a CustomerDetailsModel into a Map (for sending to Firebase)
+  // Convert CustomerDetailsModel to a Map
   Map<String, dynamic> toMap() {
     return {
-      'customerName': customerName,
+      'customerId': customerId,
+      'customerName': customerName,  // Fixed the space here
       'phoneNumber': phoneNumber,
       'address': address,
+      'createdAt': createdAt,
     };
   }
 
-  // Create a CustomerDetailsModel from a Map (for receiving from Firebase)
+  // Create CustomerDetailsModel from a Map
   factory CustomerDetailsModel.fromMap(Map<String, dynamic> map) {
     return CustomerDetailsModel(
-      customerName: map['customerName'] ?? '',  // Provide defaults in case data is missing
-      phoneNumber: map['phoneNumber'] ?? '',
-      address: map['address'] ?? '',
+      customerId: map['customerId'] as String? ?? '',
+      customerName: map['customerName'] as String? ?? '', // Fixed the space here
+      phoneNumber: map['phoneNumber'] as String? ?? '',
+      address: map['address'] as String? ?? '',
+      createdAt: map['createdAt'] as Timestamp? ?? Timestamp.now(),
     );
   }
 
-  // Optionally, you can also include a method for creating a model from a Firestore document snapshot
+  // Create CustomerDetailsModel from a Firestore document snapshot
   factory CustomerDetailsModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data();
     return CustomerDetailsModel(
-      customerName: data?['customerName'] ?? '',
-      phoneNumber: data?['phoneNumber'] ?? '',
-      address: data?['address'] ?? '',
+      customerId: snapshot.id,
+      customerName: data?['customerName'] as String? ?? '', // Fixed the space here
+      phoneNumber: data?['phoneNumber'] as String? ?? '',
+      address: data?['address'] as String? ?? '',
+      createdAt: data?['createdAt'] as Timestamp? ?? Timestamp.now(),
     );
   }
 }

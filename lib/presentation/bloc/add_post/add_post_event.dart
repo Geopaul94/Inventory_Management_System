@@ -1,20 +1,3 @@
-// part of 'add_post_bloc.dart';
-
-// @immutable
-// abstract class AddPostEvent {}
-
-// class PickImageFromGallery extends AddPostEvent {}
-
-// class CaptureImage extends AddPostEvent {}
-
-// class OnPostButtonClickedEvent extends AddPostEvent {
-//   final String note;
-//   final String imageFile;
-
-//   OnPostButtonClickedEvent({required this.note, required this.imageFile});
-// }
-// class RemoveImage extends AddPostEvent {}class ClearImage extends AddPostEvent {}
-
 
 part of 'add_post_bloc.dart';
 
@@ -23,15 +6,22 @@ abstract class AddPostEvent {}
 
 class PickImageFromGallery extends AddPostEvent {
   PickImageFromGallery(File croppedFile);
+  // Constructor is not necessary for this event now
 }
 
-class CaptureImage extends AddPostEvent {}
-
 class OnPostButtonClickedEvent extends AddPostEvent {
-  final String note;
+  final String description;
   final String imagePath;
+  final String productname;
+  final String quantity;
+  final String price;
 
-  OnPostButtonClickedEvent({required this.note, required this.imagePath});
+  OnPostButtonClickedEvent({required this.description, required this.imagePath, required this.productname, required this.quantity, required this.price});
+  
+
+
+
+
 }
 
 class RemoveImage extends AddPostEvent {}

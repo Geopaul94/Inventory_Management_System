@@ -4,46 +4,88 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:inventory_management_system/data/models/product_model.dart';
-import 'package:inventory_management_system/data/repository/product_data/product_data.dart';
 import 'package:inventory_management_system/presentation/bloc/add_product/addproduct_bloc.dart';
 import 'package:inventory_management_system/presentation/bloc/add_product/addproduct_event.dart';
-import 'package:inventory_management_system/presentation/bloc/fetchproductlist/fetchproductlist_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/add_products/addpost_page/addphoto.dart';
-import 'package:inventory_management_system/presentation/screeens/homepage.dart';
 import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomElevatedButton.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
-import 'package:inventory_management_system/presentation/widgets/CustomeAppbar.dart';
+
 import 'package:inventory_management_system/presentation/widgets/custometextformfield.dart';
 import 'package:inventory_management_system/presentation/widgets/validations.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
 
-class AddProducts extends StatelessWidget {
-  AddProducts({super.key});
+class Producteditpage extends StatefulWidget { // Change to StatefulWidget
+  final Products product;
 
-  final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _productnameController = TextEditingController();
-  final TextEditingController _priceController = TextEditingController();
-  final TextEditingController _quantityController = TextEditingController();
+  Producteditpage({super.key, required this.product});
 
-  File? croppedImage; // Change type to File for easier handling
+  @override
+  _ProducteditpageState createState() => _ProducteditpageState();
+}
 
+class _ProducteditpageState extends State<Producteditpage> {
+  // Declare controllers
+  late TextEditingController _descriptionController;
+  late TextEditingController _productnameController;
+  late TextEditingController _priceController;
+  late TextEditingController _quantityController;
+
+  File? croppedImage; // For handling image selection
   final _formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+
+    // Initialize controllers with product data
+    _descriptionController = TextEditingController(text: widget.product.description);
+    _productnameController = TextEditingController(text: widget.product.productName);
+    _priceController = TextEditingController(text: widget.product.price.toString());
+    _quantityController = TextEditingController(text: widget.product.quantity.toString());
+  }
+
+  @override
+  void dispose() {
+    // Dispose controllers to free up resources
+    _descriptionController.dispose();
+    _productnameController.dispose();
+    _priceController.dispose();
+    _quantityController.dispose();
+    super.dispose();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => AddProductBloc(),
-      child: Scaffold(
-        appBar: const CustomAppBar(
-          title: "Add Product Details",
-          backgroundColor: lightgrey,
-          leadingIcon: Icons.arrow_back,
-        ),
+    return    Scaffold(
+   appBar: PreferredSize(
+  preferredSize: const Size.fromHeight(60.0), // Set the height of the AppBar
+  child: AppBar(
+    title: const Text('Edit Product'), 
+    centerTitle: true,
+    backgroundColor: green, // Title of the AppBar
+    actions: [
+      IconButton(
+        icon: const Icon(Icons.delete), // Use an icon for the delete action
+        onPressed: () async {
+          // Dispatch the delete event with the product ID
+          context.read<AddProductBloc>().add(DeleteProductButtonClickedEvent(productId: widget.product.id));
+
+          // Navigate back to the previous screen or a list of products
+      Navigator.pop(context); // This will go back to the previous screen
+        },
+      ),
+    ],
+  ),
+),
         body: SafeArea(
+
+
+
+
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(20),
@@ -62,11 +104,11 @@ class AddProducts extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                     CustomTextFormField(
-                      labelText: "Product Name",
+                     
                       icon: CupertinoIcons.add_circled,
                       controller: _productnameController,
-                      hintText: "e.g. Mobile, Headset",
-                      validator: validateProductName,
+                       
+                      validator: validateProductName, labelText: '',
                     ),
                     h10,
                     const CustomText(
@@ -81,7 +123,7 @@ class AddProducts extends StatelessWidget {
                       controller: _descriptionController,
                       minLines: 4,
                       maxLines: 8,
-                      hintText: "e.g. Describe the product in detail",
+                    
                       hintTextColor: Colors.grey,
                       validator: validateProductDescription,
                     ),
@@ -102,7 +144,7 @@ class AddProducts extends StatelessWidget {
                               icon: CupertinoIcons.add_circled,
                               controller: _priceController,
                               keyboardType: TextInputType.number,
-                              hintText: "e.g. 2000",
+                             
                               validator: validateProductPrice,
                             ),
                           ],
@@ -120,73 +162,58 @@ class AddProducts extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                             ),
                             CustomTextFormField(
-                              labelText: "Quantity",
+                            
                               icon: CupertinoIcons.add_circled,
                               controller: _quantityController,
                               keyboardType: TextInputType.number,
                               hintText: "e.g.12",
                               hintTextColor: black,
-                              validator: validateProductQuantity,
+                              validator: validateProductQuantity, labelText: '',
                             ),
                           ],
                         ),
                       ),
                     ]),
                     h20,
+
+                    
                     Center(
-                      child: 
-                 
-CustomElevatedButton(
-  text: "Add Product",
-  onPressed: () async {
-    if (_formKey.currentState!.validate()) {
-      // Generate a new ID for the product
-      String newProductId = FirebaseFirestore.instance.collection('products').doc().id; // Generate a new ID
-      Timestamp currentTime = Timestamp.now(); // Get the current timestamp
+                
+                  child: CustomElevatedButton(
+                      text: "Update product",
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          // Generate the new product object with updated data
+                          Timestamp currentTime = Timestamp.now(); 
+                          final updatedProduct = Products(
+                            id: widget.product.id, // Keep the same ID
+                            productName: _productnameController.text.isNotEmpty
+                                ? _productnameController.text
+                                : widget.product.productName,
+                            imageUrl: croppedImage?.path ?? widget.product.imageUrl,
+                            description: _descriptionController.text.isNotEmpty
+                                ? _descriptionController.text
+                                : widget.product.description,
+                            price: double.tryParse(_priceController.text) ?? widget.product.price,
+                            quantity: double.tryParse(_quantityController.text) ?? widget.product.quantity,
+                            createdAt: currentTime,
+                          );
 
-      // Create a Product instance from the form data
-      final product = await  Products(
-        id: newProductId, // Include the generated ID
-        productName: _productnameController.text,
-        imageUrl: croppedImage?.path ?? '',
-        description: _descriptionController.text,
-        price: double.tryParse(_priceController.text) ?? 0.0,
-        quantity: double.tryParse(_quantityController.text) ?? 0.0,
-        createdAt: currentTime, // Include the current timestamp
-      );
+                          // Trigger BLoC to update the product
+                          context.read<AddProductBloc>().add(UpdateProductButtonClickedEvent(product: updatedProduct));
 
-      // Add product to BLoC
-      context.read<AddProductBloc>().add(AddProductButtonClickedEvent(product: product));
-      FocusScope.of(context).unfocus();
-
-
-
- context.read<FetchProductListBloc>().add(FetchProductListInitialEvent());
-
-
-      // Use pushReplacement to navigate back to MainScreens and refresh the UI
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MainScreens(initialIndex: 0),
-        ),
-      );
-
-      print('Form is valid. Product added.');
-    } else {
-      print('Form is invalid. Please correct the errors.');
-    }
-  }
-),
-
-
-
-
-
+                          // Navigate back to main screen
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MainScreens(initialIndex: 0),
+                            ),
+                          );
+                        }
+                      },
                     ),
-                    const SizedBox(height: 20),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

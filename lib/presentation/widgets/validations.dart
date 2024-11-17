@@ -117,6 +117,27 @@ String? validateProductName(String? productName) {
   return null;
 }
 
+//validate Date of Purchase
+
+
+String? validateDate(String? date) {
+  // Implement date validation logic here
+  if (date == null || date.isEmpty) {
+    return 'Please enter a date.';
+  }
+
+  // You can use a date parsing library or regular expressions to validate the date format
+  // For example, using a regular expression to check for a common format (DD/MM/YYYY):
+  final RegExp dateRegex = RegExp(r"^\d{2}/\d{2}/\d{4}$");
+  if (!dateRegex.hasMatch(date)) {
+    return 'Invalid date format. Please use DD/MM/YYYY format.';
+  }
+
+  // You can also use a date parsing library like `intl` to parse the date and check its validity:
+  // ...
+
+  return null; // Valid date
+}
 // Validate product price
 String? validateProductPrice(String? price) {
   if (price == null || price.isEmpty) {
@@ -137,6 +158,21 @@ String? validateProductQuantity(String? quantity) {
   final double? parsedQuantity = double.tryParse(quantity);
   if (parsedQuantity == null || parsedQuantity <= 0) {
     return 'Product quantity must be a positive number.';
+  }
+  return null;
+}
+
+
+/// Validate product description
+String? validateCustomerAddress(String? description) {
+  if (description == null || description.isEmpty) {
+    return 'Please enter a customer Adress.';
+  }
+  if (description.length < 5) {
+    return 'Description must be at least 5 characters long.';
+  }
+  if (description.length > 200) {
+    return 'Description must not exceed 200 characters.';
   }
   return null;
 }

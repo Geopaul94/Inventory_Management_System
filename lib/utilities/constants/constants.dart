@@ -22,7 +22,7 @@ const darkgreymain = Color.fromARGB(255, 21, 21, 22);
 
 const Color black =Colors.black;
 
-const Color floatingActionButtoncolor=const Color(0xff03dac6);
+const Color floatingActionButtoncolor=Colors.blue;
 
 
 const kPrimaryColor = Color(0xFF00D1FF);

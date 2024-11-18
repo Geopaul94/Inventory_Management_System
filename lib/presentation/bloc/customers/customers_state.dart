@@ -32,12 +32,6 @@ class FetchCustomersErrorState extends CustomersState {
   List<Object> get props => [Error];
 }
 
-
-
-
-
-
-
 // Loading state
 class CustomersLoadingState extends CustomersState {}
 

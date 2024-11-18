@@ -8,6 +8,8 @@ class SalesDetailsModel {
   final String product;
   final int quantity;
   final String cash;
+    final String Time;
+  final Timestamp createdAt;
 
   SalesDetailsModel({
     required this.saleId,
@@ -17,6 +19,7 @@ class SalesDetailsModel {
     required this.product,
     required this.quantity,
     required this.cash,
+    required this.createdAt,required this. Time,
   });
 
   // Convert SalesDetailsModel to a Map to pass data to Firestore
@@ -29,11 +32,14 @@ class SalesDetailsModel {
       'product': product,
       'quantity': quantity,
       'cash': cash,
+      'createdAt': createdAt,
+          'Time': Time,
     };
   }
 
   // Create SalesDetailsModel from a Firestore document snapshot
-  factory SalesDetailsModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory SalesDetailsModel.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data();
     return SalesDetailsModel(
       saleId: snapshot.id,
@@ -42,7 +48,12 @@ class SalesDetailsModel {
       paymentMethod: data?['paymentmethod'] ?? '',
       product: data?['product'] ?? '',
       quantity: data?['quantity'] ?? 1,
+
+
+          Time: data?['Time'] ?? '',
+
       cash: data?['cash'] ?? '',
+      createdAt: data?['createdAt'] ?? Timestamp.now(),
     );
   }
 }

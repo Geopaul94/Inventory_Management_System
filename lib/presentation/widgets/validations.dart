@@ -117,6 +117,22 @@ String? validateProductName(String? productName) {
   return null;
 }
 
+
+
+// Validate Customer name
+String? Customername(String? productName) {
+  if (productName == null || productName.isEmpty) {
+    return 'Please enter a Customer name.';
+  }
+  if (productName.length < 1) {
+    return 'Product name must be at least 1 character long.';
+  }
+  if (productName.length > 20) {
+    return 'Product name must not exceed 20 characters.';
+  }
+  return null;
+}
+
 //validate Date of Purchase
 
 
@@ -128,11 +144,10 @@ String? validateDate(String? date) {
 
   // You can use a date parsing library or regular expressions to validate the date format
   // For example, using a regular expression to check for a common format (DD/MM/YYYY):
-  final RegExp dateRegex = RegExp(r"^\d{2}/\d{2}/\d{4}$");
-  if (!dateRegex.hasMatch(date)) {
-    return 'Invalid date format. Please use DD/MM/YYYY format.';
-  }
-
+  // final RegExp dateRegex = RegExp(r"^\d{2}/\d{2}/\d{4}$");
+  // if (!dateRegex.hasMatch(date)) {
+  //   return 'Invalid date format. Please use DD/MM/YYYY format.';
+  
   // You can also use a date parsing library like `intl` to parse the date and check its validity:
   // ...
 

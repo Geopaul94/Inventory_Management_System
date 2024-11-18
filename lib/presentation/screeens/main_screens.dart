@@ -7,8 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_management_system/presentation/bloc/fetchproductlist/fetchproductlist_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/addcustomer/customers_page.dart';
-import 'package:inventory_management_system/presentation/screeens/homepage.dart';
+import 'package:inventory_management_system/presentation/screeens/add_products/productllist_page.dart';
+import 'package:inventory_management_system/presentation/screeens/category/category_page..dart';
 import 'package:inventory_management_system/presentation/screeens/profile_page.dart';
+import 'package:inventory_management_system/presentation/screeens/reporsts/reportpage.dart';
 import 'package:inventory_management_system/presentation/screeens/sales_screen/sales_page.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -42,10 +44,10 @@ class _MainScreensState extends State<MainScreens> {
 
   // Define the pages for the navigation bar
   static final List<Widget> _pages = <Widget>[
-    HomePage(),
+    CategoryPage(),
     SalesPage(),
     CustomersPage(),
-    const ProfilePage(),
+     Reportpage(),
   ];
 
   @override
@@ -80,12 +82,13 @@ class _MainScreensState extends State<MainScreens> {
             child: GNav(
               rippleColor: Colors.grey[300]!,
               hoverColor: Colors.grey[100]!,
-              gap: 5,
+              gap: 4,
               activeColor: Colors.black,
               iconSize: 20,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            tabBorderRadius:  10,
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
               duration: const Duration(milliseconds: 400),
-              tabBackgroundColor: Colors.grey[100]!,
+              tabBackgroundColor: const Color.fromARGB(91, 8, 95, 235)!,
               color: Colors.black,
               tabs: const [
                 GButton(
@@ -102,8 +105,8 @@ class _MainScreensState extends State<MainScreens> {
                   text: 'Customers',
                 ),
                 GButton(
-                  icon: LineIcons.user,
-                  text: 'Profile',
+                  icon: CupertinoIcons.chart_bar_square,
+                  text: 'Reports',
                 ),
               ],
               selectedIndex: _selectedIndex.value,

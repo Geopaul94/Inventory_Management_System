@@ -11,35 +11,17 @@ import 'package:inventory_management_system/presentation/screeens/add_products/p
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
 
-class HomePage extends StatefulWidget {
+class ProductPage extends StatefulWidget {
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<ProductPage> createState() => _ProductPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ProductPageState extends State<ProductPage> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     context.read<FetchProductListBloc>().add(FetchProductListInitialEvent());
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   }
 
   @override
@@ -58,30 +40,24 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(10),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                 childAspectRatio: 0.64,
-                 crossAxisSpacing: 5,
-                 mainAxisSpacing: 10,
+                childAspectRatio: 0.64,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 10,
               ),
               itemCount: state.products.length,
               itemBuilder: (context, index) {
-                final Products product =
-                    state.products[index]; 
-                return GestureDetector( onTap: () {
-                  
-       Navigator.push(
-
-              context,
-
-              MaterialPageRoute(
-
-                builder: (context) => ProductDetailsScreen(product: product),
-
-              ),
-
-            );
-                },
-                  child: ProductCard(
-                      product: product),
+                final Products product = state.products[index];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ProductDetailsScreen(product: product),
+                      ),
+                    );
+                  },
+                  child: ProductCard(product: product),
                 ); // Fix: Pass product directly
               },
             );
@@ -99,7 +75,7 @@ class _HomePageState extends State<HomePage> {
           final productAdded = await Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => AddProducts()),
           );
-    
+
           // Check if a product was added (use true or a specific signal)
           if (productAdded == true) {
             // Trigger the event to fetch the updated product list
@@ -151,9 +127,9 @@ class ProductCard extends StatelessWidget {
               },
             ),
           ),
-        //  SizedBox(height: 10), // Adjusted spacing
+          //  SizedBox(height: 10), // Adjusted spacing
           Padding(
-            padding: const EdgeInsets.fromLTRB(5,3, 0, 0),
+            padding: const EdgeInsets.fromLTRB(5, 3, 0, 0),
             child: CustomText(
               text: product.productName,
               fontSize: 24, // Adjust font size as needed
@@ -166,18 +142,16 @@ class ProductCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(4, 2, 0, 0),
             child: Row(
-              
               children: [
                 CustomText(
-                  text: "Qty ${product.quantity.toInt().toString()}", // Assuming quantity is a property
+                  text:
+                      "Qty ${product.quantity.toInt().toString()}", // Assuming quantity is a property
                   fontSize: 20, // Adjust font size as needed
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold,
                   color: Colors.grey, // Use Colors.grey instead of grey
                 ),
-             Spacer(
-              
-             ),
+                Spacer(),
                 CustomText(
                   text: "₹ ${product.price.toInt().toString()}",
                   fontSize: 20, // Adjust font size as needed
@@ -185,11 +159,12 @@ class ProductCard extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: Colors.green, // Use Colors.green instead of green
                 ),
-                SizedBox(width: .02.sw,)
+                SizedBox(
+                  width: .02.sw,
+                )
               ],
             ),
           ),
-    
         ],
       ),
     );

@@ -12,7 +12,7 @@ import 'package:inventory_management_system/presentation/bloc/add_product/addpro
 import 'package:inventory_management_system/presentation/bloc/add_product/addproduct_event.dart';
 import 'package:inventory_management_system/presentation/bloc/fetchproductlist/fetchproductlist_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/add_products/addpost_page/addphoto.dart';
-import 'package:inventory_management_system/presentation/screeens/homepage.dart';
+import 'package:inventory_management_system/presentation/screeens/add_products/productllist_page.dart';
 import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomElevatedButton.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
@@ -134,55 +134,58 @@ class AddProducts extends StatelessWidget {
                     ]),
                     h20,
                     Center(
-                      child: 
-                 
-CustomElevatedButton(
-  text: "Add Product",
-  onPressed: () async {
-    if (_formKey.currentState!.validate()) {
-      // Generate a new ID for the product
-      String newProductId = FirebaseFirestore.instance.collection('products').doc().id; // Generate a new ID
-      Timestamp currentTime = Timestamp.now(); // Get the current timestamp
+                      child: CustomElevatedButton(
+                          text: "Add Product",
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              // Generate a new ID for the product
+                              String newProductId = FirebaseFirestore.instance
+                                  .collection('products')
+                                  .doc()
+                                  .id; // Generate a new ID
+                              Timestamp currentTime =
+                                  Timestamp.now(); // Get the current timestamp
 
-      // Create a Product instance from the form data
-      final product = await  Products(
-        id: newProductId, // Include the generated ID
-        productName: _productnameController.text,
-        imageUrl: croppedImage?.path ?? '',
-        description: _descriptionController.text,
-        price: double.tryParse(_priceController.text) ?? 0.0,
-        quantity: double.tryParse(_quantityController.text) ?? 0.0,
-        createdAt: currentTime, // Include the current timestamp
-      );
+                              // Create a Product instance from the form data
+                              final product = await Products(
+                                id: newProductId, // Include the generated ID
+                                productName: _productnameController.text,
+                                imageUrl: croppedImage?.path ?? '',
+                                description: _descriptionController.text,
+                                price: double.tryParse(_priceController.text) ??
+                                    0.0,
+                                quantity:
+                                    double.tryParse(_quantityController.text) ??
+                                        0.0,
+                                createdAt:
+                                    currentTime, // Include the current timestamp
+                              );
 
-      // Add product to BLoC
-      context.read<AddProductBloc>().add(AddProductButtonClickedEvent(product: product));
-      FocusScope.of(context).unfocus();
+                              // Add product to BLoC
+                              context.read<AddProductBloc>().add(
+                                  AddProductButtonClickedEvent(
+                                      product: product));
+                              FocusScope.of(context).unfocus();
 
+                              context
+                                  .read<FetchProductListBloc>()
+                                  .add(FetchProductListInitialEvent());
 
+                              // Use pushReplacement to navigate back to MainScreens and refresh the UI
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      MainScreens(initialIndex: 0),
+                                ),
+                              );
 
- context.read<FetchProductListBloc>().add(FetchProductListInitialEvent());
-
-
-      // Use pushReplacement to navigate back to MainScreens and refresh the UI
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MainScreens(initialIndex: 0),
-        ),
-      );
-
-      print('Form is valid. Product added.');
-    } else {
-      print('Form is invalid. Please correct the errors.');
-    }
-  }
-),
-
-
-
-
-
+                              print('Form is valid. Product added.');
+                            } else {
+                              print(
+                                  'Form is invalid. Please correct the errors.');
+                            }
+                          }),
                     ),
                     const SizedBox(height: 20),
                   ],

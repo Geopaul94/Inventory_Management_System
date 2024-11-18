@@ -3,36 +3,38 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 
-MaterialButton customButton(
-    {required Size media,
-    required String buttonText,
-    required VoidCallback onPressed,
-    required Color color}) {
+import 'package:flutter_screenutil/flutter_screenutil.dart'; // Import ScreenUtil
+
+// Custom button with ScreenUtil
+MaterialButton customButton({
+  required String buttonText,
+  required VoidCallback onPressed,
+  required Color color,
+}) {
   return MaterialButton(
     onPressed: onPressed,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-    minWidth: media.width,
-    height: media.height * 0.06,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)), // Use ScreenUtil for radius
+    minWidth: ScreenUtil().screenWidth, // Use full screen width
+    height: 0.06.h, // Use 6% of screen height
     color: color,
     child: Text(buttonText),
   );
 }
 
-
+// Loading button with ScreenUtil
 MaterialButton loadingButton({
-  required Size media,
   required VoidCallback onPressed,
   required Color gradientStartColor,
   required Color gradientEndColor,
   required Color loadingIndicatorColor,
-  double? height, // Optional height parameter
-  double? width,  // Optional width parameter
+  double? width,
+  double? height,
 }) {
   return MaterialButton(
     onPressed: onPressed,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-    minWidth: width ?? media.width, // Use the provided width or default to media width
-    height: height ?? media.height * 0.06, // Use the provided height or default to media height * 0.06
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
+    minWidth: width ?? ScreenUtil().screenWidth, // Use provided width or full screen width
+    height: height ?? 0.06.h, // Use provided height or 6% of screen height
     padding: EdgeInsets.zero,
     child: Ink(
       decoration: BoxDecoration(
@@ -41,16 +43,15 @@ MaterialButton loadingButton({
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Container(
         alignment: Alignment.center,
         child: LoadingAnimationWidget.staggeredDotsWave(
           color: loadingIndicatorColor,
-          size: 40,
+          size: 40.sp, // Use ScreenUtil for size
         ),
       ),
     ),
   );
-
 }

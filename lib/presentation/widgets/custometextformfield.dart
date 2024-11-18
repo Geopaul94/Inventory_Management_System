@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
@@ -24,7 +22,8 @@ class CustomTextFormField extends StatefulWidget {
   final int? minLines; // Optional min lines
   final int? maxWordCount; // Optional max word count
   final TextAlign textAlign; // Text alignment for the input text and hint text
-
+  final bool? readOnly;
+  final GestureTapCallback? onTap; 
   const CustomTextFormField({
     super.key,
     required this.labelText,
@@ -45,7 +44,9 @@ class CustomTextFormField extends StatefulWidget {
     this.maxLines,
     this.minLines,
     this.maxWordCount,
-    this.textAlign = TextAlign.left, // Default alignment is left
+    this.textAlign = TextAlign.left,
+    this.readOnly = false,
+    this.onTap,
   });
 
   @override
@@ -77,6 +78,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       height: widget.height, // This can be set to null if using min/maxLines
       width: widget.width,
       child: TextFormField(
+        readOnly: widget.readOnly ?? false, // Handle readOnly if provided
+        onTap: widget.onTap,
         controller: widget.controller,
         obscureText: _obscureText,
         keyboardType: widget.keyboardType,
@@ -84,7 +87,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         minLines: widget.minLines,
         textAlign: widget.textAlign, // Apply the text alignment here
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0), // Padding for better appearance
+          contentPadding: const EdgeInsets.symmetric(
+              vertical: 12.0,
+              horizontal: 16.0), // Padding for better appearance
           prefixIcon: Icon(widget.icon),
           suffixIcon: widget.obscureText
               ? IconButton(
@@ -100,7 +105,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               : null,
           errorStyle: TextStyle(color: widget.errorTextColor),
           hintText: widget.hintText,
-          hintStyle: TextStyle(color: widget.hintTextColor), // Set hint text color here
+          hintStyle: TextStyle(
+              color: widget.hintTextColor), // Set hint text color here
           labelStyle: TextStyle(color: widget.labelTextColor),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),

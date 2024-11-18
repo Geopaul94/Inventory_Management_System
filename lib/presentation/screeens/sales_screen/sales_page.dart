@@ -1,62 +1,165 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter/material.dart';
-// import 'package:inventory_management_system/data/models/customer_details_model.dart';
-// import 'package:inventory_management_system/data/repository/customer_details/cusomer_data.dart';
-// import 'package:inventory_management_system/presentation/screeens/sales_screen/add_sales_page.dart';
-// import 'package:inventory_management_system/presentation/widgets/CustomElevatedButton.dart';
-// import 'package:inventory_management_system/presentation/widgets/CustomeAppbar.dart';
-// import 'package:inventory_management_system/utilities/constants/constants.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_management_system/data/models/sales_model.dart';
+import 'package:inventory_management_system/presentation/bloc/sales_bloc/sales_bloc.dart';
+import 'package:inventory_management_system/presentation/screeens/sales_screen/add_sales_page.dart';
+import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
+import 'package:inventory_management_system/utilities/constants/constants.dart';
 
-// class SalesPage extends StatelessWidget {
- 
+// class SalesPage extends StatefulWidget {
+//   SalesPage({super.key});
+
+//   @override
+//   State<SalesPage> createState() => _SalesPageState();
+// }
+
+// class _SalesPageState extends State<SalesPage> {
+//   final List<String> _paymentMethods = [
+//     'Card',
+//     'Bank Transfer',
+//     'UPI',
+//     'Cash',
+//   ];
 
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//       appBar: const CustomAppBar(title: "Customers"),
-//       body: Column(children: [],),
+//       body: BlocConsumer<SalesBloc, SalesState>(
+//         listener: (context, state) {
+         
+//         },
+//         builder: (context, state) {
+
+
+// if (state is FetchAllSaleLoadingState) {
+
+
+// return CircularProgressIndicator();
+
+
+// } else if (state is FetchAllSaleSuccessState)
+// {
+
+// final List<SalesDetailsModel>  salesDetailsModel =state.salesDetailsModel;
+
+
+
+// if (salesDetailsModel.isEmpty ) {
+// return Center(child: CustomText(text: "No Sales data is availabel "),);
+
+
+// }
+// else {
+
+//   ListView.builder(
+//       itemCount: salesDetailsModel.length * 2 - 1, 
+//       itemBuilder: (context, index) {
+//         if (index.isOdd) {
+//           return Divider(); 
+//         }
+
+//         final itemIndex = index ~/ 2; // Calculate the actual item index
+//         return SaleProductCard(salesDetailsModel: state.salesDetailsModel[index]);
+
+
+
+
+
+// });
+
+
+
+
+// }
+
+
       
-    
+
+
+
+
+
+
+
+// } return const Center();
+
+
+//         }
+//       ),
 //       floatingActionButton: FloatingActionButton.extended(
-//         backgroundColor: floatingActionButtoncolor,
-//         foregroundColor: black,
-//         onPressed: () async {
-//           await Navigator.of(context).push(
-//             MaterialPageRoute(builder: (context) => AddSalesPage()),
-//           );
+//         backgroundColor: floatingActionButtoncolor, // Use your defined color
+//         foregroundColor: Colors.black,
+//         onPressed: () {
+//           Navigator.push(
+//               context,
+//               MaterialPageRoute(
+//                 builder: (context) => AddSalesPage(),
+//               ));
 //         },
 //         icon: const Icon(Icons.add),
-//         label: const Text('Add Customer'),
+//         label: const Text('Add New Sale'),
 //       ),
 //     );
 //   }
 // }
 
-// class CustomerCard extends StatelessWidget {
-//   final CustomerDetailsModel customer;
 
-//   const CustomerCard({Key? key, required this.customer}) : super(key: key);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// class SaleProductCard extends StatelessWidget {
+//   final SalesDetailsModel salesDetailsModel;
+//   const SaleProductCard({super.key, required this.salesDetailsModel});
 
 //   @override
 //   Widget build(BuildContext context) {
 //     return Card(
 //       elevation: 5,
-//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-//       child: Padding(
-//         padding: const EdgeInsets.all(16.0),
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(15),
+//       ),
+//       margin: const EdgeInsets.all(15),
+//       child:  Padding(
+//         padding:  EdgeInsets.all(15),
 //         child: Column(
 //           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Row(
-//               children: [
-//                 Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     h10,
-                 
-//                 const SizedBox(height: 16),
-//               ],
-//             ),
+//           children: <Widget>[
+          
+
+// CustomText(text: salesDetailsModel.product ),
+
+// CustomText(text: salesDetailsModel.customerName ),
+
+// CustomText(text: salesDetailsModel.date ),
+
+// CustomText(text: salesDetailsModel.quantity.toString() ),
+
+
+
+// CustomText(text: salesDetailsModel.paymentMethod ),
+
+// CustomText(text: salesDetailsModel.cash ),
+
+
+
+// CustomText(text: salesDetailsModel.product ),
+
+// CustomText(text: salesDetailsModel.customerName ),
+
 //           ],
 //         ),
 //       ),
@@ -65,42 +168,139 @@
 // }
 
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:inventory_management_system/data/models/sales.dart';
-import 'package:inventory_management_system/data/repository/customer_details/cusomer_data.dart';
-import 'package:inventory_management_system/data/repository/sale/sales_data.dart';
-import 'package:inventory_management_system/presentation/screeens/sales_screen/add_sales_page.dart';
-import 'package:inventory_management_system/presentation/widgets/CustomElevatedButton.dart';
-import 'package:inventory_management_system/utilities/constants/constants.dart';
 
-class SalesPage extends StatelessWidget {
-  const SalesPage({super.key});
+
+
+
+
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+// Assuming you have imported your necessary classes like SalesBloc, SalesState, SalesDetailsModel, etc.
+
+class SalesPage extends StatefulWidget {
+  SalesPage({super.key});
+
+  @override
+  State<SalesPage> createState() => _SalesPageState();
+}
+
+class _SalesPageState extends State<SalesPage> {
+  final List<String> _paymentMethods = [
+    'Card',
+    'Bank Transfer',
+    'UPI',
+    'Cash',
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: BlocConsumer<SalesBloc, SalesState>(
+        listener: (context, state) {
+          // Add your state listener code here if needed
+        },
+        builder: (context, state) {
+          if (state is FetchAllSaleLoadingState) {
+            return Center(child: CircularProgressIndicator());
+          } else if (state is FetchAllSaleSuccessState) {
+            final List<SalesDetailsModel> salesDetailsModel = state.salesDetailsModel;
 
+            if (salesDetailsModel.isEmpty) {
+              return Center(child: CustomText(text: "No Sales data is available"));
+            } else {
+              return ListView.builder(
+                itemCount: salesDetailsModel.length * 2 - 1,
+                itemBuilder: (context, index) {
+                  if (index.isOdd) {
+                    return Divider();
+                  }
 
-
-
-
-
-
-      body: Center(
+                  final itemIndex = index ~/ 2; // Calculate the actual item index
+                  return SaleProductCard(salesDetailsModel: salesDetailsModel[itemIndex]);
+                },
+              );
+            }
+          } else if (state is FetchAllSaleErrorState) {
+            return Center(child: CustomText(text: "An error occurred: ${state.error}"));
+          } else {
+            return Center(child: CustomText(text: "Unexpected error occurred"));
+          }
+        },
       ),
       floatingActionButton: FloatingActionButton.extended(
-  backgroundColor: floatingActionButtoncolor, // Use your defined color
-  foregroundColor: Colors.white,
-  onPressed: () {
-   Navigator.push(context, MaterialPageRoute(builder: (context) => AddSalesPage(),));
-  },
-  icon: const Icon(Icons.add),
-  label: const Text('Add New Sale'),
-),
+        backgroundColor: floatingActionButtoncolor, // Use your defined color
+        foregroundColor: Colors.black,
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddSalesPage(),
+              ));
+        },
+        icon: const Icon(Icons.add),
+        label: const Text('Add New Sale'),
+      ),
     );
   }
 }
+
+class SaleProductCard extends StatelessWidget {
+  final SalesDetailsModel salesDetailsModel;
+  const SaleProductCard({super.key, required this.salesDetailsModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      margin: const EdgeInsets.all(15),
+      child: Padding(
+        padding: EdgeInsets.all(15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            CustomText(text: salesDetailsModel.product),
+            Divider(),
+            CustomText(text: salesDetailsModel.customerName),
+            Divider(),
+            CustomText(text: salesDetailsModel.date),
+            Divider(),
+            CustomText(text: salesDetailsModel.quantity.toString()),
+            Divider(),
+            CustomText(text: salesDetailsModel.paymentMethod),
+            Divider(),
+            CustomText(text: salesDetailsModel.cash),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

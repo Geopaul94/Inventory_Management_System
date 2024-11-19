@@ -1,10 +1,8 @@
-
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:inventory_management_system/utilities/constants/constants.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final Color? startColor;
-  final Color? endColor;
   final IconData? leadingIcon;
   final IconData? cupertinoLeadingIcon;
   final double? leadingIconSize;
@@ -12,20 +10,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final TextStyle? titleStyle;
   final bool centerTitle;
-  
+  final bool? backarrow; // Optional bool for back arrow (defaults to false)
   final bool isTitleBold;
-  final bool showBackArrow;
-  final Color? backgroundColor;
+  final Color backgroundColor;
   final double? titleFontSize;
   final FontWeight? titleFontWeight;
   final List<Widget>? actions; // New parameter for actions
 
   const CustomAppBar({
     super.key,
-    this.startColor,
-    this.endColor,
     this.leadingIcon,
-    this.backgroundColor,
+    this.backgroundColor = Colors.blue,  // Set default background color
     this.cupertinoLeadingIcon,
     this.titleFontSize,
     this.titleFontWeight,
@@ -35,75 +30,28 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.titleStyle,
     this.centerTitle = true,
     this.isTitleBold = false,
-    this.showBackArrow = true,
-    this.actions, // Initialize new parameter
-  });
+    this.backarrow = false, this.actions, // Default backarrow to false
+  }); // Removed required for showBackArrow
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: backgroundColor,
       automaticallyImplyLeading: false,
-      leading: showBackArrow
-          ? (leadingIcon != null
-              ? ShaderMask(
-                  shaderCallback: (Rect rect) {
-                    return LinearGradient(
-                      colors: [
-                        startColor ?? Colors.blue,
-                        endColor ?? Colors.green
-                      ],
-                      stops: const [0.0, 1.0],
-                    ).createShader(rect);
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(left: leadingIconPadding ?? 20),
-                    child: InkWell(
-                      onTap: () {
-
-
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        leadingIcon,
-                        size: leadingIconSize,
-                      ),
-                    ),
-                  ),
-                )
-              : cupertinoLeadingIcon != null
-                  ? ShaderMask(
-                      shaderCallback: (Rect rect) {
-                        return LinearGradient(
-                          colors: [
-                            startColor ?? Colors.blue,
-                            endColor ?? Colors.green
-                          ],
-                          stops: const [0.0, 1.0],
-                        ).createShader(rect);
-                      },
-                      child: Icon(
-                        cupertinoLeadingIcon,
-                        size: leadingIconSize,
-                      ),
-                    )
-                  : null)
+      leading: backarrow != null && backarrow!
+          ? IconButton(
+              icon: const Icon(CupertinoIcons.back),color: white,
+              onPressed: () => Navigator.pop(context),
+            )
           : null,
-      title: ShaderMask(
-        shaderCallback: (Rect rect) {
-          return LinearGradient(
-            colors: [startColor ?? Colors.blue, endColor ?? Colors.green],
-            stops: const [0.0, 1.0],
-          ).createShader(rect);
-        },
-        child: Text(
-          title,
-          style: titleStyle ??
-              TextStyle(
-                fontSize: MediaQuery.of(context).size.width * 0.055,
-                fontWeight: isTitleBold ? FontWeight.bold : FontWeight.normal,
-              ),
-        ),
+      title: Text(
+        title,
+        style: titleStyle ??
+            TextStyle(
+              fontSize: titleFontSize ?? MediaQuery.of(context).size.width * 0.055,
+              fontWeight: isTitleBold ? FontWeight.bold : FontWeight.normal,
+              color: Colors.white,  // Set text color to white
+            ),
       ),
       centerTitle: centerTitle,
       actions: actions, // Add actions to the AppBar

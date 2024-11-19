@@ -63,8 +63,8 @@ class _AddPhotoContainerState extends State<AddPhotoContainer> {
       onTap: _pickAndCropImage,
       child: Container(
         decoration: BoxDecoration(border: Border.all()),
-        height: size.height * 0.35,
-        width: size.width * 0.9,
+        height: size.height * 0.50,
+        width: size.width * 0.85,
         child: Stack(
           children: [
             if (_imageFile != null)

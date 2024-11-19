@@ -1,15 +1,12 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:inventory_management_system/data/models/customer_details_model.dart';
+
 import 'dart:io';
 import 'package:inventory_management_system/data/models/product_model.dart';
 import 'package:http/http.dart' as http;
 
 import 'dart:convert';
 
-
 // Function to handle product upload with image
-
 
 Future<void> uploadProductWithImage(Products product) async {
   try {
@@ -26,7 +23,8 @@ Future<void> uploadProductWithImage(Products product) async {
         description: product.description,
         price: product.price,
         quantity: product.quantity,
-        createdAt: product.createdAt, // Include the createdAt timestamp
+        createdAt: product.createdAt,
+        category: product.category, // Include the createdAt timestamp
       );
 
       // Step 3: Save the updated product to Firestore
@@ -46,7 +44,8 @@ Future<String?> uploadImageToCloudinary(String imagePath) async {
 
   try {
     // Cloudinary API endpoint
-    final url = Uri.parse('https://api.cloudinary.com/v1_1/duyqxp4er/image/upload');
+    final url =
+        Uri.parse('https://api.cloudinary.com/v1_1/duyqxp4er/image/upload');
 
     // Create a multipart request
     final request = http.MultipartRequest('POST', url)
@@ -65,7 +64,8 @@ Future<String?> uploadImageToCloudinary(String imagePath) async {
       String imageUrl = jsonMap['secure_url'];
       return imageUrl;
     } else {
-      print('Failed to upload image to Cloudinary. Status Code: ${response.statusCode}');
+      print(
+          'Failed to upload image to Cloudinary. Status Code: ${response.statusCode}');
       return null;
     }
   } catch (e) {
@@ -77,7 +77,8 @@ Future<String?> uploadImageToCloudinary(String imagePath) async {
 // Function to save product details to Firestore
 Future<void> saveProductToFirestore(Products product) async {
   // Get a reference to the Firestore collection
-  CollectionReference productsRef = FirebaseFirestore.instance.collection('products');
+  CollectionReference productsRef =
+      FirebaseFirestore.instance.collection('products');
 
   // Convert product object to a Map and save to Firestore
   try {
@@ -88,17 +89,18 @@ Future<void> saveProductToFirestore(Products product) async {
   }
 }
 
-
-
 // Function to fetch all products from Firestore
 
 Future<List<Products>> fetchAllProducts() async {
   try {
     // Step 1: Get the reference to the Firestore 'products' collection
-    CollectionReference productsRef = FirebaseFirestore.instance.collection('products');
+    CollectionReference productsRef =
+        FirebaseFirestore.instance.collection('products');
 
     // Step 2: Fetch all documents from the collection
-    QuerySnapshot querySnapshot = await productsRef.orderBy('createdAt', descending: true).get(); // Order by createdAt
+    QuerySnapshot querySnapshot = await productsRef
+        .orderBy('createdAt', descending: true)
+        .get(); // Order by createdAt
 
     // Step 3: Convert documents to a list of Products
     List<Products> productsList = querySnapshot.docs.map((doc) {
@@ -120,7 +122,8 @@ Future<List<Products>> fetchAllProducts() async {
 // Function to update product details in Firestore
 Future<void> updateProductInFirestore(Products product) async {
   // Get a reference to the Firestore collection
-  CollectionReference productsRef = FirebaseFirestore.instance.collection('products');
+  CollectionReference productsRef =
+      FirebaseFirestore.instance.collection('products');
 
   try {
     // Update the product document using the product ID
@@ -134,7 +137,8 @@ Future<void> updateProductInFirestore(Products product) async {
 // Function to delete a product from Firestore
 Future<void> deleteProductFromFirestore(String productId) async {
   // Get a reference to the Firestore collection
-  CollectionReference productsRef = FirebaseFirestore.instance.collection('products');
+  CollectionReference productsRef =
+      FirebaseFirestore.instance.collection('products');
 
   try {
     // Delete the product document using the product ID
@@ -143,9 +147,4 @@ Future<void> deleteProductFromFirestore(String productId) async {
   } catch (error) {
     print('Failed to delete product: $error');
   }
-
-
-
-
-
 }

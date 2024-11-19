@@ -7,6 +7,7 @@ class Products {
   String description;
   double price;
   double quantity;
+  String category; // New category field
   final Timestamp createdAt; // Timestamp for when the product was created
 
   // Constructor
@@ -17,6 +18,7 @@ class Products {
     required this.description,
     required this.price,
     required this.quantity,
+    required this.category, // Include category in the constructor
     required this.createdAt, // Include createdAt in the constructor
   });
 
@@ -29,6 +31,7 @@ class Products {
       'description': description,
       'price': price,
       'quantity': quantity,
+      'category': category, // Include category in the map
       'createdAt': createdAt, // Include createdAt in the map
     };
   }
@@ -42,6 +45,7 @@ class Products {
       description: map['description'] ?? '',
       price: map['price']?.toDouble() ?? 0.0,
       quantity: map['quantity']?.toDouble() ?? 0.0,
+      category: map['category'] ?? '', // Extract category from the map
       createdAt: map['createdAt'] ?? Timestamp.now(), // Extract createdAt from the map
     );
   }

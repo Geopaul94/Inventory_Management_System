@@ -1,17 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:inventory_management_system/data/models/catergorey/category_model.dart';
 import 'package:inventory_management_system/data/models/customer_details_model.dart';
 import 'package:inventory_management_system/data/models/product_model.dart';
 import 'package:inventory_management_system/data/repository/customer_details/cusomer_data.dart';
 import 'package:inventory_management_system/presentation/bloc/fetchproductlist/fetchproductlist_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/add_products/addpost_page/add_products.dart';
 import 'package:inventory_management_system/presentation/screeens/add_products/product_details_screen.dart';
+import 'package:inventory_management_system/presentation/screeens/profile_page.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
+import 'package:inventory_management_system/presentation/widgets/CustomeAppbar.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
 
 class ProductPage extends StatefulWidget {
+
+
+  final CategoryModel category;
+
+  const ProductPage({super.key, required this.category});
   @override
   State<ProductPage> createState() => _ProductPageState();
 }
@@ -27,9 +36,7 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-      ),
+      appBar: CustomAppBar(title: widget.category.productCategory.toString()),
       body: BlocBuilder<FetchProductListBloc, FetchProductListState>(
         builder: (context, state) {
           if (state is FetchProductListLoadingState) {
@@ -53,7 +60,7 @@ class _ProductPageState extends State<ProductPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            ProductDetailsScreen(product: product),
+                            ProductDetailsScreen(product: product,),
                       ),
                     );
                   },
@@ -68,12 +75,12 @@ class _ProductPageState extends State<ProductPage> {
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: const Color(0xff03dac6),
-        foregroundColor: Colors.black,
+        backgroundColor: floatingActionButtoncolor,
+        foregroundColor: white,
         onPressed: () async {
           // Navigate to AddProducts and await the result
           final productAdded = await Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => AddProducts()),
+            MaterialPageRoute(builder: (context) => AddProducts(productCategory: widget.category.productCategory.toString())),
           );
 
           // Check if a product was added (use true or a specific signal)

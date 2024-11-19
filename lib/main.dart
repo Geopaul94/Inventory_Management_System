@@ -8,6 +8,8 @@ import 'package:inventory_management_system/presentation/bloc/category/category_
 import 'package:inventory_management_system/presentation/bloc/customers/customers_bloc.dart';
 import 'package:inventory_management_system/presentation/bloc/fetchproductlist/fetchproductlist_bloc.dart';
 import 'package:inventory_management_system/presentation/bloc/sales_bloc/sales_bloc.dart';
+import 'package:inventory_management_system/presentation/screeens/add_products/addpost_page/add_products.dart';
+import 'package:inventory_management_system/presentation/screeens/category/category_page..dart';
 import 'package:inventory_management_system/presentation/screeens/sales_screen/sales_page.dart';
 import 'package:inventory_management_system/presentation/screeens/splash_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

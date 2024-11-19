@@ -22,8 +22,9 @@ import 'package:inventory_management_system/presentation/widgets/validations.dar
 import 'package:inventory_management_system/utilities/constants/constants.dart';
 
 class AddProducts extends StatelessWidget {
-  AddProducts({super.key});
-
+  final String productCategory;
+  AddProducts({super.key, required this.productCategory});
+ final TextEditingController _productcategory_controller = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _productnameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
@@ -61,6 +62,12 @@ class AddProducts extends StatelessWidget {
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
+
+
+                    
+
+
+
                     CustomTextFormField(
                       labelText: "Product Name",
                       icon: CupertinoIcons.add_circled,
@@ -158,7 +165,7 @@ class AddProducts extends StatelessWidget {
                                     double.tryParse(_quantityController.text) ??
                                         0.0,
                                 createdAt:
-                                    currentTime, // Include the current timestamp
+                                    currentTime, category: productCategory, // Include the current timestamp
                               );
 
                               // Add product to BLoC

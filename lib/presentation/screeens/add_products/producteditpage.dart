@@ -62,11 +62,11 @@ class _ProducteditpageState extends State<Producteditpage> {
   Widget build(BuildContext context) {
     return    Scaffold(
    appBar: PreferredSize(
-  preferredSize: const Size.fromHeight(60.0), // Set the height of the AppBar
+  preferredSize: const Size.fromHeight(60.0),
   child: AppBar(
     title: const Text('Edit Product'), 
     centerTitle: true,
-    backgroundColor: green, // Title of the AppBar
+    backgroundColor: green, 
     actions: [
       IconButton(
         icon: const Icon(Icons.delete), // Use an icon for the delete action
@@ -196,7 +196,7 @@ class _ProducteditpageState extends State<Producteditpage> {
                                 : widget.product.description,
                             price: double.tryParse(_priceController.text) ?? widget.product.price,
                             quantity: double.tryParse(_quantityController.text) ?? widget.product.quantity,
-                            createdAt: currentTime,
+                            createdAt: currentTime, category: widget.product.category,
                           );
 
                           // Trigger BLoC to update the product

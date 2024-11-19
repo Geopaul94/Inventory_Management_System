@@ -5,8 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inventory_management_system/data/models/catergorey/category_model.dart';
 import 'package:inventory_management_system/presentation/bloc/category/category_bloc.dart';
+import 'package:inventory_management_system/presentation/screeens/add_products/addpost_page/add_products.dart';
+import 'package:inventory_management_system/presentation/screeens/add_products/producteditpage.dart';
+import 'package:inventory_management_system/presentation/screeens/add_products/productllist_page.dart';
 import 'package:inventory_management_system/presentation/screeens/category/add_category%20.dart';
 import 'package:inventory_management_system/presentation/screeens/category/subcategorypage.dart';
+import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
 import 'package:inventory_management_system/presentation/screeens/profile_page.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomElevatedButton.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
@@ -29,51 +33,49 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize( preferredSize: Size.fromHeight(.065.sh), 
-      
-       child: AppBar(
-            automaticallyImplyLeading: false,
-            title: const Text(
-              "Category",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            centerTitle: true, // Center the title
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 12.0),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ProfilePage()),
-                    );
-                  },
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      'https://res.cloudinary.com/duyqxp4er/image/upload/v1731928002/vifrvccl1prd2uzetj2k.jpg', // Replace with your avatar URL
-                    ),
-                    radius: 15, // Adjust the radius as needed
-                    // Add a white border
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.white70, // Border color
-                          width:1.0, // Border width
-                        ),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(.065.sh),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text(
+            "Category",
+            style: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.normal, color: white),
+          ),
+          centerTitle: true, // Center the title
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProfilePage()),
+                  );
+                },
+                child: CircleAvatar(
+                  backgroundImage: const NetworkImage(
+                    'https://res.cloudinary.com/duyqxp4er/image/upload/v1731928002/vifrvccl1prd2uzetj2k.jpg', // Replace with your avatar URL
+                  ),
+                  radius: 15, // Adjust the radius as needed
+                  // Add a white border
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.white70, // Border color
+                        width: 1.0, // Border width
                       ),
                     ),
                   ),
                 ),
               ),
-            ],
-            backgroundColor: Colors.blue, // Change the background color as needed
-          ),
+            ),
+          ],
+          backgroundColor: Colors.blue, // Change the background color as needed
+        ),
       ),
-
       body: BlocConsumer<CategoryBloc, CategoryState>(
         listener: (context, state) {
           if (state is AddCategoryErrorState) {
@@ -109,6 +111,8 @@ class _CategoryPageState extends State<CategoryPage> {
             if (state.categoryModel.isEmpty) {
               return const Center(child: Text("No Categories Available"));
             } else {
+              final List<CategoryModel> categoryModel = state.categoryModel;
+
               return ListView.builder(
                 itemCount: state.categoryModel.length,
                 itemBuilder: (context, index) {
@@ -118,7 +122,9 @@ class _CategoryPageState extends State<CategoryPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Subcategorypage(),
+                          builder: (context) => ProductPage(
+                            category: categoryModel[index],
+                          ),
                         ),
                       );
                     },
@@ -157,47 +163,144 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4, // Adjust the elevation for shadow effect
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10), // Rounded corners
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Placeholder for product image
-          Container(
-            height: 200,
-            width: 200,
-            color: Colors.grey[300], // Placeholder color
-            child: Image.network(
-              category.categoryImage.toString(), // Ensure this is a valid URL
-              fit: BoxFit.fill, // Adjust the image to fit within the container
-              errorBuilder: (context, error, stackTrace) {
-                return const Center(child: Text('Image failed to load'));
-              },
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) {
-                  return child; // If the image has loaded, show it
-                }
+    return Padding(
+      padding: const EdgeInsets.all(3.0),
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Center(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                h10,
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blue),
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  height: 0.350.sh,
+                  width: .600.sw,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Image.network(
+                      category.categoryImage.toString(),
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Center(
+                            child: Text('Image failed to load'));
+                      },
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
 
-                return const Center(child: CircularProgressIndicator());
-              },
+                        return const Center(child: ShimmerLoading());
+                      },
+                    ),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 3, 0, 0),
+                      child: CustomText(
+                        text: category.productCategory.toString(),
+                        fontSize: 24,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold,
+                        color: black,
+                      ),
+                    ),
+                    h10,
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          text: '''  Purchased 
+      Quantity   :  ''',
+                          fontSize: 14,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.normal,
+                          color: black,
+                        ),
+                        CustomText(
+                          text: '200',
+                          fontSize: 14,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.normal,
+                          color: black,
+                        ),
+                      ],
+                    ),
+                    h10,
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          text: "Sold : ",
+                          fontSize: 14,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.normal,
+                          color: black,
+                        ),
+                        CustomText(
+                          text: '200',
+                          fontSize: 14,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.normal,
+                          color: black,
+                        ),
+                      ],
+                    ),
+                    h5,
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          text: "Balance : ",
+                          fontSize: 14,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.normal,
+                          color: black,
+                        ),
+                        CustomText(
+                          text: '200',
+                          fontSize: 14,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.normal,
+                          color: black,
+                        ),
+                      ],
+                    ),
+                    CustomElevatedButton(
+                        text: "Reports",
+                        height: 00.07.sh,
+                        width: 0.3.sw,
+                        color: blue,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.normal,
+                        paddingHorizontal: 0.01.sh,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  MainScreens(initialIndex: 3),
+                            ),
+                          );
+                        })
+                  ],
+                ),
+                const SizedBox(height: 5),
+              ],
             ),
           ),
-          //  SizedBox(height: 10), // Adjusted spacing
-          Padding(
-            padding: const EdgeInsets.fromLTRB(5, 3, 0, 0),
-            child: CustomText(
-              text: category.productCategory.toString(),
-              fontSize: 24, // Adjust font size as needed
-              fontStyle: FontStyle.italic,
-              fontWeight: FontWeight.bold,
-              color: Colors.black, // Use Colors.black instead of black
-            ),
-          ),
-          const SizedBox(height: 5), // Adjusted spacing
-        ],
+        ),
       ),
     );
   }

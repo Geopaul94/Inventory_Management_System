@@ -48,7 +48,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: CustomAppBar(
+          appBar: const CustomAppBar(
             title: "Add Category",
             backarrow: true,
           ),
@@ -61,7 +61,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: .15.sh,
+                    height: .04.sh,
                   ),
                   AddPhotoContainer(onImageSelected: (image) {
                     croppedImage = image;
@@ -73,7 +73,10 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            const CustomText(
+                            SizedBox(
+                              width: 0.03.sw,
+                            ),
+                            CustomText(
                               text: "Category",
                               color: Colors.black,
                               fontSize: 20,
@@ -83,6 +86,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                         ),
                         h5,
                         CustomTextFormField(
+                          width: .88.sw,
+                          minLines: 1,
                           labelText: "Product Category",
                           icon: CupertinoIcons.add_circled,
                           controller: _categoryController,
@@ -99,35 +104,42 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
           ),
           floatingActionButton: state is AddCategoryLoadingstate
               ? Padding(
-                padding: EdgeInsets.symmetric(vertical: .090.sh,horizontal: .01.sw),
-                child: const FloatingActionButton(
+                  padding: EdgeInsets.symmetric(
+                      vertical: .090.sh, horizontal: .01.sw),
+                  child: const FloatingActionButton(
                     backgroundColor: Colors.blue,
                     onPressed: null,
                     child: CircularProgressIndicator(color: Colors.black),
                   ),
-              )
+                )
               : Padding(
-                padding:  EdgeInsets.symmetric(vertical: .090.sh,horizontal: .01.sw),
-                child: FloatingActionButton.extended(
+                  padding: EdgeInsets.symmetric(
+                      vertical: .090.sh, horizontal: .01.sw),
+                  child: FloatingActionButton.extended(
                     backgroundColor: Colors.blue,
                     foregroundColor: Colors.white,
                     onPressed: () {
+                      if (croppedImage == null) {
+                        customSnackbar(context, "Add Category Image ", red);
+                        return;
+                      }
+
                       if (_formKey.currentState!.validate()) {
                         FocusScope.of(context).unfocus();
-                
+
                         String newCategoryId = FirebaseFirestore.instance
                             .collection('categories')
                             .doc()
                             .id;
                         Timestamp currentTime = Timestamp.now();
-                
+
                         final CategoryModel newCategory = CategoryModel(
                           categoryId: newCategoryId,
                           categoryImage: croppedImage?.path ?? '',
                           createdAt: currentTime,
                           productCategory: _categoryController.text,
                         );
-                
+
                         context.read<CategoryBloc>().add(
                             OnAddNewCategoryEvent(categoryModel: newCategory));
                       }
@@ -135,7 +147,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                     icon: const Icon(Icons.add),
                     label: const Text('Save'),
                   ),
-              ),
+                ),
         );
       },
     );

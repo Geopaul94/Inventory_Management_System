@@ -27,6 +27,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
     try {
       await FirestoreServiceCategoryModel().addCategorywithImage(category);
+
+
       emit(AddCategoryedSucessState()); // Emit success state
     } catch (e) {
       if (e is FirebaseException) {
@@ -45,6 +47,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     try {
       final List<CategoryModel> categories =
           await FirestoreServiceCategoryModel().fetchCategories();
+          categories.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+        
       emit(FetchAllCategoryInitialState(categoryModel: categories)); // Emit success state with data
     } catch (e) {
       emit(FetchAllCategoryErrorState(error: e.toString())); // Emit error state

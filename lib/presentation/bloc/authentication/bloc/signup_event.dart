@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:inventory_management_system/data/models/user_data_model.dart';
 
 abstract class SignUpEvent extends Equatable {
   const SignUpEvent();
@@ -49,4 +50,11 @@ class ConfirmPasswordChanged extends SignUpEvent {
 
 class SignUpSubmitted extends SignUpEvent {
   const SignUpSubmitted();
+}
+
+
+class OnsignUpButtonClicked extends SignUpEvent{
+  final UserModel user;
+
+  OnsignUpButtonClicked({required this.user});
 }

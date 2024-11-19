@@ -3,16 +3,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:inventory_management_system/data/models/catergorey/category_model.dart';
 import 'package:inventory_management_system/data/models/customer_details_model.dart';
-import 'package:inventory_management_system/main.dart';
 import 'package:inventory_management_system/presentation/bloc/customers/customers_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/addcustomer/add_customer.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomElevatedButton.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
 
 import 'package:inventory_management_system/presentation/widgets/CustomeAppbar.dart';
-import 'package:inventory_management_system/presentation/widgets/custome_snackbar.dart';
 import 'package:inventory_management_system/presentation/widgets/shimmer_loading.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
 
@@ -27,27 +24,10 @@ class _CustomersPageState extends State<CustomersPage> {
     super.initState();
     // Fetch all customers when the page loads
     context.read<CustomersBloc>().add(const FetchAllCustomersEvent());
+  }
 
-  
-
-
-
-
-
-
-
-
-
-
-
-}
   @override
   Widget build(BuildContext context) {
-
-
-
-
-
     return Scaffold(
       appBar: const CustomAppBar(title: "Customers"),
       body: BlocConsumer<CustomersBloc, CustomersState>(
@@ -135,7 +115,7 @@ class _CustomersPageState extends State<CustomersPage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: floatingActionButtoncolor,
-        foregroundColor: black,
+        foregroundColor: white,
         onPressed: () async {
           await Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => AddNewCustomer()),
@@ -216,9 +196,6 @@ class CustomerCard extends StatelessWidget {
     );
   }
 }
-
-
-
 
 void CustomerPageBottomSheet(
     {required BuildContext context,

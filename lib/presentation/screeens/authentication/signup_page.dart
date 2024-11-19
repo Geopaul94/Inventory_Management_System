@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,8 +8,20 @@ import 'package:inventory_management_system/presentation/bloc/authentication/blo
 import 'package:inventory_management_system/presentation/bloc/authentication/bloc/signup_state.dart';
 import 'package:inventory_management_system/presentation/screeens/authentication/login_page.dart';
 import 'package:inventory_management_system/presentation/widgets/custom_elevated_button.dart';
+import 'package:inventory_management_system/presentation/widgets/customanimation_explore_page_loading.dart';
+import 'package:inventory_management_system/presentation/widgets/custometextformfield.dart';
 
 class SignUpScreen extends StatelessWidget {
+
+
+  TextEditingController _phonenumberController =TextEditingController();
+  TextEditingController _emailController =TextEditingController();
+  TextEditingController _PasswordController =TextEditingController();
+  TextEditingController _ConfirmPassowrdController =TextEditingController();
+   
+  
+TextEditingController _ShopNameController =TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +51,7 @@ class SignUpForm extends StatelessWidget {
             BlocBuilder<SignUpBloc, SignUpState>(
               builder: (context, state) {
                 if (state is SignUpLoading) {
-                  return const CircularProgressIndicator();
+                  return const SpinningLinesExample();
                 } else if (state is SignUpFailure) {
                   return Text('Error: ${state.error}',
                       style: const TextStyle(color: Colors.red));
@@ -47,11 +60,9 @@ class SignUpForm extends StatelessWidget {
                 }
               },
             ),
-            TextFormField(
-              decoration: const InputDecoration(labelText: 'Username'),
-              onChanged: (value) =>
-                  context.read<SignUpBloc>().add(UsernameChanged(value)),
-            ),
+
+            CustomTextFormField(labelText: 'Shope Name', icon: CupertinoIcons.home, controller: _ShopNameController),
+     
             TextFormField(
               decoration: const InputDecoration(labelText: 'Email'),
               onChanged: (value) =>

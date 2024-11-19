@@ -3,10 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
+
 class AddPhotoContainer extends StatefulWidget {
   final Function(File?) onImageSelected; // Callback function
 
-  const AddPhotoContainer({Key? key, required this.onImageSelected}) : super(key: key);
+  const AddPhotoContainer({Key? key, required this.onImageSelected})
+      : super(key: key);
 
   @override
   _AddPhotoContainerState createState() => _AddPhotoContainerState();
@@ -16,7 +18,8 @@ class _AddPhotoContainerState extends State<AddPhotoContainer> {
   File? _imageFile;
 
   Future<void> _pickAndCropImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       final croppedFile = await _cropImage(pickedFile.path);
@@ -62,7 +65,9 @@ class _AddPhotoContainerState extends State<AddPhotoContainer> {
     return GestureDetector(
       onTap: _pickAndCropImage,
       child: Container(
-        decoration: BoxDecoration(border: Border.all()),
+        decoration: BoxDecoration(
+            border: Border.all(),
+            borderRadius: const BorderRadius.all(Radius.circular(20))),
         height: size.height * 0.50,
         width: size.width * 0.85,
         child: Stack(
@@ -83,7 +88,9 @@ class _AddPhotoContainerState extends State<AddPhotoContainer> {
                   children: [
                     Icon(CupertinoIcons.photo, color: Colors.grey, size: 50),
                     SizedBox(height: 5),
-                    Text('Add Image....', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey)),
+                    Text('Add Image....',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, color: Colors.grey)),
                   ],
                 ),
               ),
@@ -94,9 +101,9 @@ class _AddPhotoContainerState extends State<AddPhotoContainer> {
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
-                      _imageFile = null; 
+                      _imageFile = null;
                     });
-                    widget.onImageSelected(null); 
+                    widget.onImageSelected(null);
                   },
                   child: const Icon(Icons.delete, color: Colors.red, size: 30),
                 ),

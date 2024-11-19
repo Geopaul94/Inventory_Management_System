@@ -8,7 +8,8 @@ class SalesDetailsModel {
   final String product;
   final int quantity;
   final String cash;
-    final String Time;
+  final String productCategory;
+  final String Time;
   final Timestamp createdAt;
 
   SalesDetailsModel({
@@ -19,7 +20,9 @@ class SalesDetailsModel {
     required this.product,
     required this.quantity,
     required this.cash,
-    required this.createdAt,required this. Time,
+    required this.createdAt,
+    required this.productCategory,
+    required this.Time,
   });
 
   // Convert SalesDetailsModel to a Map to pass data to Firestore
@@ -33,7 +36,8 @@ class SalesDetailsModel {
       'quantity': quantity,
       'cash': cash,
       'createdAt': createdAt,
-          'Time': Time,
+      'Time': Time,
+      'productCategory': productCategory,
     };
   }
 
@@ -48,11 +52,9 @@ class SalesDetailsModel {
       paymentMethod: data?['paymentmethod'] ?? '',
       product: data?['product'] ?? '',
       quantity: data?['quantity'] ?? 1,
-
-
-          Time: data?['Time'] ?? '',
-
+      Time: data?['Time'] ?? '',
       cash: data?['cash'] ?? '',
+      productCategory: data?['productCategory'] ?? '',
       createdAt: data?['createdAt'] ?? Timestamp.now(),
     );
   }

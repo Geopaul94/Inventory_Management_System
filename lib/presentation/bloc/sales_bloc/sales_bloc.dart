@@ -1,25 +1,19 @@
-import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:inventory_management_system/data/models/sales_model.dart';
-import 'package:inventory_management_system/data/repository/customer_details/cusomer_data.dart';
 import 'package:inventory_management_system/data/repository/sale/sales_data.dart';
-import 'package:inventory_management_system/presentation/bloc/add_product/addproduct_state.dart';
-import 'package:inventory_management_system/presentation/bloc/customers/customers_bloc.dart';
 
 part 'sales_event.dart';
 part 'sales_state.dart';
 
 class SalesBloc extends Bloc<SalesEvent, SalesState> {
   SalesBloc() : super(SalesInitial()) {
-    on<SalesEvent>((event, emit) {
-      on<FetchAllSalesInitialEvent>(_fetchallsalesinitial);
+    on<FetchAllSalesInitialEvent>(_fetchallsalesinitial);
       on<OnAddNewSaleButtonClickedEvent>(_addnewsalebuttonclicked);
       on<OnUpdateButtonClickedSaleEvent>(_onUpdateCustomerButtonClick);
       on<OnDeleteButtonClickedSaleEvent>(_onDeleteCustomerButtonClick);
-    });
   }
 
   Future<void> _onDeleteCustomerButtonClick(
@@ -53,13 +47,8 @@ class SalesBloc extends Bloc<SalesEvent, SalesState> {
           await FirebaseFirestore.instance.collection('sales').get();
 
       // Convert Firestore documents to a list of SalesDetailsModel
-      List<SalesDetailsModel> salesDetails = querySnapshot.docs.map((doc) {
-        // Cast the QueryDocumentSnapshot to DocumentSnapshot<Map<String, dynamic>>
-        DocumentSnapshot<Map<String, dynamic>> snapshot =
-            doc as DocumentSnapshot<Map<String, dynamic>>;
-        return SalesDetailsModel.fromFirestore(snapshot);
-      }).toList();
-
+      List<SalesDetailsModel> salesDetails =await FirestoreServiceSales().fetchAllSales();
+ salesDetails.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       // Emit success state with fetched sales details
       emit(FetchAllSaleSuccessState(salesDetailsModel: salesDetails));
       print('Sales fetched successfully!');

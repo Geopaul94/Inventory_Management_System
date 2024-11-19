@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:inventory_management_system/data/models/sales_model.dart';
 
 class FirestoreServiceSales {
@@ -63,14 +64,3 @@ Future<void> updateSale(SalesDetailsModel sale) async {
 }
 
 }
-
-// Future<void> fetchAllSales() async {
-//   try {
-//     List<SalesDetailsModel> salesList = await FirestoreServiceSales().fetchAllSales();
-//     for (var sale in salesList) {
-//       print('Fetched Sale: ${sale.toMap()}');
-//     }
-//   } catch (e) {
-//     print('Error fetching all sales: $e');
-//   }
-// }

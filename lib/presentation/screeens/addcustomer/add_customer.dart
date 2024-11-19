@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inventory_management_system/data/models/customer_details_model.dart';
 import 'package:inventory_management_system/presentation/bloc/customers/customers_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
@@ -31,13 +32,14 @@ class AddNewCustomer extends StatelessWidget {
             // Navigate to the next page upon success
 
             customSnackbar(context, "CustomerData added Successfully", green);
-           FocusScope.of(context).unfocus();
-      
-      // Navigate to the next screen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MainScreens(initialIndex: 2)),
-      );
+            FocusScope.of(context).unfocus();
+
+            // Navigate to the next screen
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MainScreens(initialIndex: 2)),
+            );
           } else if (state is CustomersErrorState) {
             // Show error message if there is an error
             ScaffoldMessenger.of(context).showSnackBar(
@@ -109,46 +111,52 @@ class AddNewCustomer extends StatelessWidget {
         builder: (context, state) {
           if (state is CustomersLoadingState) {
             // Show a circular progress indicator when loading
-            return const FloatingActionButton(
-              backgroundColor: Colors.grey,
-              onPressed: null,
-              child: CircularProgressIndicator(color: Colors.white),
+            return Padding(
+              padding:  EdgeInsets.symmetric(vertical: .090.sh, horizontal: .01.sw),
+              child: const FloatingActionButton(
+                backgroundColor: Colors.grey,
+                onPressed: null,
+                child: CircularProgressIndicator(color: Colors.white),
+              ),
             );
           }
 
-          return FloatingActionButton.extended(
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                // Create the customer model from the form data
-
-                String NewCustomerId = FirebaseFirestore.instance
-                    .collection('products')
-                    .doc()
-                    .id; // Generate a new ID
-                Timestamp currentTime =
-                    Timestamp.now(); // Get the current timestamp
-
-                final newCustomer = CustomerDetailsModel(
-                  customerId: NewCustomerId, // Generate a unique ID
-                  customerName: _customerNameController.text,
-                  phoneNumber: _customerPhoneNumberController.text,
-                  address: _customerAddressController.text,
-                  createdAt: currentTime,
-                );
-
-                // Trigger the Bloc event to add a new customer
-                context.read<CustomersBloc>().add(
-                      OnSaveButtonCustomerClikEvent(
-                          customerDetailsModel: newCustomer),
-                    );
-
-                FocusScope.of(context).unfocus(); // Close the keyboard
-              }
-            },
-            icon: const Icon(Icons.add),
-            label: const Text('Save'),
+          return Padding(
+            padding: EdgeInsets.symmetric(vertical: .090.sh, horizontal: .01.sw),
+            child: FloatingActionButton.extended(
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.white,
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  // Create the customer model from the form data
+            
+                  String NewCustomerId = FirebaseFirestore.instance
+                      .collection('products')
+                      .doc()
+                      .id; // Generate a new ID
+                  Timestamp currentTime =
+                      Timestamp.now(); // Get the current timestamp
+            
+                  final newCustomer = CustomerDetailsModel(
+                    customerId: NewCustomerId, // Generate a unique ID
+                    customerName: _customerNameController.text,
+                    phoneNumber: _customerPhoneNumberController.text,
+                    address: _customerAddressController.text,
+                    createdAt: currentTime,
+                  );
+            
+                  // Trigger the Bloc event to add a new customer
+                  context.read<CustomersBloc>().add(
+                        OnSaveButtonCustomerClikEvent(
+                            customerDetailsModel: newCustomer),
+                      );
+            
+                  FocusScope.of(context).unfocus(); // Close the keyboard
+                }
+              },
+              icon: const Icon(Icons.add),
+              label: const Text('Save'),
+            ),
           );
         },
       ),

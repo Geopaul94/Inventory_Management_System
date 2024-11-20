@@ -47,7 +47,7 @@ class _MainScreensState extends State<MainScreens> {
     CategoryPage(),
     SalesPage(),
     CustomersPage(),
-     Reportpage(),
+     ProfilePage(),
   ];
 
   @override
@@ -105,8 +105,8 @@ class _MainScreensState extends State<MainScreens> {
                   text: 'Customers',
                 ),
                 GButton(
-                  icon: CupertinoIcons.chart_bar_square,
-                  text: 'Reports',
+                  icon: CupertinoIcons.person,
+                  text: 'Profile',
                 ),
               ],
               selectedIndex: _selectedIndex.value,

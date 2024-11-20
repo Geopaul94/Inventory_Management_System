@@ -1,19 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inventory_management_system/data/models/customer_details_model.dart';
 import 'package:inventory_management_system/presentation/bloc/customers/customers_bloc.dart';
+import 'package:inventory_management_system/presentation/bloc/sales_bloc/sales_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomeAppbar.dart';
 import 'package:inventory_management_system/presentation/widgets/custome_snackbar.dart';
 import 'package:inventory_management_system/presentation/widgets/custometextformfield.dart';
+
 import 'package:inventory_management_system/presentation/widgets/validations.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
 
-class AddNewCustomer extends StatelessWidget {
+class CustomerUpdatePage extends StatelessWidget {
+  final CustomerDetailsModel updatedata;
   final TextEditingController _customerNameController = TextEditingController();
   final TextEditingController _customerPhoneNumberController =
       TextEditingController();
@@ -23,18 +27,26 @@ class AddNewCustomer extends StatelessWidget {
       TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  AddNewCustomer({super.key});
+  CustomerUpdatePage({super.key, required this.updatedata});
 
   @override
   Widget build(BuildContext context) {
+    _customerNameController.text = updatedata.customerName;
+
+    _customerAddressController.text = updatedata.address;
+
+    _customerPhoneNumberController.text = updatedata.phoneNumber.toString();
+
+    _customerEmailcontroller.text = updatedata.email;
+
     return Scaffold(
-      appBar: const CustomAppBar(title: "Add New Customer"),
+      appBar: const CustomAppBar(title: "Updare Customer data"),
       body: BlocConsumer<CustomersBloc, CustomersState>(
         listener: (context, state) {
-          if (state is CustomersAddSuccessState) {
+          if (state is CustomersUpdateSuccessState) {
             // Navigate to the next page upon success
 
-            customSnackbar(context, "CustomerData added Successfully", green);
+            customSnackbar(context, "CustomerData Updated Successfully", green);
             FocusScope.of(context).unfocus();
 
             // Navigate to the next screen
@@ -43,10 +55,10 @@ class AddNewCustomer extends StatelessWidget {
               MaterialPageRoute(
                   builder: (context) => MainScreens(initialIndex: 2)),
             );
-          } else if (state is CustomersErrorState) {
+          } else if (state is CustomersDeleteErrorState) {
             // Show error message if there is an error
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage)),
+              SnackBar(content: Text(state.error)),
             );
           }
         },
@@ -123,8 +135,7 @@ class AddNewCustomer extends StatelessWidget {
       ),
       floatingActionButton: BlocBuilder<CustomersBloc, CustomersState>(
         builder: (context, state) {
-          if (state is CustomersLoadingState) {
-            // Show a circular progress indicator when loading
+          if (state is CustomersLoadingUpdateState) {
             return Padding(
               padding:
                   EdgeInsets.symmetric(vertical: .090.sh, horizontal: .01.sw),
@@ -146,15 +157,12 @@ class AddNewCustomer extends StatelessWidget {
                 if (_formKey.currentState!.validate()) {
                   // Create the customer model from the form data
 
-                  String NewCustomerId = FirebaseFirestore.instance
-                      .collection('products')
-                      .doc()
-                      .id; // Generate a new ID
+                  String ustomerId = updatedata.customerId;
                   Timestamp currentTime =
                       Timestamp.now(); // Get the current timestamp
 
                   final newCustomer = CustomerDetailsModel(
-                    customerId: NewCustomerId, // Generate a unique ID
+                    customerId: ustomerId, // Generate a unique ID
                     customerName: _customerNameController.text,
                     phoneNumber: _customerPhoneNumberController.text,
                     address: _customerAddressController.text,
@@ -164,7 +172,7 @@ class AddNewCustomer extends StatelessWidget {
 
                   // Trigger the Bloc event to add a new customer
                   context.read<CustomersBloc>().add(
-                        OnSaveButtonCustomerClikEvent(
+                        OnUpdateCustomerButtonClikEvent(
                             customerDetailsModel: newCustomer),
                       );
 

@@ -73,6 +73,7 @@ dependencies:
   url_launcher: ^6.3.1
   excel: ^4.0.6
   google_sign_in: ^6.2.2
+  bloc: ^8.1.4
 
 
 dev_dependencies:
@@ -103,6 +104,8 @@ flutter:
     - assets/images/qr.png 
     - assets/images/qr.png 
     - assets/images/seal.png
+    - assets/images/g_logo.png
+    - assets/images/inventro.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

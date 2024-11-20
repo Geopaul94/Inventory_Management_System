@@ -55,6 +55,17 @@ class CustomersUpdateSuccessState extends CustomersState {
   List<Object> get props => [customerDetailsModel];
 }
 
+class CustomersLoadingUpdateState extends CustomersState {}
+
+class CustomersErrorUpdateState extends CustomersState {
+  final String error;
+
+  CustomersErrorUpdateState({required this.error});
+
+  @override
+  List<Object> get props => [error];
+}
+
 // Success state for deleting a customer
 class CustomersDeleteSuccessState extends CustomersState {
   final String customerId; // Assuming customerId is a String
@@ -63,6 +74,21 @@ class CustomersDeleteSuccessState extends CustomersState {
 
   @override
   List<Object> get props => [customerId];
+}
+
+// Success state for deleting a customer
+class CustomersDeleteErrorState extends CustomersState {
+  final String error;
+
+  CustomersDeleteErrorState({required this.error});
+
+  @override
+  List<Object> get props => [error];
+}
+
+class CustomersDeleteLoadingState extends CustomersState {
+  @override
+  List<Object> get props => [];
 }
 
 // Error state

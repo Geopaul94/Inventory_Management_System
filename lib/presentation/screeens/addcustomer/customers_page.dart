@@ -5,7 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inventory_management_system/data/models/customer_details_model.dart';
 import 'package:inventory_management_system/presentation/bloc/customers/customers_bloc.dart';
+import 'package:inventory_management_system/presentation/bloc/customers/customers_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/addcustomer/add_customer.dart';
+import 'package:inventory_management_system/presentation/screeens/addcustomer/customer_update_page.dart';
+import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomElevatedButton.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
 
@@ -67,6 +70,8 @@ class _CustomersPageState extends State<CustomersPage> {
                 return GestureDetector(
                   onTap: () {
                     CustomerPageBottomSheet(
+                      updatedata: customer,
+                      customerId: customer.customerId,
                       context: context,
                       builder: (context) {
                         return Container(
@@ -75,7 +80,7 @@ class _CustomersPageState extends State<CustomersPage> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               ElevatedButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   // Delete the customer
                                   // Implement your deletion logic here, e.g., using a provider or BLoC to update the state
                                   if (kDebugMode) {
@@ -139,7 +144,7 @@ class CustomerCard extends StatelessWidget {
       elevation: 5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -157,23 +162,31 @@ class CustomerCard extends StatelessWidget {
                       color: black,
                     ),
                     const SizedBox(height: 8),
+                    CustomText(
+                      text: customer.email,
+                      fontSize: 18,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.normal,
+                      color: black,
+                    ),
+                    const SizedBox(height: 8),
+                    CustomText(
+                      text: customer.phoneNumber,
+                      fontSize: 18,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
+                      color: black,
+                    ),
                     h10,
                     CustomText(
                       text: customer.address,
-                      fontSize: 20,
+                      fontSize: 16,
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold,
                       color: black,
                     ),
                     const SizedBox(height: 8),
                     h10,
-                    CustomText(
-                      text: customer.phoneNumber,
-                      fontSize: 24,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold,
-                      color: black,
-                    ),
                     const SizedBox(height: 8),
                   ],
                 ),
@@ -182,9 +195,10 @@ class CustomerCard extends StatelessWidget {
                   radius: 50,
                   backgroundColor: Colors.green,
                   child: CircleAvatar(
-                    radius: 48,
+                    radius: 49,
                     backgroundColor: Colors.white,
-                    child: Icon(CupertinoIcons.person, color: Colors.black),
+                    child: Icon(CupertinoIcons.person,
+                        size: 50, color: Colors.black),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -197,12 +211,15 @@ class CustomerCard extends StatelessWidget {
   }
 }
 
-void CustomerPageBottomSheet(
-    {required BuildContext context,
-    required Container Function(dynamic context) builder}) {
+void CustomerPageBottomSheet({
+  required BuildContext context,
+  required Container Function(dynamic context) builder,
+  required String customerId,
+  required CustomerDetailsModel updatedata
+}) {
   showModalBottomSheet(
     context: context,
-    backgroundColor: Colors.grey[700],
+    backgroundColor: const Color.fromARGB(255, 114, 109, 109),
     builder: (BuildContext context) {
       return Padding(
         padding: const EdgeInsets.all(2.0),
@@ -212,52 +229,79 @@ void CustomerPageBottomSheet(
             Padding(
               padding: const EdgeInsets.all(14.0),
               child: CustomElevatedButton(
-                  height: .07.sh,
-                  width: .30.sw,
-                  fontSize: 22.sp,
-                  color: red,
-                  text: "Delete",
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Confirm Deletion'),
-                          content: const Text(
-                              'Are you sure you want to delete the customer data?'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context); // Close the dialog
-                              },
-                              child: const Text('Cancel'),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                // Delete the customer data here
-                                print('Deleting customer data...');
-                                Navigator.pop(context); // Close the dialog
-                                Navigator.pop(
-                                    context); // Close the bottom sheet
-                              },
-                              child: const Text('Delete'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  }),
-            ),
-            //   Spacer(),
+                height: .07.sh,
+                width: .30.sw,
+                fontSize: 22.sp,
+                color: red,
+                text: "Delete",
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Confirm Deletion'),
+                        content: const Text(
+                            'Are you sure you want to delete the customer data?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context); // Close the dialog
+                            },
+                            child: const Text('Cancel'),
+                          ),
+                          BlocBuilder<CustomersBloc, CustomersState>(
+                            builder: (context, state) {
+                              if (state is CustomersDeleteLoadingState) {
+                                return const TextButton(
+                                  onPressed:
+                                      null, // Disable button while loading
 
+                                  child: Text('Deleting...'),
+                                );
+                              }
+
+                              return TextButton(
+                                onPressed: () async {
+                                  // Trigger the delete event
+
+                                  context.read<CustomersBloc>().add(
+                                        OnDeleteCustomerButtonClikEvent(
+                                            customerId: customerId),
+                                      );
+
+                                  Navigator.pushReplacement(context,
+                                      MaterialPageRoute(
+                                    builder: (context) {
+                                      return MainScreens(
+                                        initialIndex: 2,
+                                      );
+                                    },
+                                  )); // Close the dialog
+                                },
+                                child: const Text('Delete'),
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(14.0),
               child: CustomElevatedButton(
-                  text: "Edit",
-                  height: .07.sh,
-                  width: .30.sw,
-                  fontSize: 22.sp,
-                  onPressed: () {}),
+                text: "Edit",
+                height: .07.sh,
+                width: .30.sw,
+                fontSize: 22.sp,
+                onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return CustomerUpdatePage(updatedata: updatedata,);
+                },));
+                },
+              ),
             ),
           ],
         ),

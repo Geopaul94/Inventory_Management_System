@@ -14,6 +14,8 @@ class FirestoreServiceCustomer {
       'phoneNumber': customer.phoneNumber,
       'address': customer.address,
       'createdAt': customer.createdAt,
+      'email': customer.email,
+     
     });
   }
 
@@ -53,7 +55,8 @@ class FirestoreServiceCustomer {
           customerName: doc['customerName'],
           phoneNumber: doc['phoneNumber'],
           address: doc['address'],
-          createdAt: doc['createdAt'],
+          createdAt: doc['createdAt'], 
+          email: doc['email'],
         );
       }).toList();
 

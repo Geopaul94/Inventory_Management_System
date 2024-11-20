@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 String? validateEmail(String? email) {
   if (email == null || email.isEmpty) {
@@ -12,15 +11,26 @@ String? validateEmail(String? email) {
   return null;
 }
 
+// // password validator
+// String? validatePassword(String? password) {
+//   if (password == null || password.isEmpty) {
+//     return 'Please enter a password.';
+//   }
+//   if (!RegExp(
+//           r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#?&])[A-Za-z\d@$!%#?&]{8,}$')
+//       .hasMatch(password)) {
+//     return 'Password must be at least 8 characters long and \n contain at least one uppercase letter, one lowercase letter, \none number, and one special character.';
+//   }
+//   return null;
+// }
+
 // password validator
 String? validatePassword(String? password) {
   if (password == null || password.isEmpty) {
     return 'Please enter a password.';
   }
-  if (!RegExp(
-          r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#?&])[A-Za-z\d@$!%#?&]{8,}$')
-      .hasMatch(password)) {
-    return 'Password must be at least 8 characters long and \n contain at least one uppercase letter, one lowercase letter, \none number, and one special character.';
+  if (password.length > 5) {
+    return 'Password must be at least 6 characters ';
   }
   return null;
 }
@@ -86,9 +96,6 @@ String? validateBio(String? bio) {
   return null;
 }
 
-
-
-
 /// Validate product description
 String? validateProductDescription(String? description) {
   if (description == null || description.isEmpty) {
@@ -117,8 +124,6 @@ String? validateProductName(String? productName) {
   return null;
 }
 
-
-
 // Validate Customer name
 String? Customername(String? productName) {
   if (productName == null || productName.isEmpty) {
@@ -135,7 +140,6 @@ String? Customername(String? productName) {
 
 //validate Date of Purchase
 
-
 String? validateDate(String? date) {
   // Implement date validation logic here
   if (date == null || date.isEmpty) {
@@ -147,12 +151,13 @@ String? validateDate(String? date) {
   // final RegExp dateRegex = RegExp(r"^\d{2}/\d{2}/\d{4}$");
   // if (!dateRegex.hasMatch(date)) {
   //   return 'Invalid date format. Please use DD/MM/YYYY format.';
-  
+
   // You can also use a date parsing library like `intl` to parse the date and check its validity:
   // ...
 
   return null; // Valid date
 }
+
 // Validate product price
 String? validateProductPrice(String? price) {
   if (price == null || price.isEmpty) {
@@ -176,7 +181,6 @@ String? validateProductQuantity(String? quantity) {
   }
   return null;
 }
-
 
 /// Validate product description
 String? validateCustomerAddress(String? description) {

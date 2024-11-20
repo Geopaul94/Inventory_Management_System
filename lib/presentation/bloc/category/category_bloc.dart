@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:inventory_management_system/data/models/catergorey/category_model.dart';
-import 'package:inventory_management_system/data/repository/category_repository.dart';
+import 'package:inventory_management_system/data/repository/category/category_repository.dart';
 
 
 part 'category_event.dart';

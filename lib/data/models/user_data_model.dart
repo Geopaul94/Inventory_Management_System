@@ -1,11 +1,11 @@
 class UserModel {
-  final String username;
+  final String shopename;
   final String email;
   final String password;
   final String phonenumber;
 
   UserModel({
-    required this.username,
+    required this.shopename,
     required this.email,
     required this.password,
     required this.phonenumber,
@@ -18,7 +18,7 @@ class UserModel {
       String? password,
       String? phonenumber}) {
     return UserModel(
-      username: username ?? this.username,
+      shopename: username ?? this.shopename,
       email: email ?? this.email,
       password: password ?? this.password,
       phonenumber: phonenumber ?? this.phonenumber,
@@ -27,6 +27,6 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(username: $username, email: $email, password: $password ,phonenumber: $phonenumber )';
+    return 'UserModel(username: $shopename, email: $email, password: $password ,phonenumber: $phonenumber )';
   }
 }

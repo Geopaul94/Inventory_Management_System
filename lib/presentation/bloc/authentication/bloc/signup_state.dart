@@ -20,3 +20,8 @@ class SignUpFailure extends SignUpState {
   @override
   List<Object?> get props => [error];
 }
+
+
+class LoadingState extends SignUpState{}
+
+class SignupSuccessedState extends SignUpState{}

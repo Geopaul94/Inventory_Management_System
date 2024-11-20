@@ -56,7 +56,7 @@ class CustomersBloc extends Bloc<CustomersEvent, CustomersState> {
     emit(CustomersLoadingState());
     try {
       // Logic to update customer details
-      // await customerRepository.updateCustomer(event.customerDetailsModel);
+       await FirestoreServiceCustomer().updateCustomer(event.customerDetailsModel);
 
       // Emit success state with the updated customer details
       emit(CustomersUpdateSuccessState(customerDetailsModel: event.customerDetailsModel));
@@ -70,7 +70,9 @@ class CustomersBloc extends Bloc<CustomersEvent, CustomersState> {
     emit(CustomersLoadingState());
     try {
       // Logic to delete a customer
-      // await customerRepository.deleteCustomer(event.customerId);
+      await FirestoreServiceCustomer().deleteCustomer(event.customerId);
+
+
 
       // Emit success state with the deleted customer ID
       emit(CustomersDeleteSuccessState(customerId: event.customerId));

@@ -57,6 +57,8 @@ class LoginForm extends StatelessWidget {
               icon: CupertinoIcons.text_bubble,
               controller: _emailController,
             ),
+
+            SizedBox(height: 10,),
             CustomTextFormField(
               labelText: "Password",
               icon: CupertinoIcons.lock,

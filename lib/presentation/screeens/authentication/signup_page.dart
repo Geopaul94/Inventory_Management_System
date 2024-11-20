@@ -15,7 +15,7 @@ class SignUpScreen extends StatelessWidget {
 
 
   TextEditingController _phonenumberController =TextEditingController();
-  TextEditingController _emailController =TextEditingController();
+  final TextEditingController _emailController =TextEditingController();
   TextEditingController _PasswordController =TextEditingController();
   TextEditingController _ConfirmPassowrdController =TextEditingController();
    
@@ -61,12 +61,13 @@ class SignUpForm extends StatelessWidget {
               },
             ),
 
-            CustomTextFormField(labelText: 'Shope Name', icon: CupertinoIcons.home, controller: _ShopNameController),
+        //    CustomTextFormField(labelText: 'Shope Name', icon: CupertinoIcons.home, controller: _ShopNameController),
      
             TextFormField(
               decoration: const InputDecoration(labelText: 'Email'),
               onChanged: (value) =>
                   context.read<SignUpBloc>().add(EmailChanged(value)),
+                  controller: _emailController,
             ),
             TextFormField(
               decoration: const InputDecoration(labelText: 'Phone'),
@@ -92,12 +93,12 @@ class SignUpForm extends StatelessWidget {
               onPressed: () {
                 //  context.read<LoginBloc>().add(const LoginSubmitted());
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => LoginScreen(),
+                //   ),
+                // );
               },
               width: 250,
               height: 60,

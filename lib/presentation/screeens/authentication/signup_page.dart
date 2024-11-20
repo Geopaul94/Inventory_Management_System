@@ -19,7 +19,7 @@ class SignUpScreen extends StatelessWidget {
   TextEditingController _PasswordController =TextEditingController();
   TextEditingController _ConfirmPassowrdController =TextEditingController();
    
-  
+
 TextEditingController _ShopNameController =TextEditingController();
 
   @override

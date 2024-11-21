@@ -31,152 +31,154 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 200,
-                  height: 200,
-                  child: Image.asset('assets/images/inventro.png'),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomText(text: "Email"),
-                    CustomTextFormField(
-                      labelText: "Email",
-                      icon: CupertinoIcons.mail,
-                      controller: _emailController,
-                      validator: validateEmail,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    CustomText(
-                      text: "Password",
-                      fontWeight: FontWeight.bold,
-                    ),
-                    CustomTextFormField(
-                      labelText: "Password",
-                      icon: CupertinoIcons.lock,
-                      controller: _passwordController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
+        body: BlocListener<LoginBloc, LoginState>(
+      listener: (context, state) {
+        if (state is LoginSuccessState) {
+          customSnackbar(context, 'Logged In Successfully', green);
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) {
+            return MainScreens(initialIndex: 0);
+          }));
+        }
+      //   else if (state is LoginErrorState) {
+      //                 customSnackbar(context, state.error, red);
+      //               }
+       },
+      child: SafeArea(
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 200,
+                    height: 200,
+                    child: Image.asset('assets/images/inventro.png'),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(text: "Email"),
+                      CustomTextFormField(
+                        labelText: "Email",
+                        icon: CupertinoIcons.mail,
+                        controller: _emailController,
+                        validator: validateEmail,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      CustomText(
+                        text: "Password",
+                        fontWeight: FontWeight.bold,
+                      ),
+                      CustomTextFormField(
+                        labelText: "Password",
+                        icon: CupertinoIcons.lock,
+                        controller: _passwordController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          if (value.length < 6) {
+                            return 'Password must be at least 6 characters long';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
+                  h20,
+                  BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+                    if (state is LoginLoadingState) {
+                      return CircularProgressIndicator();
+                    } 
+                    return CustomGradientButton(
+                      text: 'Log in',
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          context.read<LoginBloc>().add(LoginSubmittedEvent(
+                                _emailController.text,
+                                _passwordController.text,
+                              ));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MainScreens(
+                                  initialIndex: 0,
+                                ),
+                              ));
                         }
-                        if (value.length < 6) {
-                          return 'Password must be at least 6 characters long';
-                        }
-                        return null;
                       },
-                    ),
-                  ],
-                ),
-                h20,
-                BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-                  if (state is LoginLoadingState) {
-                    return CircularProgressIndicator();
-                  } else if (state is LoginErrorState) {
-                    customSnackbar(context, state.error, red);
-                  } else if (state is LoginSuccessState) {
-                    // Schedule the snackbar and navigation to happen after the current frame
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      customSnackbar(context, 'Logged In Successfully', green);
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) {
-                        return MainScreens(initialIndex: 0);
-                      }));
-                    });
-                  }
+                      width: 250,
+                      height: 60,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      gradientColors: const [Colors.blue, Colors.purple],
+                    );
+                  }),
+                  const SizedBox(height: 20),
+                  BlocBuilder<LoginBloc, LoginState>(
+                    builder: (context, state) {
+                      if (state is LogingoogleButtonLoadingState) {
+                        return const CircularProgressIndicator();
+                      }
+                      return GestureDetector(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/g_logo.png',
+                              width: 0.12.sw,
+                              height: 0.07.sh,
+                              fit: BoxFit.cover,
+                            ),
+                            SizedBox(
+                              width: 0.02.sw,
+                            ),
+                            const Text("Sign in with Google"),
+                          ],
+                        ),
+                        onTap: () async {
+                          //    context.read<LoginBloc>().add(GoogleLoginSubmitted());
 
-                  return CustomGradientButton(
-                    text: 'Log in',
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        context.read<LoginBloc>().add(LoginSubmittedEvent(
-                              _emailController.text,
-                              _passwordController.text,
-                            ));
-                        Navigator.push(
+                          print("google button pressed");
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const CustomText(
+                        text: "Don't have an account? ",
+                        fontSize: 12,
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      const SizedBox(width: 5),
+                      CustomText(
+                        onTap: () {
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MainScreens(
-                                initialIndex: 0,
-                              ),
-                            ));
-                      }
-                    },
-                    width: 250,
-                    height: 60,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    gradientColors: const [Colors.blue, Colors.purple],
-                  );
-                }),
-                const SizedBox(height: 20),
-                BlocBuilder<LoginBloc, LoginState>(
-                  builder: (context, state) {
-                    if (state is LogingoogleButtonLoadingState) {
-                      return const CircularProgressIndicator();
-                    }
-                    return GestureDetector(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/g_logo.png',
-                            width: 0.12.sw,
-                            height: 0.07.sh,
-                            fit: BoxFit.cover,
-                          ),
-                          SizedBox(
-                            width: 0.02.sw,
-                          ),
-                          const Text("Sign in with Google"),
-                        ],
+                                builder: (context) => SignUpScreen()),
+                          );
+                        },
+                        text: "Sign up",
+                        fontSize: 20,
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
                       ),
-                      onTap: () async {
-                        //    context.read<LoginBloc>().add(GoogleLoginSubmitted());
-
-                        print("google button pressed");
-                      },
-                    );
-                  },
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const CustomText(
-                      text: "Don't have an account? ",
-                      fontSize: 12,
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
-                    ),
-                    const SizedBox(width: 5),
-                    CustomText(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignUpScreen()),
-                        );
-                      },
-                      text: "Sign up",
-                      fontSize: 20,
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ],
-                )
-              ],
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

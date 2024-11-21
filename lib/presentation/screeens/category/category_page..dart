@@ -229,7 +229,7 @@ class CategoryCard extends StatelessWidget {
                           color: black,
                         ),
                         CustomText(
-                          text: '200',
+                          text: '412',
                           fontSize: 14,
                           fontStyle: FontStyle.italic,
                           fontWeight: FontWeight.normal,
@@ -242,14 +242,14 @@ class CategoryCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         CustomText(
-                          text: "Sold : ",
+                          text: "  Sold : ",
                           fontSize: 14,
                           fontStyle: FontStyle.italic,
                           fontWeight: FontWeight.normal,
                           color: black,
                         ),
                         CustomText(
-                          text: '200',
+                          text: '          : 235',
                           fontSize: 14,
                           fontStyle: FontStyle.italic,
                           fontWeight: FontWeight.normal,
@@ -262,14 +262,14 @@ class CategoryCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         CustomText(
-                          text: "Balance : ",
+                          text: "  Balance : ",
                           fontSize: 14,
                           fontStyle: FontStyle.italic,
                           fontWeight: FontWeight.normal,
                           color: black,
                         ),
                         CustomText(
-                          text: '200',
+                          text: '    : 120',
                           fontSize: 14,
                           fontStyle: FontStyle.italic,
                           fontWeight: FontWeight.normal,
@@ -277,23 +277,23 @@ class CategoryCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    CustomElevatedButton(
-                        text: "Reports",
-                        height: 00.07.sh,
-                        width: 0.3.sw,
-                        color: blue,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.normal,
-                        paddingHorizontal: 0.01.sh,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  MainScreens(initialIndex: 3),
-                            ),
-                          );
-                        })
+                    // CustomElevatedButton(
+                    //     text: "Reports",
+                    //     height: 00.07.sh,
+                    //     width: 0.3.sw,
+                    //     color: blue,
+                    //     fontSize: 18.sp,
+                    //     fontWeight: FontWeight.normal,
+                    //     paddingHorizontal: 0.01.sh,
+                    //     onPressed: () {
+                    //       Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //           builder: (context) =>
+                    //               MainScreens(initialIndex: 3),
+                    //         ),
+                    //       );
+                    //     })
                   ],
                 ),
                 const SizedBox(height: 5),

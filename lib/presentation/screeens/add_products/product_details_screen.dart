@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inventory_management_system/data/models/product_model.dart';
@@ -34,13 +33,13 @@ class ProductDetailsScreen extends StatelessWidget {
                   onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => Producteditpage(product: product),));
                   },
-                  child: Text(
-                    'Edit',
-                    style: TextStyle(fontSize: .020.sh),
-                  ),
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.blue,
                     backgroundColor: Colors.white, 
+                  ),
+                  child: Text(
+                    'Edit',
+                    style: TextStyle(fontSize: .020.sh),
                   ),
                 ),
               ),

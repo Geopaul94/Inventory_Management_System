@@ -7,8 +7,7 @@ import 'package:image_cropper/image_cropper.dart';
 class AddPhotoContainer extends StatefulWidget {
   final Function(File?) onImageSelected; // Callback function
 
-  const AddPhotoContainer({Key? key, required this.onImageSelected})
-      : super(key: key);
+  const AddPhotoContainer({super.key, required this.onImageSelected});
 
   @override
   _AddPhotoContainerState createState() => _AddPhotoContainerState();

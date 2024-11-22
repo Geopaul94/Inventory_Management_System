@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inventory_management_system/utilities/constants/constants.dart';
 
 
 class CustomText extends StatelessWidget {

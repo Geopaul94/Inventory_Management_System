@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inventory_management_system/data/models/customer_details_model.dart';
 import 'package:inventory_management_system/presentation/bloc/customers/customers_bloc.dart';
-import 'package:inventory_management_system/presentation/bloc/sales_bloc/sales_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomeAppbar.dart';
@@ -53,7 +52,7 @@ class CustomerUpdatePage extends StatelessWidget {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => MainScreens(initialIndex: 2)),
+                  builder: (context) => const MainScreens(initialIndex: 2)),
             );
           } else if (state is CustomersDeleteErrorState) {
             // Show error message if there is an error

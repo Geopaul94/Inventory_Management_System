@@ -40,14 +40,14 @@ class MyApp extends StatelessWidget {
             BlocProvider(create: (context) => CustomersBloc()),
             BlocProvider(create: (context) => SalesBloc()),
             BlocProvider(create: (context) => CategoryBloc()),
-             BlocProvider(create: (context) => SignUpBloc()),
+            BlocProvider(create: (context) => SignUpBloc()),
             BlocProvider(create: (context) => LoginBloc()),
           ],
           child: MaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'Inventory Management System',
               theme: ThemeData(),
-              home: SplashScreen()),
+              home: const SplashScreen()),
         );
       },
     );

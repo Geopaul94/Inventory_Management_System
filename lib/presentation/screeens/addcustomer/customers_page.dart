@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inventory_management_system/data/models/customer_details_model.dart';
 import 'package:inventory_management_system/presentation/bloc/customers/customers_bloc.dart';
-import 'package:inventory_management_system/presentation/bloc/customers/customers_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/addcustomer/add_customer.dart';
 import 'package:inventory_management_system/presentation/screeens/addcustomer/customer_update_page.dart';
 import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
@@ -17,6 +16,8 @@ import 'package:inventory_management_system/presentation/widgets/shimmer_loading
 import 'package:inventory_management_system/utilities/constants/constants.dart';
 
 class CustomersPage extends StatefulWidget {
+  const CustomersPage({super.key});
+
   @override
   State<CustomersPage> createState() => _CustomersPageState();
 }
@@ -136,7 +137,7 @@ class _CustomersPageState extends State<CustomersPage> {
 class CustomerCard extends StatelessWidget {
   final CustomerDetailsModel customer;
 
-  const CustomerCard({Key? key, required this.customer}) : super(key: key);
+  const CustomerCard({super.key, required this.customer});
 
   @override
   Widget build(BuildContext context) {
@@ -272,7 +273,7 @@ void CustomerPageBottomSheet({
                                   Navigator.pushReplacement(context,
                                       MaterialPageRoute(
                                     builder: (context) {
-                                      return MainScreens(
+                                      return const MainScreens(
                                         initialIndex: 2,
                                       );
                                     },

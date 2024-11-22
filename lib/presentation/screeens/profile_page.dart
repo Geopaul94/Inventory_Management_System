@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inventory_management_system/data/repository/authentication/auth_service.dart';
 import 'package:inventory_management_system/presentation/screeens/authentication/login_page.dart';
@@ -16,8 +15,8 @@ class ProfilePage extends StatelessWidget {
           Center(
             child: CustomGradientButton(text: "Logout", onPressed:() {
                   AuthService().signOut(context); 
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
-            }, gradientColors: [AppColors.primaryColor,Colors.green]),
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen(),));
+            }, gradientColors: const [AppColors.primaryColor,Colors.green]),
           )
         ],
       )),

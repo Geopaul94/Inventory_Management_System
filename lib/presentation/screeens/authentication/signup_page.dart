@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:inventory_management_system/data/models/user_data_model.dart';
 import 'package:inventory_management_system/presentation/bloc/authentication/bloc/signup_bloc.dart';
 import 'package:inventory_management_system/presentation/bloc/authentication/bloc/signup_event.dart';
@@ -10,7 +8,6 @@ import 'package:inventory_management_system/presentation/bloc/authentication/blo
 import 'package:inventory_management_system/presentation/screeens/authentication/login_page.dart';
 import 'package:inventory_management_system/presentation/widgets/custom_elevated_button.dart';
 import 'package:inventory_management_system/presentation/widgets/customanimation_explore_page_loading.dart';
-import 'package:inventory_management_system/presentation/widgets/custometextformfield.dart';
 
 class SignUpScreen extends StatelessWidget {
   final TextEditingController _phonenumberController = TextEditingController();
@@ -22,6 +19,8 @@ class SignUpScreen extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
   bool isloading = false;
+
+  SignUpScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -32,7 +31,7 @@ class SignUpScreen extends StatelessWidget {
             isloading = true;
           } else if (state is SignupSuccessedState) {
             Navigator.of(context).pushAndRemoveUntil(
-                (MaterialPageRoute(builder: (context) => LoginScreen())),
+                (MaterialPageRoute(builder: (context) => const LoginScreen())),
                 (route) => false);
           }
         },
@@ -155,7 +154,7 @@ class SignUpScreen extends StatelessWidget {
                         height: 60,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        gradientColors: [Colors.blue, Colors.purple],
+                        gradientColors: const [Colors.blue, Colors.purple],
                       ),
                     ],
                   ),

@@ -5,5 +5,5 @@ class Subcategorypage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("data"),);}
+    return const Center(child: Text("data"),);}
 }

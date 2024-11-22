@@ -1,16 +1,13 @@
 
 
-import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_management_system/presentation/bloc/fetchproductlist/fetchproductlist_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/addcustomer/customers_page.dart';
-import 'package:inventory_management_system/presentation/screeens/add_products/productllist_page.dart';
 import 'package:inventory_management_system/presentation/screeens/category/category_page..dart';
 import 'package:inventory_management_system/presentation/screeens/profile_page.dart';
-import 'package:inventory_management_system/presentation/screeens/reporsts/reportpage.dart';
 import 'package:inventory_management_system/presentation/screeens/sales_screen/sales_page.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -18,7 +15,7 @@ class MainScreens extends StatefulWidget {
   final int initialIndex; // Add a parameter for the initial index
 
   // Constructor with optional initialIndex (default to 0)
-  MainScreens({Key? key, this.initialIndex = 0}) : super(key: key);
+  const MainScreens({super.key, this.initialIndex = 0});
 
   @override
   _MainScreensState createState() => _MainScreensState();
@@ -33,7 +30,7 @@ class _MainScreensState extends State<MainScreens> {
   
     _selectedIndex = ValueNotifier<int>(widget.initialIndex);
 
-    print("==============================${_selectedIndex} ");
+    print("==============================$_selectedIndex ");
 
     if (_selectedIndex.value ==0) {
 
@@ -44,10 +41,10 @@ class _MainScreensState extends State<MainScreens> {
 
   // Define the pages for the navigation bar
   static final List<Widget> _pages = <Widget>[
-    CategoryPage(),
-    SalesPage(),
-    CustomersPage(),
-     ProfilePage(),
+    const CategoryPage(),
+    const SalesPage(),
+    const CustomersPage(),
+     const ProfilePage(),
   ];
 
   @override
@@ -88,7 +85,7 @@ class _MainScreensState extends State<MainScreens> {
             tabBorderRadius:  10,
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
               duration: const Duration(milliseconds: 400),
-              tabBackgroundColor: const Color.fromARGB(91, 8, 95, 235)!,
+              tabBackgroundColor: const Color.fromARGB(91, 8, 95, 235),
               color: Colors.black,
               tabs: const [
                 GButton(

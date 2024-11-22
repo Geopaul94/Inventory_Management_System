@@ -1,24 +1,18 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inventory_management_system/data/models/catergorey/category_model.dart';
 import 'package:inventory_management_system/presentation/bloc/category/category_bloc.dart';
-import 'package:inventory_management_system/presentation/screeens/add_products/addpost_page/add_products.dart';
-import 'package:inventory_management_system/presentation/screeens/add_products/producteditpage.dart';
 import 'package:inventory_management_system/presentation/screeens/add_products/productllist_page.dart';
 import 'package:inventory_management_system/presentation/screeens/category/add_category%20.dart';
-import 'package:inventory_management_system/presentation/screeens/category/subcategorypage.dart';
-import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
-import 'package:inventory_management_system/presentation/screeens/profile_page.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomElevatedButton.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
-import 'package:inventory_management_system/presentation/widgets/CustomeAppbar.dart';
 import 'package:inventory_management_system/presentation/widgets/shimmer_loading.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
 
 class CategoryPage extends StatefulWidget {
+  const CategoryPage({super.key});
+
   @override
   State<CategoryPage> createState() => _CategoryPageState();
 }
@@ -145,7 +139,7 @@ class _CategoryPageState extends State<CategoryPage> {
           await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddCategoryPage(),
+              builder: (context) => const AddCategoryPage(),
             ),
           );
         },
@@ -159,7 +153,7 @@ class _CategoryPageState extends State<CategoryPage> {
 class CategoryCard extends StatelessWidget {
   final CategoryModel category;
 
-  const CategoryCard({Key? key, required this.category}) : super(key: key);
+  const CategoryCard({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {

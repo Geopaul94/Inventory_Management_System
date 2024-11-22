@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inventory_management_system/presentation/screeens/authentication/login_page.dart';
 import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
@@ -14,21 +13,24 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Call the method to check user sign-in status
     _checkUserSignIn(context);
-    
+
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         height: double.infinity,
         width: double.infinity,
-        child: Center(
-          child: Lottie.asset('assets/animation/inventory_animation.json'),
+        child: SafeArea(
+          child: Center(
+            child: Lottie.asset('assets/animation/inventory_animation.json'),
+          ),
         ),
       ),
     );
   }
 
-  void _checkUserSignIn(BuildContext context) async {    await Future.delayed(Duration(seconds: 5)); 
+  void _checkUserSignIn(BuildContext context) async {
+    await Future.delayed(const Duration(seconds: 5));
     // Check if the user is signed in
-    User? user = FirebaseAuth.instance.currentUser ;
+    User? user = FirebaseAuth.instance.currentUser;
 
     // If user is signed in, navigate to HomePage
     if (user != null) {
@@ -37,7 +39,7 @@ class SplashScreen extends StatelessWidget {
       await prefs.setBool('isLoggedIn', true);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => MainScreens()),
+        MaterialPageRoute(builder: (context) => const MainScreens()),
       );
     } else {
       // If user is not signed in, navigate to LoginPage
@@ -45,7 +47,7 @@ class SplashScreen extends StatelessWidget {
       await prefs.setBool('isLoggedIn', false);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
     }
   }

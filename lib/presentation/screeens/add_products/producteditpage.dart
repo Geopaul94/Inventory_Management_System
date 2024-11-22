@@ -17,10 +17,10 @@ import 'package:inventory_management_system/presentation/widgets/custometextform
 import 'package:inventory_management_system/presentation/widgets/validations.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
 
-class Producteditpage extends StatefulWidget { // Change to StatefulWidget
+class Producteditpage extends StatefulWidget { 
   final Products product;
 
-  Producteditpage({super.key, required this.product});
+  const Producteditpage({super.key, required this.product});
 
   @override
   _ProducteditpageState createState() => _ProducteditpageState();
@@ -206,7 +206,7 @@ class _ProducteditpageState extends State<Producteditpage> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MainScreens(initialIndex: 0),
+                              builder: (context) => const MainScreens(initialIndex: 0),
                             ),
                           );
                         }

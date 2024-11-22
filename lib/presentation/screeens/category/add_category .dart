@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inventory_management_system/data/models/catergorey/category_model.dart';
-import 'package:inventory_management_system/main.dart';
 import 'package:inventory_management_system/presentation/bloc/category/category_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/add_products/addpost_page/addphoto.dart';
 import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
@@ -19,6 +18,8 @@ import 'package:inventory_management_system/presentation/widgets/validations.dar
 import 'package:inventory_management_system/utilities/constants/constants.dart';
 
 class AddCategoryPage extends StatefulWidget {
+  const AddCategoryPage({super.key});
+
   @override
   State<AddCategoryPage> createState() => _AddCategoryPageState();
 }
@@ -37,7 +38,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => MainScreens(
+                builder: (context) => const MainScreens(
                   initialIndex: 0,
                 ),
               ));
@@ -76,7 +77,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                             SizedBox(
                               width: 0.03.sw,
                             ),
-                            CustomText(
+                            const CustomText(
                               text: "Category",
                               color: Colors.black,
                               fontSize: 20,

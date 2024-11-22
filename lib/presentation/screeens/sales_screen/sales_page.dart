@@ -6,12 +6,13 @@ import 'package:inventory_management_system/data/models/sales_model.dart';
 import 'package:inventory_management_system/presentation/bloc/sales_bloc/sales_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/sales_screen/add_sales_page.dart';
 import 'package:inventory_management_system/presentation/screeens/sales_screen/purchase_page.dart';
+import 'package:inventory_management_system/presentation/screeens/sales_screen/updatesale_page.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
 import 'package:inventory_management_system/presentation/widgets/shimmer_loading.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
 
 class SalesPage extends StatefulWidget {
-  SalesPage({super.key});
+  const SalesPage({super.key});
 
   @override
   State<SalesPage> createState() => _SalesPageState();
@@ -51,6 +52,13 @@ class _SalesPageState extends State<SalesPage> {
                   final itemIndex = index ~/ 2;
                  
                   return GestureDetector(
+                    onDoubleTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UpdatesalePage(updatesaledata: salesDetailsModel[index]),)
+                      );
+                    },
                     onTap: () {
                       Navigator.push(
                         context,
@@ -80,7 +88,7 @@ class _SalesPageState extends State<SalesPage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AddSalesPage(),
+                builder: (context) => const AddSalesPage(),
               ));
         },
         icon: const Icon(Icons.add),

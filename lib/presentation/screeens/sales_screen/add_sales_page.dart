@@ -18,7 +18,7 @@ import 'package:inventory_management_system/utilities/constants/constants.dart';
 import 'package:inventory_management_system/utilities/functions/date_picker.dart';
 
 class AddSalesPage extends StatefulWidget {
-  AddSalesPage({super.key});
+  const AddSalesPage({super.key});
 
   @override
   State<AddSalesPage> createState() => _AddSalesPageState();
@@ -49,14 +49,14 @@ class _AddSalesPageState extends State<AddSalesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "Add New Sale"),
+      appBar: const CustomAppBar(title: "Add New Sale"),
       body: BlocConsumer<SalesBloc, SalesState>(
         listener: (context, state) {
           if (state is AddNewSaleSuccessState) {
           Navigator.push(
   context,
   MaterialPageRoute(
-    builder: (context) => MainScreens(
+    builder: (context) => const MainScreens(
       initialIndex: 1,
     ),
   ),
@@ -203,7 +203,7 @@ class _AddSalesPageState extends State<AddSalesPage> {
               ),
             );
           } else if (state is AddNewSaleErrorState) {
-            return errorStateWidget("Error occurred", TextStyle(), red);
+            return errorStateWidget("Error occurred", const TextStyle(), red);
           }
           return Padding(
             padding: EdgeInsets.symmetric(vertical: .02.sh, horizontal: .01.sw),

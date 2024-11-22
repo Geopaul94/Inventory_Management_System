@@ -26,7 +26,7 @@ class FetchCustomersLoadingState extends CustomersState {}
 class FetchCustomersErrorState extends CustomersState {
   final String Error;
 
-  FetchCustomersErrorState({required this.Error});
+  const FetchCustomersErrorState({required this.Error});
 
   @override
   List<Object> get props => [Error];
@@ -60,7 +60,7 @@ class CustomersLoadingUpdateState extends CustomersState {}
 class CustomersErrorUpdateState extends CustomersState {
   final String error;
 
-  CustomersErrorUpdateState({required this.error});
+  const CustomersErrorUpdateState({required this.error});
 
   @override
   List<Object> get props => [error];
@@ -80,7 +80,7 @@ class CustomersDeleteSuccessState extends CustomersState {
 class CustomersDeleteErrorState extends CustomersState {
   final String error;
 
-  CustomersDeleteErrorState({required this.error});
+  const CustomersDeleteErrorState({required this.error});
 
   @override
   List<Object> get props => [error];

@@ -85,7 +85,7 @@ class _PurchasePageState extends State<PurchasePage> {
       ),
       body: Center(
         child: _isLoading
-            ? SpinningLinesExample()
+            ? const SpinningLinesExample()
       //                 : Column(
       //                     mainAxisAlignment: MainAxisAlignment.center,
       //                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -160,7 +160,7 @@ class _PurchasePageState extends State<PurchasePage> {
       //                     ],
       //                   ),
       
-      :Text("Print invoice")
+      :const Text("Print invoice")
       
       ),
     );

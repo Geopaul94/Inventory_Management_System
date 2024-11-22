@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:inventory_management_system/data/models/sales_model.dart';
 
 class FirestoreServiceSales {

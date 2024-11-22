@@ -115,7 +115,7 @@ String? validateProductName(String? productName) {
   if (productName == null || productName.isEmpty) {
     return 'Please enter a product name.';
   }
-  if (productName.length < 1) {
+  if (productName.isEmpty) {
     return 'Product name must be at least 1 character long.';
   }
   if (productName.length > 20) {
@@ -129,7 +129,7 @@ String? Customername(String? productName) {
   if (productName == null || productName.isEmpty) {
     return 'Please enter a Customer name.';
   }
-  if (productName.length < 1) {
+  if (productName.isEmpty) {
     return 'Product name must be at least 1 character long.';
   }
   if (productName.length > 20) {

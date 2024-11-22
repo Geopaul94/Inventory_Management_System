@@ -1,16 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inventory_management_system/data/models/catergorey/category_model.dart';
-import 'package:inventory_management_system/data/models/customer_details_model.dart';
 import 'package:inventory_management_system/data/models/product_model.dart';
-import 'package:inventory_management_system/data/repository/customer_details/cusomer_data.dart';
 import 'package:inventory_management_system/presentation/bloc/fetchproductlist/fetchproductlist_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/add_products/addpost_page/add_products.dart';
 import 'package:inventory_management_system/presentation/screeens/add_products/product_details_screen.dart';
-import 'package:inventory_management_system/presentation/screeens/profile_page.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomeAppbar.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
@@ -101,7 +96,7 @@ class _ProductPageState extends State<ProductPage> {
 class ProductCard extends StatelessWidget {
   final Products product;
 
-  const ProductCard({Key? key, required this.product}) : super(key: key);
+  const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -123,14 +118,14 @@ class ProductCard extends StatelessWidget {
               fit: BoxFit.fill, // Adjust the image to fit within the container
               errorBuilder: (context, error, stackTrace) {
                 // Handle the error case, e.g., by showing a placeholder image
-                return Center(child: Text('Image failed to load'));
+                return const Center(child: Text('Image failed to load'));
               },
               loadingBuilder: (context, child, loadingProgress) {
                 if (loadingProgress == null) {
                   return child; // If the image has loaded, show it
                 }
                 // Show a loading spinner while the image is loading
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               },
             ),
           ),
@@ -145,7 +140,7 @@ class ProductCard extends StatelessWidget {
               color: Colors.black, // Use Colors.black instead of black
             ),
           ),
-          SizedBox(height: 5), // Adjusted spacing
+          const SizedBox(height: 5), // Adjusted spacing
           Padding(
             padding: const EdgeInsets.fromLTRB(4, 2, 0, 0),
             child: Row(
@@ -158,7 +153,7 @@ class ProductCard extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: Colors.grey, // Use Colors.grey instead of grey
                 ),
-                Spacer(),
+                const Spacer(),
                 CustomText(
                   text: "₹ ${product.price.toInt().toString()}",
                   fontSize: 20, // Adjust font size as needed

@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:io';
 import 'package:inventory_management_system/data/models/catergorey/category_model.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 import 'package:inventory_management_system/data/repository/product_data/product_data.dart';
 

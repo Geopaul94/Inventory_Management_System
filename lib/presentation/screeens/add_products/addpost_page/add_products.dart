@@ -4,15 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:inventory_management_system/data/models/product_model.dart';
-import 'package:inventory_management_system/data/repository/product_data/product_data.dart';
 import 'package:inventory_management_system/presentation/bloc/add_product/addproduct_bloc.dart';
 import 'package:inventory_management_system/presentation/bloc/add_product/addproduct_event.dart';
 import 'package:inventory_management_system/presentation/bloc/fetchproductlist/fetchproductlist_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/add_products/addpost_page/addphoto.dart';
-import 'package:inventory_management_system/presentation/screeens/add_products/productllist_page.dart';
 import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomElevatedButton.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
@@ -24,7 +20,8 @@ import 'package:inventory_management_system/utilities/constants/constants.dart';
 class AddProducts extends StatelessWidget {
   final String productCategory;
   AddProducts({super.key, required this.productCategory});
- final TextEditingController _productcategory_controller = TextEditingController();
+  final TextEditingController _productcategory_controller =
+      TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _productnameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
@@ -62,12 +59,6 @@ class AddProducts extends StatelessWidget {
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
-
-
-                    
-
-
-
                     CustomTextFormField(
                       labelText: "Product Name",
                       icon: CupertinoIcons.add_circled,
@@ -154,7 +145,7 @@ class AddProducts extends StatelessWidget {
                                   Timestamp.now(); // Get the current timestamp
 
                               // Create a Product instance from the form data
-                              final product = await Products(
+                              final product = Products(
                                 id: newProductId, // Include the generated ID
                                 productName: _productnameController.text,
                                 imageUrl: croppedImage?.path ?? '',
@@ -164,8 +155,9 @@ class AddProducts extends StatelessWidget {
                                 quantity:
                                     double.tryParse(_quantityController.text) ??
                                         0.0,
-                                createdAt:
-                                    currentTime, category: productCategory, // Include the current timestamp
+                                createdAt: currentTime,
+                                category:
+                                    productCategory, // Include the current timestamp
                               );
 
                               // Add product to BLoC
@@ -183,7 +175,7 @@ class AddProducts extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      MainScreens(initialIndex: 0),
+                                      const MainScreens(initialIndex: 0),
                                 ),
                               );
 

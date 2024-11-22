@@ -41,7 +41,7 @@ class AddNewCustomer extends StatelessWidget {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => MainScreens(initialIndex: 2)),
+                  builder: (context) => const MainScreens(initialIndex: 2)),
             );
           } else if (state is CustomersErrorState) {
             // Show error message if there is an error

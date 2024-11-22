@@ -10,7 +10,7 @@ class CustomGradientButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const CustomGradientButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
     this.width = 200,
@@ -18,7 +18,7 @@ class CustomGradientButton extends StatelessWidget {
     this.fontSize = 16,
     this.fontWeight = FontWeight.normal,
     required this.gradientColors,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class CustomGradientButton extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(15), // Rounded corners
+          borderRadius: BorderRadius.circular(15),
         ),
         alignment: Alignment.center,
         child: Text(
@@ -41,7 +41,7 @@ class CustomGradientButton extends StatelessWidget {
           style: TextStyle(
             fontSize: fontSize,
             fontWeight: fontWeight,
-            color: Colors.white, // Text color
+            color: Colors.white, 
           ),
         ),
       ),

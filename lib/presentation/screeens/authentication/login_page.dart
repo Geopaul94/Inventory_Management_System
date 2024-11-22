@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:inventory_management_system/data/repository/authentication/auth_service.dart';
 import 'package:inventory_management_system/presentation/bloc/authentication/bloc/login_bloc.dart';
 import 'package:inventory_management_system/presentation/bloc/authentication/bloc/login_event.dart';
 import 'package:inventory_management_system/presentation/bloc/authentication/bloc/login_state.dart';
@@ -9,14 +10,13 @@ import 'package:inventory_management_system/presentation/screeens/authentication
 import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
 import 'package:inventory_management_system/presentation/widgets/custom_elevated_button.dart';
 import 'package:inventory_management_system/presentation/widgets/custom_text.dart';
-import 'package:inventory_management_system/presentation/widgets/customanimation_explore_page_loading.dart';
 import 'package:inventory_management_system/presentation/widgets/custome_snackbar.dart';
 import 'package:inventory_management_system/presentation/widgets/custometextformfield.dart';
 import 'package:inventory_management_system/presentation/widgets/validations.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -28,6 +28,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+@override
+  void dispose() {
+  _emailController.dispose();
+  _passwordController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
           customSnackbar(context, 'Logged In Successfully', green);
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) {
-            return MainScreens(initialIndex: 0);
+            return const MainScreens(initialIndex: 0);
           }));
         }
       //   else if (state is LoginErrorState) {
@@ -61,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomText(text: "Email"),
+                      const CustomText(text: "Email"),
                       CustomTextFormField(
                         labelText: "Email",
                         icon: CupertinoIcons.mail,
@@ -71,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      CustomText(
+                      const CustomText(
                         text: "Password",
                         fontWeight: FontWeight.bold,
                       ),
@@ -94,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   h20,
                   BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
                     if (state is LoginLoadingState) {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     } 
                     return CustomGradientButton(
                       text: 'Log in',
@@ -107,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MainScreens(
+                                builder: (context) => const MainScreens(
                                   initialIndex: 0,
                                 ),
                               ));
@@ -144,6 +150,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         onTap: () async {
                           //    context.read<LoginBloc>().add(GoogleLoginSubmitted());
+
+                          await AuthService().loginwithgoogle();
+                         
 
                           print("google button pressed");
                         },

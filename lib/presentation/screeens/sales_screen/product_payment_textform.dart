@@ -7,7 +7,7 @@ class PaymentMethodSelectionField extends StatelessWidget {
   final List<String> paymentMethods;
   final String labelText;
 
-  PaymentMethodSelectionField({
+  const PaymentMethodSelectionField({super.key, 
     required this.controller,
     required this.paymentMethods,
     this.labelText = '', // Default label
@@ -20,9 +20,9 @@ class PaymentMethodSelectionField extends StatelessWidget {
       readOnly: true, // Make it read-only since it is for displaying the selected option
       decoration: InputDecoration(
         labelText: labelText,
-        border: OutlineInputBorder(),prefixIcon: Icon(CupertinoIcons.qrcode_viewfinder),
+        border: const OutlineInputBorder(),prefixIcon: const Icon(CupertinoIcons.qrcode_viewfinder),
         suffixIcon: PopupMenuButton<String>(
-          icon: Icon(Icons.arrow_drop_down),
+          icon: const Icon(Icons.arrow_drop_down),
           onSelected: (String value) {
             controller.text = value; // Update the TextFormField with the selected option
           },

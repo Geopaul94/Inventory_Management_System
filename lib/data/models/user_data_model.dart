@@ -18,7 +18,7 @@ class UserModel {
       String? password,
       String? phonenumber}) {
     return UserModel(
-      shopename: username ?? this.shopename,
+      shopename: username ?? shopename,
       email: email ?? this.email,
       password: password ?? this.password,
       phonenumber: phonenumber ?? this.phonenumber,

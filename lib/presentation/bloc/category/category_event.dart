@@ -23,11 +23,12 @@ final CategoryModel categoryModel;
 final class OnUpdateCategoryEvent extends CategoryEvent{
 
 final CategoryModel categoryModel;
+final String categoryId;
 
-  OnUpdateCategoryEvent({required this.categoryModel});
+  OnUpdateCategoryEvent(this.categoryId, {required this.categoryModel});
 
   @override
-  List<Object> get props => [categoryModel];
+  List<Object> get props => [categoryModel,categoryId];
 }
 
 

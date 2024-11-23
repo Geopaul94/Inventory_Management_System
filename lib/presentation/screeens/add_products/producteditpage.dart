@@ -94,9 +94,12 @@ class _ProducteditpageState extends State<Producteditpage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AddPhotoContainer(onImageSelected: (image) {
-                      croppedImage = image; // Store the selected/cropped image
-                    }),
+                        AddPhotoContainer(
+                  initialImageUrl: widget.product.imageUrl, 
+                  onImageSelected: (image) {
+                    croppedImage = image;
+                  },
+                ),
                     const CustomText(
                       text: "Name",
                       color: black,

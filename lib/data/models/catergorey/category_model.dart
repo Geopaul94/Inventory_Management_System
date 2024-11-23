@@ -33,4 +33,18 @@ class CategoryModel {
       'createdAt': createdAt,
     };
   }
+// copyWith method to create a copy of CategoryModel with updated fields
+  CategoryModel copyWith({
+    String? categoryId,
+    String? categoryImage,
+    String? productCategory,
+    Timestamp? createdAt,
+  }) {
+    return CategoryModel(
+      categoryId: categoryId ?? this.categoryId,
+      categoryImage: categoryImage ?? this.categoryImage,
+      productCategory: productCategory ?? this.productCategory,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
 }

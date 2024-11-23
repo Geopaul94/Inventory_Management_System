@@ -5,6 +5,7 @@ import 'package:inventory_management_system/data/models/catergorey/category_mode
 import 'package:inventory_management_system/presentation/bloc/category/category_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/add_products/productllist_page.dart';
 import 'package:inventory_management_system/presentation/screeens/category/add_category%20.dart';
+import 'package:inventory_management_system/presentation/screeens/profile_page.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomElevatedButton.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
 import 'package:inventory_management_system/presentation/widgets/shimmer_loading.dart';
@@ -37,36 +38,36 @@ class _CategoryPageState extends State<CategoryPage> {
                 fontSize: 20, fontWeight: FontWeight.normal, color: white),
           ),
           centerTitle: true, // Center the title
-          // actions: [
-          //   Padding(
-          //     padding: const EdgeInsets.only(right: 12.0),
-          //     child: GestureDetector(
-          //       onTap: () {
-          //         Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //               builder: (context) => const ProfilePage()),
-          //         );
-          //       },
-          //       child: CircleAvatar(
-          //         backgroundImage: const NetworkImage(
-          //           'https://res.cloudinary.com/duyqxp4er/image/upload/v1731928002/vifrvccl1prd2uzetj2k.jpg', // Replace with your avatar URL
-          //         ),
-          //         radius: 15, // Adjust the radius as needed
-          //         // Add a white border
-          //         child: Container(
-          //           decoration: BoxDecoration(
-          //             shape: BoxShape.circle,
-          //             border: Border.all(
-          //               color: Colors.white70, // Border color
-          //               width: 1.0, // Border width
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ],
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProfilePage()),
+                  );
+                },
+                child: CircleAvatar(
+                  backgroundImage: const NetworkImage(
+                    'https://res.cloudinary.com/duyqxp4er/image/upload/v1731928002/vifrvccl1prd2uzetj2k.jpg', // Replace with your avatar URL
+                  ),
+                  radius: 15, // Adjust the radius as needed
+                  // Add a white border
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.white70, // Border color
+                        width: 1.0, // Border width
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
           backgroundColor: Colors.blue, // Change the background color as needed
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,13 +7,14 @@ import 'package:inventory_management_system/data/models/product_model.dart';
 import 'package:inventory_management_system/presentation/bloc/fetchproductlist/fetchproductlist_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/add_products/addpost_page/add_products.dart';
 import 'package:inventory_management_system/presentation/screeens/add_products/product_details_screen.dart';
+import 'package:inventory_management_system/presentation/screeens/category/edit_category.dart';
+import 'package:inventory_management_system/presentation/screeens/profile_page.dart';
+import 'package:inventory_management_system/presentation/widgets/CustomElevatedButton.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomeAppbar.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
 
 class ProductPage extends StatefulWidget {
-
-
   final CategoryModel category;
 
   const ProductPage({super.key, required this.category});
@@ -31,7 +33,64 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: widget.category.productCategory.toString()),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text(
+          widget.category.productCategory.toString(),
+          style: const TextStyle(
+              fontSize: 20, fontWeight: FontWeight.normal, color: white),
+        ),
+        centerTitle: true, // Center the title
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProfilePage()),
+                  );
+                },
+                child: Container(
+                  // Set the height of the container
+
+                  decoration: BoxDecoration(
+                    color: Colors.blue, // Background color of the container
+
+                    border: Border.all(
+                      color: lightgrey, // Border color
+
+                      width: 2.0, // Border thickness
+                    ),
+
+                    borderRadius:
+                        BorderRadius.circular(8.0), // Optional: rounded corners
+                  ),
+
+                  child: CustomElevatedButton(
+                      text: "Edit",
+                      width: 0.15.sw,
+                      height: 0.04.sh,
+                      fontSize: 14.sp,
+                      paddingHorizontal: .03.sw,
+                      paddingVertical: 0.0002.sh,
+                      color: blue,
+                      borderRadius: 2,
+                      textColor: white,
+                      onPressed: () {
+
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return EditCategory(editcategory: widget.category);
+                        },));
+                      }),
+                )),
+          ),
+        ],
+        backgroundColor: Colors.blue, // Change the background color as needed
+      ),
+
+      //CustomAppBar(title: widget.category.productCategory.toString()),
       body: BlocBuilder<FetchProductListBloc, FetchProductListState>(
         builder: (context, state) {
           if (state is FetchProductListLoadingState) {
@@ -54,8 +113,9 @@ class _ProductPageState extends State<ProductPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            ProductDetailsScreen(product: product,),
+                        builder: (context) => ProductDetailsScreen(
+                          product: product,
+                        ),
                       ),
                     );
                   },
@@ -75,7 +135,10 @@ class _ProductPageState extends State<ProductPage> {
         onPressed: () async {
           // Navigate to AddProducts and await the result
           final productAdded = await Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => AddProducts(productCategory: widget.category.productCategory.toString())),
+            MaterialPageRoute(
+                builder: (context) => AddProducts(
+                    productCategory:
+                        widget.category.productCategory.toString())),
           );
 
           // Check if a product was added (use true or a specific signal)

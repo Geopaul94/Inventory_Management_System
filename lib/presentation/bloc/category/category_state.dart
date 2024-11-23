@@ -2,7 +2,7 @@ part of 'category_bloc.dart';
 
 sealed class CategoryState extends Equatable {
   const CategoryState();
-  
+
   @override
   List<Object> get props => [];
 }
@@ -10,68 +10,55 @@ sealed class CategoryState extends Equatable {
 final class CategoryInitial extends CategoryState {}
 
 class AddCategoryLoadingstate extends CategoryState {}
+
 class AddCategoryedSucessState extends CategoryState {}
 
 class AddCategoryErrorState extends CategoryState {
   final String error;
 
   AddCategoryErrorState({required this.error});
- @override
+  @override
   List<Object> get props => [error];
 }
 
-
-
-
-
 class CategoryUpdateLoadingState extends CategoryState {}
+
 class CategoryUpdateSuccessState extends CategoryState {}
 
-class CategoryUpdateErrorState extends CategoryState {}
+class CategoryUpdateErrorState extends CategoryState {
+  final String error;
 
-
-
-class CategoryDeleteLoadingState extends CategoryState {}
-class CategoryDeleteSuccessState extends CategoryState {}
-
-class CategoryDeleteErrorState extends CategoryState {}
-
-
-
-
-
-class FetchAllCategoryInitialState extends CategoryState {
-
-  final List<CategoryModel>categoryModel;
-
-
-
-  FetchAllCategoryInitialState({required this.categoryModel});
-  
-  
-   @override
-  List<Object> get props => [categoryModel];
-  
-  }
-
-class FetchAllCategoryLoadingState extends CategoryState {}
-class FetchAllCategorySuccessState extends CategoryState {
-
-
-  
+  CategoryUpdateErrorState({required this.error});
 }
 
+class CategoryDeleteLoadingState extends CategoryState {}
 
+class CategoryDeleteSuccessState extends CategoryState {}
+
+class CategoryDeleteErrorState extends CategoryState {
+  final String error;
+
+  CategoryDeleteErrorState({required this.error});
+}
+
+class FetchAllCategoryInitialState extends CategoryState {
+  final List<CategoryModel> categoryModel;
+
+  FetchAllCategoryInitialState({required this.categoryModel});
+
+  @override
+  List<Object> get props => [categoryModel];
+}
+
+class FetchAllCategoryLoadingState extends CategoryState {}
+
+class FetchAllCategorySuccessState extends CategoryState {}
 
 class FetchAllCategoryErrorState extends CategoryState {
-
-
-
-final String error;
+  final String error;
 
   FetchAllCategoryErrorState({required this.error});
 
-
-   @override
+  @override
   List<Object> get props => [error];
 }

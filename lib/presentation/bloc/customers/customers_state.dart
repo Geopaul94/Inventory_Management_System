@@ -100,3 +100,28 @@ class CustomersErrorState extends CustomersState {
   @override
   List<Object> get props => [errorMessage];
 }
+
+////////////// sales details of a customer ////////////
+
+class FetchAllSaledDetailsCustomerInitialState extends CustomersState {
+  final List<SalesDetailsModel> customersalesreport;
+
+  const FetchAllSaledDetailsCustomerInitialState(
+      {required this.customersalesreport});
+
+  @override
+  List<Object> get props => [customersalesreport];
+}
+
+class FetchAllSaledDetailsCustomerErrorState extends CustomersState {
+  final String error;
+
+  const FetchAllSaledDetailsCustomerErrorState({required this.error});
+
+  @override
+  List<Object> get props => [error];
+}
+
+class FetchAllSaledDetailsCustomerLoadingState extends CustomersState {
+ 
+}

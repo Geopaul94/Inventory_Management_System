@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory_management_system/data/models/customer_details_model.dart';
+import 'package:inventory_management_system/data/models/sales_model.dart';
 
 class FirestoreServiceCustomer {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -67,4 +68,29 @@ class FirestoreServiceCustomer {
       return [];
     }
   }
+
+
+////////////////////////////////////
+
+
+ Future<List<SalesDetailsModel>> fetchCustomerSalesDetails(String customerName) async {
+    try {
+      // Query Firestore to get sales details for the specified customer
+      QuerySnapshot querySnapshot = await _firestore.collection('sales')
+          .where('customername', isEqualTo: customerName.toUpperCase()) // Assuming names are stored in lowercase
+          .get();
+
+      // Convert the documents into a list of SalesDetailsModel
+      List<SalesDetailsModel> salesDetailsList = querySnapshot.docs.map((doc) {
+        return SalesDetailsModel.fromFirestore(doc as DocumentSnapshot<Map<String, dynamic>>);
+      }).toList();
+
+      return salesDetailsList;
+    } catch (e) {
+      // Handle error, you could throw a custom exception or return an empty list
+      print('Error fetching sales details: $e');
+      return [];
+    }
+  }
+
 }

@@ -8,6 +8,7 @@ import 'package:inventory_management_system/presentation/bloc/customers/customer
 import 'package:inventory_management_system/presentation/bloc/searchuser/searchuser_bloc.dart';
 import 'package:inventory_management_system/presentation/bloc/searchuser/searchuser_event.dart';
 import 'package:inventory_management_system/presentation/screeens/addcustomer/add_customer.dart';
+import 'package:inventory_management_system/presentation/screeens/addcustomer/customer_details_page.dart';
 import 'package:inventory_management_system/presentation/screeens/addcustomer/customer_update_page.dart';
 import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomElevatedButton.dart';
@@ -16,12 +17,6 @@ import 'package:inventory_management_system/presentation/widgets/CustomText.dart
 import 'package:inventory_management_system/presentation/widgets/CustomeAppbar.dart';
 import 'package:inventory_management_system/presentation/widgets/shimmer_loading.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
-
-
-
-
-
-
 
 class CustomersPage extends StatefulWidget {
   const CustomersPage({super.key});
@@ -32,7 +27,8 @@ class CustomersPage extends StatefulWidget {
 
 class _CustomersPageState extends State<CustomersPage> {
   final TextEditingController _searchController = TextEditingController();
-  List<CustomerDetailsModel> _filteredCustomers = []; // To hold filtered customer list
+  List<CustomerDetailsModel> _filteredCustomers =
+      []; // To hold filtered customer list
 
   @override
   void initState() {
@@ -43,7 +39,6 @@ class _CustomersPageState extends State<CustomersPage> {
     // Listen for changes in the search field
     _searchController.addListener(() {
       // Trigger filtering based on input
-     // setState(() {}); // Call setState to rebuild UI with filtered results
     });
   }
 
@@ -67,7 +62,9 @@ class _CustomersPageState extends State<CustomersPage> {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      context.read<CustomersBloc>().add(const FetchAllCustomersEvent());
+                      context
+                          .read<CustomersBloc>()
+                          .add(const FetchAllCustomersEvent());
                     },
                     child: const Text('Retry'),
                   ),
@@ -81,7 +78,9 @@ class _CustomersPageState extends State<CustomersPage> {
 
             // Filter customers based on the search input
             _filteredCustomers = state.customerDetails.where((customer) {
-              return customer.customerName.toLowerCase().contains(_searchController.text.toLowerCase());
+              return customer.customerName
+                  .toLowerCase()
+                  .contains(_searchController.text.toLowerCase());
             }).toList();
 
             // If customers are loaded, display them in a list
@@ -98,7 +97,6 @@ class _CustomersPageState extends State<CustomersPage> {
                         icon: Icon(Icons.clear),
                         onPressed: () {
                           _searchController.clear(); // Clear search input
-                          setState(() {}); // Refresh the UI to show all customers
                         },
                       ),
                     ),
@@ -151,171 +149,10 @@ class _CustomersPageState extends State<CustomersPage> {
 
   @override
   void dispose() {
-    _searchController.dispose(); // Dispose of the controller when done
+    _searchController.dispose();
     super.dispose();
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// class CustomersPage extends StatefulWidget {
-//   const CustomersPage({super.key});
-
-//   @override
-//   State<CustomersPage> createState() => _CustomersPageState();
-// }
-
-// class _CustomersPageState extends State<CustomersPage> {
-//   // @override
-//   // void initState() {
-//   //   super.initState();
-//   //   // Fetch all customers when the page loads
-//   //   context.read<CustomersBloc>().add(const FetchAllCustomersEvent());
-//   // }
-
-//   final TextEditingController _searchController = TextEditingController();
-//   List<CustomerDetailsModel> _filteredCustomers =
-//       []; // To hold filtered customer list
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     // Fetch all customers when the page loads
-//     context.read<CustomersBloc>().add(const FetchAllCustomersEvent());
-
-//     // Listen for changes in the search field
-//     _searchController.addListener(() {
-//       // Filter customers based on the search query
-//       context
-//           .read<CustomerSearchBloc>()
-//           .add(SearchCustomerByNameEvent(_searchController.text));
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: const CustomAppBar(title: "Customers"),
-//       body: BlocConsumer<CustomersBloc, CustomersState>(
-//         listener: (context, state) {
-//           if (state is CustomersAddSuccessState) {}
-//         },
-//         builder: (context, state) {
-//           if (state is FetchCustomersLoadingState) {
-//             return const Center(child: ShimmerLoading());
-//           } else if (state is FetchCustomersErrorState) {
-//             return Center(
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   Text(state.Error),
-//                   const SizedBox(height: 16),
-//                   ElevatedButton(
-//                     onPressed: () {
-//                       context
-//                           .read<CustomersBloc>()
-//                           .add(const FetchAllCustomersEvent());
-//                     },
-//                     child: const Text('Retry'),
-//                   ),
-//                 ],
-//               ),
-//             );
-//           } else if (state is FetchCustomersInitialState) {
-//             if (state.customerDetails.isEmpty) {
-//               return const Center(child: Text("No Customers Available"));
-//             }
-//             // Filtered customers based on the search input
-//             _filteredCustomers = state.customerDetails.where((customer) {
-//               return customer.customerName.toLowerCase().contains(_searchController.text.toLowerCase());
-//             }).toList();
-//             // If customers are loaded, display them in a list
-          
-
-//             // If customers are loaded, display them in a list
-//             return Column(
-//               children: [
-//                 Padding(
-//                   padding: const EdgeInsets.all(16.0),
-//                   child: TextField(
-//                     controller: _searchController,
-//                     decoration: InputDecoration(
-//                       labelText: 'Search Customer',
-//                       border: OutlineInputBorder(),
-//                       suffixIcon: IconButton(
-//                         icon: Icon(Icons.clear),
-//                         onPressed: () {
-//                           _searchController.clear(); // Clear search input
-//                           context.read<CustomersBloc>().add(const FetchAllCustomersEvent()); // Reset customer list
-//                         },
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//                 Expanded(
-//                   child: ListView.builder(
-//                     itemCount: _filteredCustomers.length,
-//                     itemBuilder: (context, index) {
-//                       final customer = _filteredCustomers[index];
-//                       return GestureDetector(
-//                         onTap: () {
-//                           CustomerPageBottomSheet(
-//                             updatedata: customer,
-//                             customerId: customer.customerId,
-//                             context: context,
-//                             builder: (context) {
-//                               return Container(
-//                                 padding: const EdgeInsets.all(16.0),
-//                               );
-//                             },
-//                           );
-//                         },
-//                         child: CustomerCard(customer: customer),
-//                       );
-//                     },
-//                   ),
-//                 ),
-//               ],
-//             );
-//           }
-
-
-//           // Default view
-//           return const Center(child: Text("No Customers "));
-//         },
-//       ),
-//       floatingActionButton: FloatingActionButton.extended(
-//         backgroundColor: floatingActionButtoncolor,
-//         foregroundColor: white,
-//         onPressed: () async {
-//           await Navigator.of(context).push(
-//             MaterialPageRoute(builder: (context) => AddNewCustomer()),
-//           );
-//         },
-//         icon: const Icon(Icons.add),
-//         label: const Text('Add Customer'),
-//       ),
-//     );
-//   }@override
-//   void dispose() {
-//     _searchController.dispose(); // Dispose of the controller when done
-//     super.dispose();
-//   }
-
-// }
 
 class CustomerCard extends StatelessWidget {
   final CustomerDetailsModel customer;
@@ -337,7 +174,9 @@ class CustomerCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    h10,
+                    SizedBox(
+                      height: .01.sh,
+                    ),
                     CustomText(
                       text: customer.customerName,
                       fontSize: 24,
@@ -345,7 +184,9 @@ class CustomerCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: black,
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: .01.sh,
+                    ),
                     CustomText(
                       text: customer.email,
                       fontSize: 18,
@@ -353,7 +194,9 @@ class CustomerCard extends StatelessWidget {
                       fontWeight: FontWeight.normal,
                       color: black,
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: .01.sh,
+                    ),
                     CustomText(
                       text: customer.phoneNumber,
                       fontSize: 18,
@@ -369,23 +212,50 @@ class CustomerCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: black,
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: .01.sh,
+                    ),
                     h10,
-                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: .01.sh,
+                    ),
                   ],
                 ),
                 const Spacer(),
-                const CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.green,
-                  child: CircleAvatar(
-                    radius: 49,
-                    backgroundColor: Colors.white,
-                    child: Icon(CupertinoIcons.person,
-                        size: 50, color: Colors.black),
-                  ),
+                Column(
+                  children: [
+                    const CircleAvatar(
+                      radius: 50,
+                      backgroundColor: blue,
+                      child: CircleAvatar(
+                        radius: 49,
+                        backgroundColor: Colors.white,
+                        child: Icon(CupertinoIcons.person,
+                            size: 50, color: Colors.black),
+                      ),
+                    ),
+                    SizedBox(
+                      height: .01.sh,
+                    ),
+                    CustomElevatedButton(
+                        text: 'Purchase Details',
+                        paddingHorizontal: 0,
+                        paddingVertical: 0,
+                        fontSize: 11.sp,
+                        height: 0.05.sh,
+                        width: 0.25.sw,
+                        color: blue,
+                        onPressed: () async {
+                          await Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return CustomerDetailsPage(
+                                customerName: customer.customerName,
+                              );
+                            },
+                          ));
+                        })
+                  ],
                 ),
-                const SizedBox(height: 16),
               ],
             ),
           ],

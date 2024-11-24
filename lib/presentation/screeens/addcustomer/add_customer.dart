@@ -155,7 +155,7 @@ class AddNewCustomer extends StatelessWidget {
 
                   final newCustomer = CustomerDetailsModel(
                     customerId: NewCustomerId, // Generate a unique ID
-                    customerName: _customerNameController.text,
+                    customerName: _customerNameController.text.toUpperCase(),
                     phoneNumber: _customerPhoneNumberController.text,
                     address: _customerAddressController.text,
                     createdAt: currentTime,

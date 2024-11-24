@@ -218,7 +218,7 @@ class _AddSalesPageState extends State<AddSalesPage> {
 
                   final SalesDetailsModel salesDetailsModel = SalesDetailsModel(
                     saleId: newSaleId,
-                    customerName: _customerNameController.text,
+                    customerName: _customerNameController.text.toUpperCase(),
                     date: _DateandTimeController.text,
                     paymentMethod: _PaymentcontrollerController.text,
                     product: _productNameController.text,

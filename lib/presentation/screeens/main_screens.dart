@@ -8,6 +8,7 @@ import 'package:inventory_management_system/presentation/bloc/fetchproductlist/f
 import 'package:inventory_management_system/presentation/screeens/addcustomer/customers_page.dart';
 import 'package:inventory_management_system/presentation/screeens/category/category_page..dart';
 import 'package:inventory_management_system/presentation/screeens/profile_page.dart';
+import 'package:inventory_management_system/presentation/screeens/reporsts/reportpage.dart';
 import 'package:inventory_management_system/presentation/screeens/sales_screen/sales_page.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -45,7 +46,8 @@ class _MainScreensState extends State<MainScreens> {
     const CategoryPage(),
     const SalesPage(),
     const CustomersPage(),
-     const ProfilePage(),
+     const ReportPage(),
+
   ];
 
   @override
@@ -103,8 +105,8 @@ class _MainScreensState extends State<MainScreens> {
                   text: 'Customers',
                 ),
                 GButton(
-                  icon: CupertinoIcons.person,
-                  text: 'Profile',
+                  icon: CupertinoIcons.text_aligncenter,
+                  text: 'Reports',
                 ),
               ],
               selectedIndex: _selectedIndex.value,

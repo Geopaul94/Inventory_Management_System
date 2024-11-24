@@ -42,3 +42,16 @@ class OnDeleteCustomerButtonClikEvent extends CustomersEvent {
   @override
   List<Object> get props => [customerId];
 }
+
+
+
+///////// fetch customerSaled details ////////
+
+class OnFetchSaledDetailsCusomerEvent extends CustomersEvent {
+  final String customerName; // Assuming customerId is a String
+
+   OnFetchSaledDetailsCusomerEvent({required this.customerName});
+  
+  @override
+  List<Object> get props => [customerName];
+}

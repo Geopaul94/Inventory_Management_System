@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inventory_management_system/data/models/customer_details_model.dart';
 import 'package:inventory_management_system/presentation/bloc/customers/customers_bloc.dart';
+import 'package:inventory_management_system/presentation/bloc/searchuser/searchuser_bloc.dart';
+import 'package:inventory_management_system/presentation/bloc/searchuser/searchuser_event.dart';
 import 'package:inventory_management_system/presentation/screeens/addcustomer/add_customer.dart';
 import 'package:inventory_management_system/presentation/screeens/addcustomer/customer_update_page.dart';
 import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
@@ -15,6 +17,12 @@ import 'package:inventory_management_system/presentation/widgets/CustomeAppbar.d
 import 'package:inventory_management_system/presentation/widgets/shimmer_loading.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
 
+
+
+
+
+
+
 class CustomersPage extends StatefulWidget {
   const CustomersPage({super.key});
 
@@ -23,11 +31,20 @@ class CustomersPage extends StatefulWidget {
 }
 
 class _CustomersPageState extends State<CustomersPage> {
+  final TextEditingController _searchController = TextEditingController();
+  List<CustomerDetailsModel> _filteredCustomers = []; // To hold filtered customer list
+
   @override
   void initState() {
     super.initState();
     // Fetch all customers when the page loads
     context.read<CustomersBloc>().add(const FetchAllCustomersEvent());
+
+    // Listen for changes in the search field
+    _searchController.addListener(() {
+      // Trigger filtering based on input
+     // setState(() {}); // Call setState to rebuild UI with filtered results
+    });
   }
 
   @override
@@ -46,13 +63,11 @@ class _CustomersPageState extends State<CustomersPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(state.Error), // Display error message
+                  Text(state.Error),
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      context
-                          .read<CustomersBloc>()
-                          .add(const FetchAllCustomersEvent());
+                      context.read<CustomersBloc>().add(const FetchAllCustomersEvent());
                     },
                     child: const Text('Retry'),
                   ),
@@ -63,55 +78,56 @@ class _CustomersPageState extends State<CustomersPage> {
             if (state.customerDetails.isEmpty) {
               return const Center(child: Text("No Customers Available"));
             }
+
+            // Filter customers based on the search input
+            _filteredCustomers = state.customerDetails.where((customer) {
+              return customer.customerName.toLowerCase().contains(_searchController.text.toLowerCase());
+            }).toList();
+
             // If customers are loaded, display them in a list
-            return ListView.builder(
-              itemCount: state.customerDetails.length,
-              itemBuilder: (context, index) {
-                final customer = state.customerDetails[index];
-                return GestureDetector(
-                  onTap: () {
-                    CustomerPageBottomSheet(
-                      updatedata: customer,
-                      customerId: customer.customerId,
-                      context: context,
-                      builder: (context) {
-                        return Container(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () async {
-                                  // Delete the customer
-                                  // Implement your deletion logic here, e.g., using a provider or BLoC to update the state
-                                  if (kDebugMode) {
-                                    print(
-                                        'Deleting customer ${customer.customerId}');
-                                  }
-                                },
-                                child: const Text('Delete'),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  // Navigate to the edit page, passing the customer data
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) => EditCustomerPage(customer: customer),
-                                  //   ),
-                                  // );
-                                },
-                                child: const Text('Edit'),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  child: CustomerCard(customer: customer),
-                );
-              },
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      labelText: 'Search Customer',
+                      border: OutlineInputBorder(),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.clear),
+                        onPressed: () {
+                          _searchController.clear(); // Clear search input
+                          setState(() {}); // Refresh the UI to show all customers
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: _filteredCustomers.length,
+                    itemBuilder: (context, index) {
+                      final customer = _filteredCustomers[index];
+                      return GestureDetector(
+                        onTap: () {
+                          CustomerPageBottomSheet(
+                            updatedata: customer,
+                            customerId: customer.customerId,
+                            context: context,
+                            builder: (context) {
+                              return Container(
+                                padding: const EdgeInsets.all(16.0),
+                              );
+                            },
+                          );
+                        },
+                        child: CustomerCard(customer: customer),
+                      );
+                    },
+                  ),
+                ),
+              ],
             );
           }
 
@@ -132,7 +148,174 @@ class _CustomersPageState extends State<CustomersPage> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _searchController.dispose(); // Dispose of the controller when done
+    super.dispose();
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// class CustomersPage extends StatefulWidget {
+//   const CustomersPage({super.key});
+
+//   @override
+//   State<CustomersPage> createState() => _CustomersPageState();
+// }
+
+// class _CustomersPageState extends State<CustomersPage> {
+//   // @override
+//   // void initState() {
+//   //   super.initState();
+//   //   // Fetch all customers when the page loads
+//   //   context.read<CustomersBloc>().add(const FetchAllCustomersEvent());
+//   // }
+
+//   final TextEditingController _searchController = TextEditingController();
+//   List<CustomerDetailsModel> _filteredCustomers =
+//       []; // To hold filtered customer list
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     // Fetch all customers when the page loads
+//     context.read<CustomersBloc>().add(const FetchAllCustomersEvent());
+
+//     // Listen for changes in the search field
+//     _searchController.addListener(() {
+//       // Filter customers based on the search query
+//       context
+//           .read<CustomerSearchBloc>()
+//           .add(SearchCustomerByNameEvent(_searchController.text));
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: const CustomAppBar(title: "Customers"),
+//       body: BlocConsumer<CustomersBloc, CustomersState>(
+//         listener: (context, state) {
+//           if (state is CustomersAddSuccessState) {}
+//         },
+//         builder: (context, state) {
+//           if (state is FetchCustomersLoadingState) {
+//             return const Center(child: ShimmerLoading());
+//           } else if (state is FetchCustomersErrorState) {
+//             return Center(
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Text(state.Error),
+//                   const SizedBox(height: 16),
+//                   ElevatedButton(
+//                     onPressed: () {
+//                       context
+//                           .read<CustomersBloc>()
+//                           .add(const FetchAllCustomersEvent());
+//                     },
+//                     child: const Text('Retry'),
+//                   ),
+//                 ],
+//               ),
+//             );
+//           } else if (state is FetchCustomersInitialState) {
+//             if (state.customerDetails.isEmpty) {
+//               return const Center(child: Text("No Customers Available"));
+//             }
+//             // Filtered customers based on the search input
+//             _filteredCustomers = state.customerDetails.where((customer) {
+//               return customer.customerName.toLowerCase().contains(_searchController.text.toLowerCase());
+//             }).toList();
+//             // If customers are loaded, display them in a list
+          
+
+//             // If customers are loaded, display them in a list
+//             return Column(
+//               children: [
+//                 Padding(
+//                   padding: const EdgeInsets.all(16.0),
+//                   child: TextField(
+//                     controller: _searchController,
+//                     decoration: InputDecoration(
+//                       labelText: 'Search Customer',
+//                       border: OutlineInputBorder(),
+//                       suffixIcon: IconButton(
+//                         icon: Icon(Icons.clear),
+//                         onPressed: () {
+//                           _searchController.clear(); // Clear search input
+//                           context.read<CustomersBloc>().add(const FetchAllCustomersEvent()); // Reset customer list
+//                         },
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//                 Expanded(
+//                   child: ListView.builder(
+//                     itemCount: _filteredCustomers.length,
+//                     itemBuilder: (context, index) {
+//                       final customer = _filteredCustomers[index];
+//                       return GestureDetector(
+//                         onTap: () {
+//                           CustomerPageBottomSheet(
+//                             updatedata: customer,
+//                             customerId: customer.customerId,
+//                             context: context,
+//                             builder: (context) {
+//                               return Container(
+//                                 padding: const EdgeInsets.all(16.0),
+//                               );
+//                             },
+//                           );
+//                         },
+//                         child: CustomerCard(customer: customer),
+//                       );
+//                     },
+//                   ),
+//                 ),
+//               ],
+//             );
+//           }
+
+
+//           // Default view
+//           return const Center(child: Text("No Customers "));
+//         },
+//       ),
+//       floatingActionButton: FloatingActionButton.extended(
+//         backgroundColor: floatingActionButtoncolor,
+//         foregroundColor: white,
+//         onPressed: () async {
+//           await Navigator.of(context).push(
+//             MaterialPageRoute(builder: (context) => AddNewCustomer()),
+//           );
+//         },
+//         icon: const Icon(Icons.add),
+//         label: const Text('Add Customer'),
+//       ),
+//     );
+//   }@override
+//   void dispose() {
+//     _searchController.dispose(); // Dispose of the controller when done
+//     super.dispose();
+//   }
+
+// }
 
 class CustomerCard extends StatelessWidget {
   final CustomerDetailsModel customer;
@@ -212,12 +395,11 @@ class CustomerCard extends StatelessWidget {
   }
 }
 
-void CustomerPageBottomSheet({
-  required BuildContext context,
-  required Container Function(dynamic context) builder,
-  required String customerId,
-  required CustomerDetailsModel updatedata
-}) {
+void CustomerPageBottomSheet(
+    {required BuildContext context,
+    required Container Function(dynamic context) builder,
+    required String customerId,
+    required CustomerDetailsModel updatedata}) {
   showModalBottomSheet(
     context: context,
     backgroundColor: const Color.fromARGB(255, 114, 109, 109),
@@ -298,9 +480,13 @@ void CustomerPageBottomSheet({
                 width: .30.sw,
                 fontSize: 22.sp,
                 onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return CustomerUpdatePage(updatedata: updatedata,);
-                },));
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return CustomerUpdatePage(
+                        updatedata: updatedata,
+                      );
+                    },
+                  ));
                 },
               ),
             ),

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,8 +11,10 @@ import 'package:inventory_management_system/presentation/bloc/category/category_
 import 'package:inventory_management_system/presentation/bloc/customers/customers_bloc.dart';
 import 'package:inventory_management_system/presentation/bloc/fetchproductlist/fetchproductlist_bloc.dart';
 import 'package:inventory_management_system/presentation/bloc/sales_bloc/sales_bloc.dart';
+import 'package:inventory_management_system/presentation/bloc/searchuser/searchuser_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/splash_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:inventory_management_system/samplepage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,13 +46,14 @@ class MyApp extends StatelessWidget {
             BlocProvider(create: (context) => SalesBloc()),
             BlocProvider(create: (context) => CategoryBloc()),
             BlocProvider(create: (context) => SignUpBloc()),
+            BlocProvider(create: (context) =>  CustomerSearchBloc(FirebaseFirestore.instance)),
             BlocProvider(create: (context) => LoginBloc()),
           ],
           child: MaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'Inventory Management System',
               theme: ThemeData(),
-              home: const SplashScreen()),
+              home:  SplashScreen()),
         );
       },
     );

@@ -244,12 +244,6 @@ class _ProducteditpageState extends State<Producteditpage> {
                                     category: widget.product.category,
                                   );
 
-                                  // Log before calling update function
-                                  print(
-                                      'Updated Product Details: ${updatedProduct.toMap()}');
-
-                                  print(
-                                      'lllllllllllllllllllllllllllll${widget.product.id.toString()}');
                                   context.read<AddProductBloc>().add(
                                       UpdateProductButtonClickedEvent(
                                           widget.product.id,

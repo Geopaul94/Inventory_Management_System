@@ -15,27 +15,31 @@ class ProductDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60.0), // Set the height of the AppBar
+        preferredSize:
+            const Size.fromHeight(60.0), // Set the height of the AppBar
 
         child: AppBar(
-          title: const Text('My App'), 
+          title: const Text('My App'),
           centerTitle: true,
-          backgroundColor:  green,// Title of the AppBar
+          backgroundColor: green, // Title of the AppBar
 
           flexibleSpace: Stack(
             children: [
-          
-
               Positioned(
                 right: .02.sw,
                 top: .09.sw,
                 child: ElevatedButton(
                   onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Producteditpage(product: product),));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              Producteditpage(product: product),
+                        ));
                   },
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.blue,
-                    backgroundColor: Colors.white, 
+                    foregroundColor: blue,
+                    backgroundColor:white,
                   ),
                   child: Text(
                     'Edit',

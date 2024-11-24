@@ -114,8 +114,6 @@ import 'package:image_cropper/image_cropper.dart';
 //   }
 // }
 
-
-
 class AddPhotoContainer extends StatefulWidget {
   final Function(File?) onImageSelected; // Callback function
   final String? initialImageUrl; // Existing image URL from Firestore (if any)

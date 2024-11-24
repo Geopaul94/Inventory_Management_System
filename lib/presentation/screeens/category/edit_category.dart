@@ -10,6 +10,7 @@ import 'package:inventory_management_system/presentation/bloc/category/category_
 import 'package:inventory_management_system/presentation/screeens/add_products/addpost_page/addphoto.dart';
 import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
+import 'package:inventory_management_system/presentation/widgets/customanimation_explore_page_loading.dart';
 import 'package:inventory_management_system/presentation/widgets/custome_snackbar.dart';
 import 'package:inventory_management_system/presentation/widgets/custometextformfield.dart';
 import 'package:inventory_management_system/presentation/widgets/validations.dart';
@@ -29,6 +30,7 @@ class _EditCategoryState extends State<EditCategory> {
 
   File? croppedImage; // For handling image selection
   final _formKey = GlobalKey<FormState>();
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -48,6 +50,9 @@ class _EditCategoryState extends State<EditCategory> {
   Widget build(BuildContext context) {
     return BlocConsumer<CategoryBloc, CategoryState>(
       listener: (context, state) {
+        if (state is CategoryDeleteLoadingState) {
+          isLoading = true;
+        }
         if (state is CategoryUpdateSuccessState) {
           // Handle success (e.g., show a success message or navigate)
           Navigator.push(
@@ -85,16 +90,8 @@ class _EditCategoryState extends State<EditCategory> {
                   child: GestureDetector(
                       onTap: () async {
                         //  _showDeleteDialog(context);
-                        context.read<CategoryBloc>().add(OnDeleteCategoryEvent(
-                            categoryId:
-                                widget.editcategory.categoryId.toString()));
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return MainScreens(
-                              initialIndex: 0,
-                            );
-                          },
-                        ));
+
+                        _showDeleteDialog(context, isLoading);
                       },
                       child: Icon(
                         CupertinoIcons.delete,
@@ -115,12 +112,12 @@ class _EditCategoryState extends State<EditCategory> {
                   SizedBox(
                     height: .04.sh,
                   ),
-                   AddPhotoContainer(
-                  initialImageUrl: widget.editcategory.categoryImage, 
-                  onImageSelected: (image) {
-                    croppedImage = image;
-                  },
-                ),
+                  AddPhotoContainer(
+                    initialImageUrl: widget.editcategory.categoryImage,
+                    onImageSelected: (image) {
+                      croppedImage = image;
+                    },
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Column(
@@ -139,11 +136,6 @@ class _EditCategoryState extends State<EditCategory> {
                             ),
                           ],
                         ),
-                        ElevatedButton(
-                            onPressed: () {
-                           
-                            },
-                            child: Text("fkandkfn")),
                         h5,
                         CustomTextFormField(
                           width: .88.sw,
@@ -190,7 +182,9 @@ class _EditCategoryState extends State<EditCategory> {
                         String updatecategory =
                             widget.editcategory.categoryId.toString();
                         Timestamp currentTime = Timestamp.now();
-   String categoryImage = croppedImage?.path ?? widget.editcategory.categoryImage ?? '';
+                        String categoryImage = croppedImage?.path ??
+                            widget.editcategory.categoryImage ??
+                            '';
 
                         print(
                             "gggggggggggggggggggggggggggggggggg===============${updatecategory}");
@@ -202,9 +196,11 @@ class _EditCategoryState extends State<EditCategory> {
                           productCategory: _categoryController.text,
                         );
 
-                       // print("gggggggggggggggggggggggggggggggggg===============${widget.}");
+                        // print("gggggggggggggggggggggggggggggggggg===============${widget.}");
 
-                      context.read<CategoryBloc>().add(OnUpdateCategoryEvent(widget.editcategory.categoryId.toString(), categoryModel: newCategory));
+                        context.read<CategoryBloc>().add(OnUpdateCategoryEvent(
+                            widget.editcategory.categoryId.toString(),
+                            categoryModel: newCategory));
                       }
                     },
                     icon: const Icon(Icons.add),
@@ -216,63 +212,46 @@ class _EditCategoryState extends State<EditCategory> {
     );
   }
 
-// void _showDeleteDialog(BuildContext context) {
-//   // Show the dialog first
-//   showDialog(
-//     context: context,
-//     builder: (BuildContext context) {
-//       return AlertDialog(
-//         title: const Text('Delete Confirmation'),
-//         content: const Text('All data will be deleted permanently.'),
-//         actions: <Widget>[
-//           TextButton(
-//             child: const Text('CANCEL'),
-//             onPressed: () {
-//               Navigator.of(context).pop(); // Close the dialog
-//             },
-//           ),
-//           TextButton(
-//             child: const Text('DELETE'),
-//             onPressed: () async {
-//               // Close the dialog first
-//               Navigator.of(context).pop();
+  void _showDeleteDialog(BuildContext context, bool isLoading) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text('Delete Confirmation'),
+              content: isLoading
+                  ? const SizedBox(
+                      height: 50,
+                      child: Center(child: CircularProgressIndicator()))
+                  : const Text('All data will be deleted permanently.'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('CANCEL'),
+                  onPressed: () {
+                    if (!isLoading) {
+                      Navigator.of(context).pop(); // Close the dialog
+                    }
+                  },
+                ),
+                TextButton(
+                  child: const Text('DELETE'),
+                  onPressed: () async {
+                    // Show loading indicator and trigger delete action
+                    setState(() {
+                      isLoading = true; // Show loading spinner
+                    });
 
-//               // Call the delete function
-//               try {
-//                 await deleteCategory(widget.editcategory.categoryId.toString());
-//                 // Show success message
-//                 print('Category deleted successfully!    ${widget.editcategory.categoryId.toString()}');
-//                 // Optionally, you can show a snackbar or a dialog to inform the user
-//                 ScaffoldMessenger.of(context).showSnackBar(
-//                   const SnackBar(content: Text('Category deleted successfully!')),
-//                 );
-//               } catch (e) {
-//                print(e.toString());
-
-//               }
-//             },
-//           ),
-//         ],
-//       );
-//     },
-//   );
-// }
-// Future<void> deleteCategory(String N1iakl5zzdNJBdO56L8U) async {
-//   try {
-//   var doc = await FirebaseFirestore.instance.collection('categories').doc(N1iakl5zzdNJBdO56L8U).get();
-
-// if (!doc.exists) {
-
-//   print('Document does not exist!');
-
-//   return;
-
-// }  await FirebaseFirestore.instance.collection('categories').doc(N1iakl5zzdNJBdO56L8U).delete();
-//     print('Category deleted successfully!');
-//   } catch (e) {
-//     print('Error deleting category: $e');
-//     throw Exception('Error deleting category: $e');
-//   }
-  // }
+                    // Dispatch the delete event
+                    context.read<CategoryBloc>().add(OnDeleteCategoryEvent(
+                        categoryId: widget.editcategory.categoryId.toString()));
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
 }
-

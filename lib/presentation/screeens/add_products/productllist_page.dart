@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +10,6 @@ import 'package:inventory_management_system/presentation/screeens/category/edit_
 import 'package:inventory_management_system/presentation/screeens/profile_page.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomElevatedButton.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
-import 'package:inventory_management_system/presentation/widgets/CustomeAppbar.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
 
 class ProductPage extends StatefulWidget {
@@ -25,7 +23,6 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<FetchProductListBloc>().add(FetchProductListInitialEvent());
   }
@@ -40,7 +37,7 @@ class _ProductPageState extends State<ProductPage> {
           style: const TextStyle(
               fontSize: 20, fontWeight: FontWeight.normal, color: white),
         ),
-        centerTitle: true, // Center the title
+        centerTitle: true,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12.0),
@@ -53,21 +50,14 @@ class _ProductPageState extends State<ProductPage> {
                   );
                 },
                 child: Container(
-                  // Set the height of the container
-
                   decoration: BoxDecoration(
-                    color: Colors.blue, // Background color of the container
-
+                    color: blue,
                     border: Border.all(
-                      color: lightgrey, // Border color
-
-                      width: 2.0, // Border thickness
+                      color: lightgrey,
+                      width: 2.0,
                     ),
-
-                    borderRadius:
-                        BorderRadius.circular(8.0), // Optional: rounded corners
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
-
                   child: CustomElevatedButton(
                       text: "Edit",
                       width: 0.15.sw,
@@ -79,24 +69,28 @@ class _ProductPageState extends State<ProductPage> {
                       borderRadius: 2,
                       textColor: white,
                       onPressed: () {
-
-                        Navigator.push(context, MaterialPageRoute(builder: (context) {
-                          return EditCategory(editcategory: widget.category);
-                        },));
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return EditCategory(editcategory: widget.category);
+                          },
+                        ));
                       }),
                 )),
           ),
         ],
-        backgroundColor: Colors.blue, // Change the background color as needed
+        backgroundColor: blue,
       ),
-
-      //CustomAppBar(title: widget.category.productCategory.toString()),
       body: BlocBuilder<FetchProductListBloc, FetchProductListState>(
         builder: (context, state) {
           if (state is FetchProductListLoadingState) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is FetchProductListSuccessState) {
-            // Show the list of products using GridView.builder
+            if (state.products.isEmpty) {
+              return const Center(
+                child: Text("No Products Available"),
+              );
+            }
+
             return GridView.builder(
               padding: const EdgeInsets.all(10),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -120,7 +114,7 @@ class _ProductPageState extends State<ProductPage> {
                     );
                   },
                   child: ProductCard(product: product),
-                ); // Fix: Pass product directly
+                );
               },
             );
           } else if (state is FetchProductListErrorState) {
@@ -129,28 +123,28 @@ class _ProductPageState extends State<ProductPage> {
           return const Center(child: Text('No data available'));
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: floatingActionButtoncolor,
-        foregroundColor: white,
-        onPressed: () async {
-          // Navigate to AddProducts and await the result
-          final productAdded = await Navigator.of(context).push(
-            MaterialPageRoute(
-                builder: (context) => AddProducts(
-                    productCategory:
-                        widget.category.productCategory.toString())),
-          );
+      floatingActionButton: Padding(
+        padding: EdgeInsets.symmetric(vertical: .04.sh, horizontal: .01.sw),
+        child: FloatingActionButton.extended(
+          backgroundColor: floatingActionButtoncolor,
+          foregroundColor: white,
+          onPressed: () async {
+            final productAdded = await Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) => AddProducts(
+                      productCategory:
+                          widget.category.productCategory.toString())),
+            );
 
-          // Check if a product was added (use true or a specific signal)
-          if (productAdded == true) {
-            // Trigger the event to fetch the updated product list
-            context
-                .read<FetchProductListBloc>()
-                .add(FetchProductListInitialEvent());
-          }
-        },
-        icon: const Icon(Icons.add),
-        label: const Text('Add Product'),
+            if (productAdded == true) {
+              context
+                  .read<FetchProductListBloc>()
+                  .add(FetchProductListInitialEvent());
+            }
+          },
+          icon: const Icon(Icons.add),
+          label: const Text('Add Product'),
+        ),
       ),
     );
   }
@@ -164,66 +158,62 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4, // Adjust the elevation for shadow effect
+      elevation: 4,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10), // Rounded corners
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Placeholder for product image
           Container(
             height: 200,
             width: 200,
-            color: Colors.grey[300], // Placeholder color
+            color: Colors.grey[300],
             child: Image.network(
-              product.imageUrl, // Ensure this is a valid URL
-              fit: BoxFit.fill, // Adjust the image to fit within the container
+              product.imageUrl,
+              fit: BoxFit.fill,
               errorBuilder: (context, error, stackTrace) {
-                // Handle the error case, e.g., by showing a placeholder image
                 return const Center(child: Text('Image failed to load'));
               },
               loadingBuilder: (context, child, loadingProgress) {
                 if (loadingProgress == null) {
-                  return child; // If the image has loaded, show it
+                  return child;
                 }
-                // Show a loading spinner while the image is loading
+
                 return const Center(child: CircularProgressIndicator());
               },
             ),
           ),
-          //  SizedBox(height: 10), // Adjusted spacing
+          //  SizedBox(height: 10), //
           Padding(
             padding: const EdgeInsets.fromLTRB(5, 3, 0, 0),
             child: CustomText(
               text: product.productName,
-              fontSize: 24, // Adjust font size as needed
+              fontSize: 24,
               fontStyle: FontStyle.italic,
               fontWeight: FontWeight.bold,
-              color: Colors.black, // Use Colors.black instead of black
+              color: Colors.black,
             ),
           ),
-          const SizedBox(height: 5), // Adjusted spacing
+          const SizedBox(height: 5),
           Padding(
             padding: const EdgeInsets.fromLTRB(4, 2, 0, 0),
             child: Row(
               children: [
                 CustomText(
-                  text:
-                      "Qty ${product.quantity.toInt().toString()}", // Assuming quantity is a property
-                  fontSize: 20, // Adjust font size as needed
+                  text: "Qty ${product.quantity.toInt().toString()}",
+                  fontSize: 20,
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold,
-                  color: Colors.grey, // Use Colors.grey instead of grey
+                  color: Colors.grey,
                 ),
                 const Spacer(),
                 CustomText(
-                  text: "₹ ${product.price.toInt().toString()}",
-                  fontSize: 20, // Adjust font size as needed
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green, // Use Colors.green instead of green
-                ),
+                    text: "₹ ${product.price.toInt().toString()}",
+                    fontSize: 20, 
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    color: green),
                 SizedBox(
                   width: .02.sw,
                 )

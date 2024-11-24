@@ -12,7 +12,20 @@
           "package_name": "com.example.inventory_management_system"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "593512082924-42ucjqvm044da58goamulmlcoh1r63dp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.inventory_management_system",
+            "certificate_hash": "df9554f75a9524f90a440b6332d29c0aabb0a49f"
+          }
+        },
+        {
+          "client_id": "593512082924-4oqq9c2k9lvufvcqs414rdqkirt2rcb2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA5nELDKARR9zeh3pKiSGF4PQdRT51EIjY"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "593512082924-4oqq9c2k9lvufvcqs414rdqkirt2rcb2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "593512082924-n0su9q6uuk9pg4qva2tkfh4bnrhb31tb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.inventoryManagementSystem"
+              }
+            }
+          ]
         }
       }
     }

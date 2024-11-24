@@ -4,11 +4,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:inventory_management_system/data/models/catergorey/category_model.dart';
 import 'package:inventory_management_system/data/models/product_model.dart';
+import 'package:inventory_management_system/main.dart';
 import 'package:inventory_management_system/presentation/bloc/add_product/addproduct_bloc.dart';
 import 'package:inventory_management_system/presentation/bloc/add_product/addproduct_event.dart';
 import 'package:inventory_management_system/presentation/bloc/fetchproductlist/fetchproductlist_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/add_products/addpost_page/addphoto.dart';
+import 'package:inventory_management_system/presentation/screeens/add_products/productllist_page.dart';
 import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomElevatedButton.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomText.dart';
@@ -20,14 +24,13 @@ import 'package:inventory_management_system/utilities/constants/constants.dart';
 class AddProducts extends StatelessWidget {
   final String productCategory;
   AddProducts({super.key, required this.productCategory});
-  final TextEditingController _productcategory_controller =
-      TextEditingController();
+  
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _productnameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
 
-  File? croppedImage; // Change type to File for easier handling
+  File? croppedImage; 
 
   final _formKey = GlobalKey<FormState>();
 
@@ -38,8 +41,8 @@ class AddProducts extends StatelessWidget {
       child: Scaffold(
         appBar: const CustomAppBar(
           title: "Add Product Details",
-          backgroundColor: lightgrey,
-          leadingIcon: Icons.arrow_back,
+          backgroundColor: blue,
+          leadingIcon: CupertinoIcons.back,
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -51,7 +54,7 @@ class AddProducts extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AddPhotoContainer(onImageSelected: (image) {
-                      croppedImage = image; // Store the selected/cropped image
+                      croppedImage = image; 
                     }),
                     const CustomText(
                       text: "Name",
@@ -133,7 +136,7 @@ class AddProducts extends StatelessWidget {
                     h20,
                     Center(
                       child: CustomElevatedButton(
-                          text: "Add Product",
+                          text: "Add Product",color: blue,width: 1.sw,
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               // Generate a new ID for the product
@@ -173,10 +176,9 @@ class AddProducts extends StatelessWidget {
                               // Use pushReplacement to navigate back to MainScreens and refresh the UI
                               Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const MainScreens(initialIndex: 0),
-                                ),
+                                MaterialPageRoute(builder: (context) {
+                                  return MainScreens();
+                                },)
                               );
 
                               print('Form is valid. Product added.');

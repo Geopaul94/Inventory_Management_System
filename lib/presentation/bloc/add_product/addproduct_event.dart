@@ -25,13 +25,13 @@ class UpdateProductButtonClickedEvent extends AddProductEvent {
 
   final Products product;  // Ensure this is 'Products' if you're passing that model
 
-
-  const UpdateProductButtonClickedEvent({required this.product});
+final  String id;
+  const UpdateProductButtonClickedEvent(this.id, {required this.product});
 
 
   @override
 
-  List<Object> get props => [product];
+  List<Object> get props => [product , id];
 
 }
 

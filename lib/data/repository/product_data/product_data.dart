@@ -15,16 +15,15 @@ Future<void> uploadProductWithImage(Products product) async {
 
     // Check if image upload was successful
     if (imageUrl != null) {
-      // Step 2: Update the product model with the image URL
       Products updatedProduct = Products(
-        id: product.id, // Include the ID
+        id: product.id,
         productName: product.productName,
-        imageUrl: imageUrl, // Set the Cloudinary image URL
+        imageUrl: imageUrl,
         description: product.description,
         price: product.price,
         quantity: product.quantity,
         createdAt: product.createdAt,
-        category: product.category, // Include the createdAt timestamp
+        category: product.category,
       );
 
       // Step 3: Save the updated product to Firestore
@@ -119,32 +118,61 @@ Future<List<Products>> fetchAllProducts() async {
   }
 }
 
-// Function to update product details in Firestore
-Future<void> updateProductInFirestore(Products product) async {
-  // Get a reference to the Firestore collection
-  CollectionReference productsRef =
-      FirebaseFirestore.instance.collection('products');
 
+// Function to update a product in Firestore by its product ID
+Future<void> updateProductById(String productIdField, Map<String, dynamic> updatedData) async {
   try {
-    // Update the product document using the product ID
-    await productsRef.doc(product.id).update(product.toMap());
-    print('Product updated successfully in Firestore');
-  } catch (error) {
-    print('Failed to update product: $error');
+    // Reference to the Firestore collection
+    CollectionReference productsRef = FirebaseFirestore.instance.collection('products');
+
+    // Query Firestore to find the document with the matching 'productId' field
+    QuerySnapshot querySnapshot = await productsRef.where('id', isEqualTo: productIdField).get();
+
+    // Check if any documents match the query
+    if (querySnapshot.docs.isEmpty) {
+      print('No product found with the provided ID: $productIdField');
+      return;
+    }
+
+    // Get the document ID of the first matching document
+    String documentId = querySnapshot.docs.first.id;
+
+    // Proceed to update the document using its document ID
+    await productsRef.doc(documentId).update(updatedData);
+    
+    print('Product with ID $productIdField updated successfully!');
+  } catch (e) {
+    print('Error updating product: $e');
+    throw Exception('Failed to update product: $e');
   }
 }
-
-// Function to delete a product from Firestore
-Future<void> deleteProductFromFirestore(String productId) async {
-  // Get a reference to the Firestore collection
-  CollectionReference productsRef =
-      FirebaseFirestore.instance.collection('products');
-
+// Function to delete a product from Firestore by its 'id' field
+Future<void> deleteProductById(String productIdField) async {
   try {
-    // Delete the product document using the product ID
-    await productsRef.doc(productId).delete();
-    print('Product deleted successfully from Firestore');
-  } catch (error) {
-    print('Failed to delete product: $error');
+    // Query Firestore to find the document with the matching 'id' field
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('products')
+        .where('id', isEqualTo: productIdField)
+        .get();
+
+    // Check if any documents match the query
+    if (querySnapshot.docs.isEmpty) {
+      print('No product found with the provided ID: $productIdField');
+      return;
+    }
+
+    // Get the document ID of the first matching document (if more than one exists, handle accordingly)
+    String documentId = querySnapshot.docs.first.id;
+
+    // Proceed to delete the document using its document ID
+    await FirebaseFirestore.instance
+        .collection('products')
+        .doc(documentId)
+        .delete();
+
+    print('Product with ID $productIdField deleted successfully!');
+  } catch (e) {
+    print('Error deleting product: $e');
+    throw Exception('Failed to delete product: $e');
   }
 }

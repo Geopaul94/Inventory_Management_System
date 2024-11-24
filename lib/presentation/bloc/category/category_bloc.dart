@@ -60,7 +60,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       OnDeleteCategoryEvent event, Emitter<CategoryState> emit) async {
     emit(CategoryDeleteLoadingState());
     try {
-    //  await deleteCategory(event.categoryId);
+    await  FirestoreServiceCategoryModel().deleteCategoryByField(event.categoryId.toString());
 
       emit(CategoryDeleteSuccessState());
     } catch (e) {

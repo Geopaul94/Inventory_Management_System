@@ -117,8 +117,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                   padding: EdgeInsets.symmetric(
                       vertical: .090.sh, horizontal: .01.sw),
                   child: FloatingActionButton.extended(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
+                    backgroundColor: blue,
+                    foregroundColor: white,
                     onPressed: () {
                       if (croppedImage == null) {
                         customSnackbar(context, "Add Category Image ", red);
@@ -138,7 +138,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                           categoryId: newCategoryId,
                           categoryImage: croppedImage?.path ?? '',
                           createdAt: currentTime,
-                          productCategory: _categoryController.text,
+                          productCategory: _categoryController.text.toUpperCase().trim(),
                         );
 
                         context.read<CategoryBloc>().add(

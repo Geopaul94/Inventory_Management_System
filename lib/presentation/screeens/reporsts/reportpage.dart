@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:inventory_management_system/presentation/screeens/reporsts/item_report.dart';
-import 'package:inventory_management_system/presentation/screeens/reporsts/sales_report.dart';
+import 'package:inventory_management_system/presentation/screeens/reporsts/itemreport/item_report.dart';
+import 'package:inventory_management_system/presentation/screeens/reporsts/salesreport/sales_report.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomeAppbar.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
 
@@ -46,7 +46,7 @@ class ReportPage extends StatelessWidget {
           body: const TabBarView(
             children: [
               SalesReportTab(), // Replace with your actual Sales Report widget
-              ItemsReportTab(), // Replace with your actual Items Report widget
+        //      ItemsReportTab(), // Replace with your actual Items Report widget
             ],
       ),
       )  );

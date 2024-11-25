@@ -92,8 +92,9 @@ class CustomersBloc extends Bloc<CustomersEvent, CustomersState> {
       List<SalesDetailsModel> salesDetails = await FirestoreServiceCustomer()
           .fetchCustomerSalesDetails(event.customerName);
 
-      emit(FetchAllSaledDetailsCustomerInitialState(customersalesreport: salesDetails));
-          } catch (e) {
+      emit(FetchAllSaledDetailsCustomerInitialState(
+          customersalesreport: salesDetails));
+    } catch (e) {
       emit(FetchCustomersErrorState(Error: e.toString()));
     }
   }

@@ -150,13 +150,13 @@ class AddProducts extends StatelessWidget {
                               // Create a Product instance from the form data
                               final product = Products(
                                 id: newProductId, // Include the generated ID
-                                productName: _productnameController.text,
+                                productName: _productnameController.text.toUpperCase().trim(),
                                 imageUrl: croppedImage?.path ?? '',
                                 description: _descriptionController.text,
-                                price: double.tryParse(_priceController.text) ??
+                                price: double.tryParse(_priceController.text.trim()) ??
                                     0.0,
                                 quantity:
-                                    double.tryParse(_quantityController.text) ??
+                                    double.tryParse(_quantityController.text.trim()) ??
                                         0.0,
                                 createdAt: currentTime,
                                 category:

@@ -7,6 +7,7 @@ import 'package:inventory_management_system/data/models/sales_model.dart';
 import 'package:inventory_management_system/presentation/bloc/sales_bloc/sales_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/main_screens.dart';
 import 'package:inventory_management_system/presentation/screeens/sales_screen/categoryfield.dart';
+import 'package:inventory_management_system/presentation/screeens/sales_screen/productFieldlist.dart';
 import 'package:inventory_management_system/presentation/screeens/sales_screen/product_payment_textform.dart';
 import 'package:inventory_management_system/presentation/widgets/CustomeAppbar.dart';
 import 'package:inventory_management_system/presentation/widgets/custom_text.dart';
@@ -53,14 +54,14 @@ class _AddSalesPageState extends State<AddSalesPage> {
       body: BlocConsumer<SalesBloc, SalesState>(
         listener: (context, state) {
           if (state is AddNewSaleSuccessState) {
-          Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (context) => const MainScreens(
-      initialIndex: 1,
-    ),
-  ),
-);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const MainScreens(
+                  initialIndex: 1,
+                ),
+              ),
+            );
 
             customSnackbar(context, 'Sale added successfully', green);
           } else if (state is AddNewSaleErrorState) {
@@ -89,12 +90,14 @@ class _AddSalesPageState extends State<AddSalesPage> {
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
-                      CustomTextFormField(
-                        labelText: "Product",
-                        icon: CupertinoIcons.shopping_cart,
-                        controller: _productNameController,
-                        validator: validateProductName,
-                      ),
+                      // CustomTextFormField(
+                      //   labelText: "Product",
+                      //   icon: CupertinoIcons.shopping_cart,
+                      //   controller: _productNameController,
+                      //   validator: validateProductName,
+                      // ),
+
+                      Productfieldlist(controller: _productNameController),
                       const SizedBox(height: 15),
                       const CustomText(
                         text: "Customer Name",

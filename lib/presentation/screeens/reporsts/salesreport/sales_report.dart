@@ -1,22 +1,16 @@
 import 'dart:io';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart' show Uint8List, rootBundle;
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; 
-import 'package:cloud_firestore/cloud_firestore.dart'; 
+import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory_management_system/data/models/sales_model.dart';
-import 'package:file_picker/file_picker.dart';
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // For formatting dates
-import 'package:cloud_firestore/cloud_firestore.dart'; // For Firestore usage
 
-import 'package:file_selector/file_selector.dart';
-import 'package:printing/printing.dart'; 
+import 'package:printing/printing.dart';
+
 class SalesReportTab extends StatefulWidget {
   const SalesReportTab({super.key});
 
@@ -63,7 +57,8 @@ class _SalesReportTabState extends State<SalesReportTab> {
           .get();
 
       List<SalesDetailsModel> salesDetails = querySnapshot.docs.map((doc) {
-        return SalesDetailsModel.fromFirestore(doc as DocumentSnapshot<Map<String, dynamic>>);
+        return SalesDetailsModel.fromFirestore(
+            doc as DocumentSnapshot<Map<String, dynamic>>);
       }).toList();
 
       Map<String, double> totalCashByCategory = {};
@@ -72,11 +67,14 @@ class _SalesReportTabState extends State<SalesReportTab> {
       for (var sale in salesDetails) {
         String category = sale.productCategory;
 
-        totalCashByCategory[category] = (totalCashByCategory[category] ?? 0) + double.parse(sale.cash);
-        totalQuantityByCategory[category] = (totalQuantityByCategory[category] ?? 0) + sale.quantity;
+        totalCashByCategory[category] =
+            (totalCashByCategory[category] ?? 0) + double.parse(sale.cash);
+        totalQuantityByCategory[category] =
+            (totalQuantityByCategory[category] ?? 0) + sale.quantity;
       }
 
-      double totalCash = totalCashByCategory.values.fold(0, (sum, cash) => sum + cash);
+      double totalCash =
+          totalCashByCategory.values.fold(0, (sum, cash) => sum + cash);
 
       // Show dialog with summary and print button
       showDialog(
@@ -88,27 +86,28 @@ class _SalesReportTabState extends State<SalesReportTab> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ...totalCashByCategory.entries.map((entry) => Text(
-                  '${entry.key} - Total Cash: \$${entry.value.toStringAsFixed(2)}, Total Quantity: ${totalQuantityByCategory[entry.key]}',
-                )),
+                      '${entry.key} - Total Cash: \$${entry.value.toStringAsFixed(2)}, Total Quantity: ${totalQuantityByCategory[entry.key]}',
+                    )),
               ],
             ),
           ),
           actions: [
             TextButton(
               onPressed: () async {
-             
-try {
-   PdfGeneratorsalesreport pdfGenerator = PdfGeneratorsalesreport();
+                try {
+                  PdfGeneratorsalesreport pdfGenerator =
+                      PdfGeneratorsalesreport();
                   File pdfFile = await pdfGenerator.generateReceiptPdf(
                     receiptNumber: 'Receipt #12345',
                     fromdate: fromDateString,
                     toDate: toDateString,
                     amount: totalCash,
                     productCategory: totalQuantityByCategory.keys.join(', '),
-                    quantity: totalQuantityByCategory.values.fold(0, (sum, qty) => sum + qty).toString(),
-                  
+                    quantity: totalQuantityByCategory.values
+                        .fold(0, (sum, qty) => sum + qty)
+                        .toString(),
                   );
-  print("Path - ${pdfFile.path}");
+                  print("Path - ${pdfFile.path}");
                   await Printing.layoutPdf(
                     onLayout: (PdfPageFormat format) async =>
                         pdfFile.readAsBytes(),
@@ -117,8 +116,6 @@ try {
                   // Handle any errors here
                   print('Error generating or printing PDF: $e');
                 }
-
-              
               },
               child: const Text('Print'),
             ),
@@ -183,7 +180,6 @@ try {
   }
 }
 
-
 class PdfGeneratorsalesreport {
   Future<File> generateReceiptPdf({
     required String receiptNumber,
@@ -192,7 +188,6 @@ class PdfGeneratorsalesreport {
     required double amount,
     required String productCategory,
     required String quantity,
-    
   }) async {
     final pdf = pw.Document();
 
@@ -229,8 +224,10 @@ Contact Number : 9876543210''',
                 pw.SizedBox(height: 20),
                 pw.Text('Receipt Number: $receiptNumber',
                     style: const pw.TextStyle(fontSize: 18)),
-                pw.Text('From Date: $fromdate', style: const pw.TextStyle(fontSize: 18)),
-                pw.Text('To Date: $toDate', style: const pw.TextStyle(fontSize: 18)),
+                pw.Text('From Date: $fromdate',
+                    style: const pw.TextStyle(fontSize: 18)),
+                pw.Text('To Date: $toDate',
+                    style: const pw.TextStyle(fontSize: 18)),
                 pw.SizedBox(height: 20),
                 // Create a table with sales details
                 pw.Table(
@@ -281,12 +278,12 @@ Contact Number : 9876543210''',
                 // Additional content can go here...
               ],
             ),
-          ); 
+          );
         },
       ),
     );
 
-     final output = await getTemporaryDirectory();
+    final output = await getTemporaryDirectory();
     final file = File("${output.path}/receipt.pdf");
     await file.writeAsBytes(await pdf.save());
 

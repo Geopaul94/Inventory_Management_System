@@ -18,6 +18,9 @@ import 'package:inventory_management_system/presentation/widgets/CustomeAppbar.d
 import 'package:inventory_management_system/presentation/widgets/shimmer_loading.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
 
+
+
+
 class CustomersPage extends StatefulWidget {
   const CustomersPage({super.key});
 
@@ -27,8 +30,7 @@ class CustomersPage extends StatefulWidget {
 
 class _CustomersPageState extends State<CustomersPage> {
   final TextEditingController _searchController = TextEditingController();
-  List<CustomerDetailsModel> _filteredCustomers =
-      []; // To hold filtered customer list
+  List<CustomerDetailsModel> _filteredCustomers = []; // To hold filtered customer list
 
   @override
   void initState() {
@@ -38,7 +40,7 @@ class _CustomersPageState extends State<CustomersPage> {
 
     // Listen for changes in the search field
     _searchController.addListener(() {
-      // Trigger filtering based on input
+      setState(() {}); // Call setState to rebuild UI with filtered results
     });
   }
 
@@ -48,7 +50,9 @@ class _CustomersPageState extends State<CustomersPage> {
       appBar: const CustomAppBar(title: "Customers"),
       body: BlocConsumer<CustomersBloc, CustomersState>(
         listener: (context, state) {
-          if (state is CustomersAddSuccessState) {}
+          if (state is CustomersAddSuccessState) {
+            // Optionally handle success state
+          }
         },
         builder: (context, state) {
           if (state is FetchCustomersLoadingState) {
@@ -62,9 +66,7 @@ class _CustomersPageState extends State<CustomersPage> {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      context
-                          .read<CustomersBloc>()
-                          .add(const FetchAllCustomersEvent());
+                      context.read<CustomersBloc>().add(const FetchAllCustomersEvent());
                     },
                     child: const Text('Retry'),
                   ),
@@ -78,9 +80,7 @@ class _CustomersPageState extends State<CustomersPage> {
 
             // Filter customers based on the search input
             _filteredCustomers = state.customerDetails.where((customer) {
-              return customer.customerName
-                  .toLowerCase()
-                  .contains(_searchController.text.toLowerCase());
+              return customer.customerName.toLowerCase().contains(_searchController.text.toLowerCase());
             }).toList();
 
             // If customers are loaded, display them in a list
@@ -97,6 +97,7 @@ class _CustomersPageState extends State<CustomersPage> {
                         icon: Icon(Icons.clear),
                         onPressed: () {
                           _searchController.clear(); // Clear search input
+                          setState(() {}); // Refresh the UI to show all customers
                         },
                       ),
                     ),
@@ -149,7 +150,7 @@ class _CustomersPageState extends State<CustomersPage> {
 
   @override
   void dispose() {
-    _searchController.dispose();
+    _searchController.dispose(); // Dispose of the controller when done
     super.dispose();
   }
 }

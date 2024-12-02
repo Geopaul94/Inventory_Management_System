@@ -121,8 +121,6 @@ class _PurchasePageState extends State<PurchasePage> {
             Center(
                 child: _isLoading
                     ? const SpinningLinesExample()
-                 
-
                     : const Text("Print invoice")),
           ]),
     );

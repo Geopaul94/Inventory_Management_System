@@ -9,8 +9,7 @@ class SpinningLinesExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
+    return Center(
         child: LayoutBuilder(
           builder: (context, constraints) {
             // Use a percentage of the parent's constraints
@@ -21,8 +20,7 @@ class SpinningLinesExample extends StatelessWidget {
             );
           },
         ),
-      ),
-    );
+      );
   }
 }
 

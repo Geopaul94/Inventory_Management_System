@@ -50,21 +50,23 @@ class _SalesPageState extends State<SalesPage> {
                   }
 
                   final itemIndex = index ~/ 2;
-                 
+
                   return GestureDetector(
                     onDoubleTap: () {
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => UpdatesalePage(updatesaledata: salesDetailsModel[index]),)
-                      );
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UpdatesalePage(
+                                updatesaledata: salesDetailsModel[index]),
+                          ));
                     },
                     onTap: () {
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PurchasePage(Purchase: salesDetailsModel[itemIndex]),)
-                      );
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PurchasePage(
+                                Purchase: salesDetailsModel[itemIndex]),
+                          ));
                     },
                     child: SaleProductCard(
                         salesDetailsModel: salesDetailsModel[itemIndex]),

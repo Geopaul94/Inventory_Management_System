@@ -5,14 +5,18 @@ import 'signup_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   SignUpBloc() : super(SignUpInitial()) {
-
     on<OnsignUpButtonClickedEvent>((event, emit) async {
       emit(LoadingState());
 
-      await AuthService().signup(event.user);
+      try {
+        await AuthService().signup(event.user);
 
-      emit(SignupSuccessedState());
-      print('dds');
+        emit(SignupSuccessedState());
+      } catch (e) {
+        // You can customize the error message based on the type of error
+
+        emit(SignUpFailure(e.toString()));
+      }
     });
   }
 }

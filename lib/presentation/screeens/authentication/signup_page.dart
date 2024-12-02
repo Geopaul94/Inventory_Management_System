@@ -132,14 +132,6 @@ class SignUpScreen extends StatelessWidget {
                         text: isloading ? 'Waiting' : 'Sign up ',
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            // Trigger sign-up event
-                            // context.read<SignUpBloc>().add(SignUpSubmitted(
-                            //       email: _emailController.text,
-                            //       password: _PasswordController.text,
-                            //       phone: _phonenumberController.text,
-                            //       shopName: _ShopNameController.text,
-                            //     ));
-
                             UserModel model = UserModel(
                                 shopename: _ShopNameController.text,
                                 email: _emailController.text,

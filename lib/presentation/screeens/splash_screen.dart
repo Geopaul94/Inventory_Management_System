@@ -27,6 +27,8 @@ class SplashScreen extends StatelessWidget {
     );
   }
 
+ 
+
   void _checkUserSignIn(BuildContext context) async {
     await Future.delayed(const Duration(seconds: 5));
     // Check if the user is signed in

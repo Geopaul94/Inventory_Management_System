@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:inventory_management_system/data/models/user_data_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -69,6 +70,10 @@ class AuthService {
     try {
       await auth.signOut();
 
+       SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setBool('isLoggedIn', false);
+
       // Optionally, you can show a message to the user
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -81,20 +86,42 @@ class AuthService {
     }
   }
 
-Future<UserCredential?>loginwithgoogle()async{
+  Future<UserCredential?> loginWithGoogle() async {
+    try {
+      // Create a single instance of GoogleSignIn
+      final GoogleSignIn googleSignIn = GoogleSignIn();
 
- try { final googleUser =await GoogleSignIn().signIn();
-  final googelAuth= await googleUser?.authentication;
-  final cred =await GoogleAuthProvider.credential(idToken: googelAuth!.idToken,accessToken: googelAuth!.accessToken);
-return await auth.signInWithCredential(cred);
-   
- } catch (e) {
+      // Attempt to sign in
+      final GoogleSignInAccount? gUser = await googleSignIn.signIn();
 
-  print(e.toString());
-   
- }return null;
-}
+      // Check if the user is null
+      if (gUser == null) {
+        // User canceled the sign-in
+        return null;
+      }
 
+      // Get the authentication details
+      final GoogleSignInAuthentication gAuth = await gUser.authentication;
 
-  
+      // Check if gAuth is null
+      if (gAuth.idToken == null || gAuth.accessToken == null) {
+        // Handle the case where authentication tokens are null
+        print("Authentication tokens are null");
+        return null;
+      }
+
+      // Create a credential
+      final cred = GoogleAuthProvider.credential(
+        idToken: gAuth.idToken,
+        accessToken: gAuth.accessToken,
+      );
+
+      // Sign in with the credential
+      return await auth.signInWithCredential(cred);
+    } catch (e) {
+      // Handle the error appropriately
+      print("Error during Google sign-in: ${e.toString()}");
+      return null;
+    }
+  }
 }

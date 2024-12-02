@@ -14,6 +14,7 @@ import 'package:inventory_management_system/presentation/widgets/custome_snackba
 import 'package:inventory_management_system/presentation/widgets/custometextformfield.dart';
 import 'package:inventory_management_system/presentation/widgets/validations.dart';
 import 'package:inventory_management_system/utilities/constants/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -110,15 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 _emailController.text,
                                 _passwordController.text,
                               ));
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const MainScreens(
-                                  initialIndex: 0,
-                                ),
-                              ));
-                        }
-                      },
+                        }},
                       width: 250,
                       height: 60,
                       fontSize: 18,
@@ -149,10 +142,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         ),
                         onTap: () async {
-                          //    context.read<LoginBloc>().add(GoogleLoginSubmitted());
+                              context.read<LoginBloc>().add(GoogleLoginSubmitted());
 
-                          await AuthService().loginwithgoogle();
-                         
+                       
 
                           print("google button pressed");
                         },
@@ -194,4 +186,14 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     ));
   }
+
+
+
+  void saveUserLoginStatus(bool isLoggedIn) async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setBool('isLoggedIn', isLoggedIn);
+
+}
 }

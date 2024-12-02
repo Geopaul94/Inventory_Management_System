@@ -46,7 +46,7 @@ class ReportPage extends StatelessWidget {
           body: const TabBarView(
             children: [
               SalesReportTab(), // Replace with your actual Sales Report widget
-        //      ItemsReportTab(), // Replace with your actual Items Report widget
+              ItemsReportTab(), // Replace with your actual Items Report widget
             ],
       ),
       )  );

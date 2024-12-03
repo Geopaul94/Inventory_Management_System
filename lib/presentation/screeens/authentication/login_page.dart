@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:inventory_management_system/data/repository/authentication/auth_service.dart';
+
 import 'package:inventory_management_system/presentation/bloc/authentication/bloc/login_bloc.dart';
 import 'package:inventory_management_system/presentation/bloc/authentication/bloc/login_event.dart';
 import 'package:inventory_management_system/presentation/bloc/authentication/bloc/login_state.dart';
@@ -29,12 +29,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-@override
+  @override
   void dispose() {
-  _emailController.dispose();
-  _passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,11 +47,10 @@ class _LoginScreenState extends State<LoginScreen> {
               MaterialPageRoute(builder: (context) {
             return const MainScreens(initialIndex: 0);
           }));
+        } else if (state is LoginErrorState) {
+          customSnackbar(context, state.error, red);
         }
-      //   else if (state is LoginErrorState) {
-      //                 customSnackbar(context, state.error, red);
-      //               }
-       },
+      },
       child: SafeArea(
         child: Form(
           key: _formKey,
@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
                     if (state is LoginLoadingState) {
                       return const CircularProgressIndicator();
-                    } 
+                    }
                     return CustomGradientButton(
                       text: 'Log in',
                       onPressed: () async {
@@ -111,7 +111,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 _emailController.text,
                                 _passwordController.text,
                               ));
-                        }},
+                        }
+                      },
                       width: 250,
                       height: 60,
                       fontSize: 18,
@@ -142,9 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         ),
                         onTap: () async {
-                              context.read<LoginBloc>().add(GoogleLoginSubmitted());
-
-                       
+                          context.read<LoginBloc>().add(GoogleLoginSubmitted());
 
                           print("google button pressed");
                         },
@@ -187,13 +186,9 @@ class _LoginScreenState extends State<LoginScreen> {
     ));
   }
 
-
-
   void saveUserLoginStatus(bool isLoggedIn) async {
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setBool('isLoggedIn', isLoggedIn);
-
-}
+  }
 }

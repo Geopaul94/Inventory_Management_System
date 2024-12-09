@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:inventory_management_system/data/models/catergorey/category_model.dart';
 import 'package:inventory_management_system/data/repository/category/category_repository.dart';
-import 'package:inventory_management_system/presentation/screeens/category/edit_category.dart';
 
 part 'category_event.dart';
 part 'category_state.dart';
@@ -22,7 +21,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       OnAddNewCategoryEvent event, Emitter<CategoryState> emit) async {
     final category = event.categoryModel;
 
-    emit(AddCategoryLoadingstate()); // Emit loading state
+    emit(AddCategoryLoadingstate()); 
 
     try {
       await FirestoreServiceCategoryModel().addCategorywithImage(category);

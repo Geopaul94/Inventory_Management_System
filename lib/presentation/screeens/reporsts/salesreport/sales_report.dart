@@ -1,4 +1,8 @@
 import 'dart:io';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:inventory_management_system/main.dart';
+import 'package:inventory_management_system/presentation/widgets/CustomElevatedButton.dart';
+import 'package:inventory_management_system/utilities/constants/constants.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
@@ -163,14 +167,34 @@ class _SalesReportTabState extends State<SalesReportTab> {
             ),
           ),
           SizedBox(height: 16),
-          ElevatedButton(
+          // ElevatedButton(
+          //   onPressed: fetchSalesData,
+          //   child: const Text('Fetch Sales Data'),
+          // ),
+
+          CustomElevatedButton(
+            text: "Fetch Sales Data",
             onPressed: fetchSalesData,
-            child: const Text('Fetch Sales Data'),
+            height: 0.06.sh,
+            width: 0.4.sw,
+            fontSize: 14.sp,
           ),
+          h50,
+
+          // CustomElevatedButton(
+          //   text: "Fetch excel Data",
+          //   onPressed: fetchSalesData,
+          //   height: 0.06.sh,
+          //   width: 0.4.sw,
+          //   fontSize: 14.sp,
+          // )
         ],
       ),
     );
   }
+
+
+
 
   @override
   void dispose() {

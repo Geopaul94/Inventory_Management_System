@@ -10,6 +10,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
       try {
         await AuthService().signup(event.user);
+        print('Sign up user bloc');
 
         emit(SignupSuccessedState());
       } catch (e) {

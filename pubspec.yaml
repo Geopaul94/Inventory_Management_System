@@ -75,9 +75,11 @@ dependencies:
   google_sign_in: ^6.2.2
   bloc: ^8.1.4
   connectivity_plus: ^6.1.0
-  file_picker: ^5.2.0
+  file_picker: ^8.1.4
   file_selector: ^1.0.3
   syncfusion_flutter_xlsio: ^27.2.5
+  fluttertoast: ^8.2.8
+  google_fonts: ^6.2.1
  
 
 

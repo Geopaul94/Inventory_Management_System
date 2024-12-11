@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_management_system/data/models/sales_model.dart';
-import 'package:inventory_management_system/data/repository/customer_details/cusomer_data.dart';
 import 'package:inventory_management_system/firebase_options.dart';
 import 'package:inventory_management_system/presentation/bloc/add_post/add_post_bloc.dart';
 import 'package:inventory_management_system/presentation/bloc/add_product/addproduct_bloc.dart';
@@ -16,7 +14,6 @@ import 'package:inventory_management_system/presentation/bloc/sales_bloc/sales_b
 import 'package:inventory_management_system/presentation/bloc/searchuser/searchuser_bloc.dart';
 import 'package:inventory_management_system/presentation/screeens/splash_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:inventory_management_system/excelsheet.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,7 +55,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               title: 'Inventory Management System',
               theme: ThemeData(),
-              home:  SplashScreen()),
+              home:  const SplashScreen()),
         );
       },
     );

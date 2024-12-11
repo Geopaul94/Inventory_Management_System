@@ -27,9 +27,7 @@ class FirestoreServiceCustomer {
           .collection('customers')
           .doc(customer.customerId)
           .update(customer.toMap());
-      print('Customer updated successfully');
     } catch (e) {
-      print('Failed to update customer: $e');
     }
   }
 
@@ -37,9 +35,7 @@ class FirestoreServiceCustomer {
   Future<void> deleteCustomer(String customerId) async {
     try {
       await _firestore.collection('customers').doc(customerId).delete();
-      print('Customer deleted successfully');
     } catch (e) {
-      print('Failed to delete customer: $e');
     }
   }
 
@@ -64,7 +60,6 @@ class FirestoreServiceCustomer {
       return customers;
     } catch (e) {
       // Handle error, you could throw a custom exception or return an empty list
-      print('Error fetching customers: $e');
       return [];
     }
   }
@@ -88,7 +83,6 @@ class FirestoreServiceCustomer {
       return salesDetailsList;
     } catch (e) {
       // Handle error, you could throw a custom exception or return an empty list
-      print('Error fetching sales details: $e');
       return [];
     }
   }
